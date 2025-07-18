@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Segunda Oportunidad - Marketplace Cuba</title>
+<style>
+:root {
+  --primary: #d62976; /* Color Instagram */
+  --secondary: #feda75;
+  --accent: #962fbf;
+  --dark-bg: #121212;
+  --dark-card: #1e1e1e;
+  --dark-text: #eee;
+  --light-bg: #fafafa;
+  --light-card: #fff;
+  --light-text: #333;
+  --radius: 12px;
+  --shadow-light: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-dark: 0 4px 12px rgba(0,0,0,0.3);
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin:0;
+  font-family:'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background: var(--light-bg);
+  color: var(--light-text);
+  transition: background 0.3s, color 0.3s;
+}
+body.dark { 
+  background: var(--dark-bg); 
+  color: var(--dark-text);
+}
+body.dark nav {
+  background: var(--dark-card);
+  box-shadow: var(--shadow-dark);
+}
+body.dark .card,
+body.dark form {
+  background: var(--dark-card);
+  box-shadow: var(--shadow-dark);
+}
+body.dark input,
+body.dark select,
+body.dark textarea {
+  background: #333;
+  color: white;
+  border-color: #555;
+}
+header {
+  background: linear-gradient(45deg,#feda75,#d62976,#962fbf);
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  font-size: 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+nav {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  background: var(--light-card);
+  padding:10px;
+  position: sticky;
+  top: 60px;
+  z-index: 999;
+  box-shadow: var(--shadow-light);
+}
+nav a {
+  text-decoration:none;
+  color:var(--light-text);
+  margin:5px;
+  font-weight:bold;
+  padding:5px 10px;
+  border-radius:8px;
+  transition: background 0.2s;
+}
+nav a:hover, nav a.active {
+  background: rgba(214, 41, 118, 0.1);
+}
+body.dark nav a {
+  color: var(--dark-text);
+}
+body.dark nav a:hover {
+  background: rgba(255,255,255,0.1);
+}
+.hero {
+  text-align:center;
+  padding:2rem 1.5rem;
+  background:linear-gradient(45deg,#feda75,#d62976,#962fbf);
+  color:white;
+}
+section { 
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+h2 { 
+  text-align:center;
+  color:var(--primary);
+  margin-bottom:1.5rem;
+  font-size: 1.8rem;
+}
+.catalogo-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.card {
+  background:var(--light-card);
+  border-radius:var(--radius);
+  padding:15px;
+  text-align:center;
+  box-shadow:var(--shadow-light);
+  position:relative;
+  cursor:pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+.card img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:var(--radius);
+  transition: transform 0.3s;
+}
+card:hover img {
+  transform: scale(1.05);
+}
+.card .estado {
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:var(--accent);
+  color:#fff;
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:0.8rem;
+  z-index: 1;
+}
+.card .precio {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 8px 0;
+  color: var(--primary);
+}
+body.dark .card .precio {
+  color: var(--secondary);
+}
+.card .ubicacion {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 5px;
+}
+body.dark .card .ubicacion {
+  color: #aaa;
+}
+.likes {
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-top:10px;
+}
+.likes button {
+  background:none;
+  border:none;
+  font-size:1.2rem;
+  cursor:pointer;
+  transition: transform 0.2s;
+}
+.likes button:hover {
+  transform: scale(1.2);
+}
+.comments {
+  margin-top:15px;
+  font-size:0.9rem;
+  text-align:left;
+}
+.comments textarea {
+  width:100%;
+  border-radius:var(--radius);
+  padding:10px;
+  margin-top: 10px;
+  resize: vertical;
+  min-height: 80px;
+}
+.filters {
+  display:flex;
+  justify-content:center;
+  flex-wrap: wrap;
+  gap:10px;
+  margin:20px 0;
+}
+.filters button {
+  padding: 8px 15px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filters button:hover {
+  background: #f0f0f0;
+}
+.filters button.active {
+  background:var(--primary);
+  color:white;
+  border-color: var(--primary);
+}
+body.dark .filters button {
+  background: #333;
+  color: white;
+  border-color: #555;
+}
+body.dark .filters button:hover {
+  background: #444;
+}
+body.dark .filters button.active {
+  background: var(--primary);
+}
+#search {
+  width:90%;
+  max-width:500px;
+  margin:20px auto;
+  display:block;
+  padding:12px 15px;
+  border-radius:var(--radius);
+  border:1px solid #ccc;
+  font-size: 1rem;
+}
+form {
+  background:var(--light-card);
+  padding:20px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-light);
+  max-width:600px;
+  margin:auto;
+}
+form label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: 500;
+}
+form input,form select,form textarea {
+  width:100%;
+  padding:12px;
+  margin:5px 0 15px;
+  border:1px solid #ccc;
+  border-radius:var(--radius);
+  font-size: 1rem;
+}
+form input[type="checkbox"] {
+  width: auto;
+  margin-right: 10px;
+}
+form input[type="file"]{
+  border:none;
+  padding: 5px 0;
+}
+.preview-img {
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  margin:5px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+.floating-btn {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--primary);
+  color:#fff;
+  font-size:1.8rem;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  box-shadow:var(--shadow-light);
+  transition: transform 0.2s;
+  z-index: 100;
+}
+.floating-btn:hover {
+  transform: scale(1.1);
+}
+/* Modal Detalles */
+.modal {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10000;
+  padding: 20px;
+}
+.modal-content {
+  background:var(--light-card);
+  padding:25px;
+  border-radius:var(--radius);
+  max-width:500px;
+  width:100%;
+  text-align:center;
+  position:relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+body.dark .modal-content {
+  background: var(--dark-card);
+}
+.modal-content img {
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  border-radius:var(--radius);
+  margin-bottom: 15px;
+}
+.modal-content button.close {
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:red;
+  color:#fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+}
+.modal-info {
+  text-align: left;
+  margin: 15px 0;
+}
+.modal-info p {
+  margin: 8px 0;
+}
+.modal-info span {
+  font-weight: bold;
+}
+.gallery-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+.gallery-thumbnails img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+.gallery-thumbnails img.active {
+  border-color: var(--primary);
+}
+.whatsapp-btn {
+  display: inline-block;
+  background: #25D366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: background 0.2s;
+}
+.whatsapp-btn:hover {
+  background: #128C7E;
+}
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 10px 0;
+}
+.rating-value {
+  font-weight: bold;
+  color: var(--primary);
+}
+/* Admin Panel */
+.admin-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  z-index: 100000;
+  display: none;
+  padding: 20px;
+  overflow-y: auto;
+}
+.admin-content {
+  background: white;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: var(--radius);
+}
+body.dark .admin-content {
+  background: var(--dark-card);
+}
+.admin-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+}
+body.dark .admin-item {
+  border-bottom-color: #444;
+}
+.admin-images {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+.admin-images img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.admin-actions {
+  display: flex;
+  gap: 10px;
+}
+.admin-actions button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-approve {
+  background: #4CAF50;
+  color: white;
+}
+.btn-reject {
+  background: #f44336;
+  color: white;
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .catalogo-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+  nav {
+    top: 55px;
+  }
+  header {
+    font-size: 1.2rem;
+    padding: 10px 15px;
+  }
+}
+@media (max-width: 480px) {
+  .catalogo-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .card img {
+    height: 140px;
+  }
+  .filters button {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+}
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+/* Loading spinner */
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  margin-left: 5px;
+}
+.badge-cup {
+  background: #FFD700;
+  color: #000;
+}
+.badge-usd {
+  background: #85BB65;
+  color: #fff;
+}
+.badge-transfer {
+  background: #4169E1;
+  color: #fff;
+}
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+}
+.tab.active {
+  border-bottom-color: var(--primary);
+  font-weight: bold;
+}
+/* Alert */
+.alert {
+  padding: 15px;
+  border-radius: var(--radius);
+  margin: 15px 0;
+  text-align: center;
+}
+.alert-success {
+  background: #d4edda;
+  color: #155724;
+}
+body.dark .alert-success {
+  background: #155724;
+  color: #d4edda;
+}
+.alert-error {
+  background: #f8d7da;
+  color: #721c24;
+}
+body.dark .alert-error {
+  background: #721c24;
+  color: #f8d7da;
+}
+</style>
+</head>
+<body>
+<header>
+  <div style="display: flex; align-items: center;">
+    <img src="https://via.placeholder.com/40x40?text=SO" alt="Logo" style="border-radius:50%; margin-right: 10px;">
+    Segunda Oportunidad
+  </div>
+  <div>
+    <button id="themeToggle" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">🌙</button>
+  </div>
+</header>
+<nav>
+  <a href="#inicio" class="active">Inicio</a>
+  <a href="#catalogo">Catálogo</a>
+  <a href="#publicar">Publicar</a>
+  <a href="#historial">Historial</a>
+  <a href="#pacas">Pacas</a>
+  <a href="#proveedores">Proveedores</a>
+  <a href="#faq">FAQ</a>
+  <a href="#" id="adminLink">Admin</a>
+</nav>
+
+<section id="inicio" class="hero">
+  <img src="https://via.placeholder.com/150x150?text=SO" alt="Logo" style="border-radius:50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+  <h1 style="margin: 15px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Bienvenido a Segunda Oportunidad</h1>
+  <p style="max-width: 700px; margin: 0 auto; font-size: 1.1rem;">El primer marketplace cubano para ropa de segunda mano. Conectamos vendedores y compradores de ropa reciclada en toda Cuba. Somos intermediarios, no dueños de la mercancía.</p>
+  <div style="margin-top: 20px;">
+    <a href="#catalogo" style="background: white; color: var(--primary); padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-block; margin: 0 10px;">Ver Catálogo</a>
+    <a href="#publicar" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-block; margin: 0 10px; border: 1px solid white;">Publicar Ahora</a>
+  </div>
+</section>
+
+<!-- Búsqueda -->
+<section>
+  <input type="text" id="search" placeholder="🔍 Buscar prenda por nombre, categoría o ubicación...">
+  <div class="filters">
+    <button data-filter="todos" class="active">Todos</button>
+    <button data-filter="hombre">Hombre</button>
+    <button data-filter="mujer">Mujer</button>
+    <button data-filter="niños">Niños</button>
+    <button data-filter="zapatos">Zapatos</button>
+    <button data-filter="accesorios">Accesorios</button>
+  </div>
+</section>
+
+<!-- Estadísticas -->
+<section style="text-align: center; background: #f5f5f5; border-radius: var(--radius); padding: 20px; margin: 20px auto; max-width: 1000px;">
+  <h3 style="color: var(--primary); margin-bottom: 15px;">Nuestro Impacto</h3>
+  <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+    <div style="margin: 10px;">
+      <div style="font-size: 2rem; font-weight: bold; color: var(--accent);">+1,200</div>
+      <div style="font-size: 0.9rem;">Prendas vendidas</div>
+    </div>
+    <div style="margin: 10px;">
+      <div style="font-size: 2rem; font-weight: bold; color: var(--accent);">+300</div>
+      <div style="font-size: 0.9rem;">Vendedores registrados</div>
+    </div>
+    <div style="margin: 10px;">
+      <div style="font-size: 2rem; font-weight: bold; color: var(--accent);">15</div>
+      <div style="font-size: 0.9rem;">Provincias cubiertas</div>
+    </div>
+    <div style="margin: 10px;">
+      <div style="font-size: 2rem; font-weight: bold; color: var(--accent);">92%</div>
+      <div style="font-size: 0.9rem;">Satisfacción clientes</div>
+    </div>
+  </div>
+</section>
+
+<!-- Catálogo -->
+<section id="catalogo">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Catálogo de Prendas</h2>
+    <div style="font-size: 0.9rem; color: #666;">
+      Mostrando <span id="product-count">0</span> productos
+    </div>
+  </div>
+  <div id="loading-catalogo" class="loader" style="display: none;"></div>
+  <div class="catalogo-grid" id="catalogo-list"></div>
+  <div id="no-results" style="text-align: center; padding: 30px; display: none;">
+    <img src="https://via.placeholder.com/150x150?text=:(" style="opacity: 0.5; margin-bottom: 15px;">
+    <h3>No se encontraron resultados</h3>
+    <p>Intenta con otros términos de búsqueda o filtros</p>
+  </div>
+</section>
+
+<!-- Publicar -->
+<section id="publicar">
+  <h2>Publicar Prenda</h2>
+  <p style="text-align: center; margin-bottom: 20px;">Completa el formulario para publicar tu prenda. Todos los anuncios pasan por moderación antes de ser publicados.</p>
+  
+  <div class="tabs">
+    <div class="tab active" data-tab="individual">Individual</div>
+    <div class="tab" data-tab="multiple">Múltiples Prendas</div>
+  </div>
+  
+  <form id="formPublicar">
+    <div class="tab-content" id="individual-tab">
+      <label for="nombre">Nombre de la prenda*</label>
+      <input type="text" id="nombre" placeholder="Ej: Camisa de vestir azul talla M" required>
+      
+      <label for="precio">Precio*</label>
+      <div style="display: flex; gap: 10px;">
+        <input type="number" id="precio" placeholder="Ej: 1500" required style="flex: 2;">
+        <select id="moneda" required style="flex: 1;">
+          <option value="CUP">CUP</option>
+          <option value="USD">USD</option>
+          <option value="Transferencia">Transferencia</option>
+          <option value="MLC">MLC</option>
+        </select>
+      </div>
+      
+      <label for="categoria">Categoría*</label>
+      <select id="categoria" required>
+        <option value="">Selecciona categoría</option>
+        <option value="hombre">Hombre</option>
+        <option value="mujer">Mujer</option>
+        <option value="niños">Niños</option>
+        <option value="zapatos">Zapatos</option>
+        <option value="accesorios">Accesorios</option>
+      </select>
+      
+      <label for="condicion">Condición*</label>
+      <select id="condicion" required>
+        <option value="excelente">Excelente</option>
+        <option value="buena">Buena</option>
+        <option value="usado">Usado</option>
+        <option value="necesita-reparacion">Necesita reparación</option>
+      </select>
+      
+      <label for="talla">Talla</label>
+      <input type="text" id="talla" placeholder="Ej: M, 38, 10-12 años">
+      
+      <label for="color">Color principal</label>
+      <input type="text" id="color" placeholder="Ej: Azul marino">
+      
+      <label for="marca">Marca (opcional)</label>
+      <input type="text" id="marca" placeholder="Ej: Zara, Nike">
+      
+      <label for="provincia">Ubicación*</label>
+      <div style="display: flex; gap: 10px;">
+        <select id="provincia" required style="flex: 1;">
+          <option value="">Provincia</option>
+        </select>
+        <input type="text" id="municipio" placeholder="Municipio" required style="flex: 1;">
+      </div>
+      
+      <label for="direccion">Dirección exacta (opcional)</label>
+      <input type="text" id="direccion" placeholder="Ej: Calle 12 #405 entre 5ta y 7ma, Playa">
+      
+      <label><input type="checkbox" id="mensajeria"> Ofrezco servicio de mensajería</label>
+      <label><input type="checkbox" id="intercambio"> Acepto intercambios</label>
+      
+      <label for="stock">Cantidad disponible*</label>
+      <input type="number" id="stock" placeholder="Ej: 1" required min="1" value="1">
+      
+      <label for="imagenes">Imágenes* (Máx. 5)</label>
+      <input type="file" id="imagenes" accept="image/*" multiple required>
+      <small style="display: block; margin-top: -10px; margin-bottom: 15px; color: #666;">La primera imagen será la principal</small>
+      <div id="preview" style="display:flex;flex-wrap:wrap;"></div>
+      
+      <label for="descripcion">Descripción detallada*</label>
+      <textarea id="descripcion" placeholder="Ej: Camisa de vestir en excelente estado, solo usada dos veces. Material 100% algodón. Ideal para ocasiones formales." required></textarea>
+      
+      <button type="submit" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: var(--radius); font-size: 1rem; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px;">Enviar para Aprobación</button>
+      
+      <p id="msg" style="color:green;text-align:center; margin-top: 15px;"></p>
+    </div>
+    
+    <div class="tab-content" id="multiple-tab" style="display: none;">
+      <div class="alert" style="background: #fff3cd; color: #856404; margin-bottom: 20px;">
+        <strong>¡Atención!</strong> Para publicar múltiples prendas, descarga nuestra plantilla Excel, complétala y súbela aquí.
+      </div>
+      
+      <a href="#" id="downloadTemplate" style="display: inline-block; background: #28a745; color: white; padding: 10px 15px; border-radius: var(--radius); text-decoration: none; margin-bottom: 20px;">
+        Descargar Plantilla Excel
+      </a>
+      
+      <label for="bulkFile">Subir archivo Excel*</label>
+      <input type="file" id="bulkFile" accept=".xlsx,.xls" required>
+      
+      <label for="bulkImages">Subir imágenes comprimidas (ZIP)*</label>
+      <input type="file" id="bulkImages" accept=".zip" required>
+      
+      <button type="button" id="submitBulk" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: var(--radius); font-size: 1rem; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px;">Enviar Lote para Aprobación</button>
+      
+      <p id="msgBulk" style="color:green;text-align:center; margin-top: 15px;"></p>
+    </div>
+  </form>
+</section>
+
+<!-- Historial -->
+<section id="historial">
+  <h2>Tu Historial</h2>
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button id="filter-activos" class="active">Activos</button>
+    <button id="filter-vendidos">Vendidos</button>
+    <button id="filter-eliminados">Eliminados</button>
+  </div>
+  <div class="catalogo-grid" id="historial-list"></div>
+  <div id="empty-history" style="text-align: center; padding: 30px; display: none;">
+    <img src="https://via.placeholder.com/150x150?text=:(" style="opacity: 0.5; margin-bottom: 15px;">
+    <h3>No tienes productos en esta categoría</h3>
+    <p>Publica tu primera prenda en la sección correspondiente</p>
+  </div>
+</section>
+
+<!-- Pacas -->
+<section id="pacas">
+  <h2>Pacas para Emprendedores</h2>
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-bottom: 20px;">
+    <img src="https://via.placeholder.com/400x250?text=Pacas" style="flex: 1; min-width: 300px; border-radius: var(--radius);">
+    <div style="flex: 1; min-width: 300px;">
+      <h3 style="color: var(--primary);">Compra al por mayor y ahorra</h3>
+      <p>Ofrecemos pacas de ropa de segunda mano seleccionada para emprendedores que quieren iniciar o expandir su negocio de ropa.</p>
+      <ul style="padding-left: 20px; margin: 15px 0;">
+        <li>Pacas desde 50 hasta 500 prendas</li>
+        <li>Diferentes categorías y tallas</li>
+        <li>Precios especiales por volumen</li>
+        <li>Entrega en toda Cuba</li>
+      </ul>
+    </div>
+  </div>
+  
+  <form id="formPacas">
+    <h3 style="text-align: center; color: var(--primary); margin-bottom: 20px;">Solicitar Información</h3>
+    
+    <div style="display: flex; gap: 10px;">
+      <div style="flex: 1;">
+        <label for="paca-nombre">Nombre completo*</label>
+        <input type="text" id="paca-nombre" placeholder="Tu nombre" required>
+      </div>
+      <div style="flex: 1;">
+        <label for="paca-telefono">Teléfono*</label>
+        <input type="tel" id="paca-telefono" placeholder="Número de contacto" required>
+      </div>
+    </div>
+    
+    <label for="paca-email">Correo electrónico</label>
+    <input type="email" id="paca-email" placeholder="tu@email.com">
+    
+    <label for="paca-tipo">Tipo de pacas que te interesan*</label>
+    <select id="paca-tipo" required multiple style="height: auto;">
+      <option value="hombre">Hombre</option>
+      <option value="mujer">Mujer</option>
+      <option value="niños">Niños</option>
+      <option value="zapatos">Zapatos</option>
+      <option value="mixto">Mixto</option>
+      <option value="deportiva">Deportiva</option>
+      <option value="formal">Ropa formal</option>
+    </select>
+    <small style="display: block; margin-top: -10px; margin-bottom: 15px; color: #666;">Mantén presionada la tecla Ctrl para seleccionar múltiples opciones</small>
+    
+    <label for="paca-cantidad">Cantidad aproximada de pacas*</label>
+    <input type="number" id="paca-cantidad" placeholder="Ej: 5" required min="1">
+    
+    <label for="paca-presupuesto">Presupuesto aproximado (CUP)*</label>
+    <input type="number" id="paca-presupuesto" placeholder="Ej: 50000" required>
+    
+    <label for="paca-ubicacion">Ubicación para entrega*</label>
+    <textarea id="paca-ubicacion" placeholder="Provincia, municipio y detalles de dirección" required></textarea>
+    
+    <label for="paca-comentarios">Comentarios adicionales</label>
+    <textarea id="paca-comentarios" placeholder="Alguna preferencia especial o información que debamos conocer"></textarea>
+    
+    <button type="submit" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: var(--radius); font-size: 1rem; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px;">Enviar Solicitud</button>
+    
+    <p id="msgPacas" style="color:green;text-align:center; margin-top: 15px;"></p>
+  </form>
+  
+  <div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: var(--radius);">
+    <h3 style="text-align: center; color: var(--primary);">Preguntas frecuentes sobre pacas</h3>
+    
+    <div style="margin-top: 20px;">
+      <details>
+        <summary style="font-weight: bold; cursor: pointer; padding: 10px; background: #e9ecef; border-radius: 5px;">¿Qué contiene una paca estándar?</summary>
+        <div style="padding: 15px; background: white; border-radius: 0 0 5px 5px; margin-top: -5px;">
+          <p>Una paca estándar contiene aproximadamente 50 prendas de la categoría seleccionada. Las prendas son seleccionadas cuidadosamente para garantizar variedad y calidad.</p>
+        </div>
+      </details>
+      
+      <details style="margin-top: 10px;">
+        <summary style="font-weight: bold; cursor: pointer; padding: 10px; background: #e9ecef; border-radius: 5px;">¿Puedo elegir las prendas que van en la paca?</summary>
+        <div style="padding: 15px; background: white; border-radius: 0 0 5px 5px; margin-top: -5px;">
+          <p>Ofrecemos dos opciones: pacas cerradas (mezcla aleatoria pero balanceada) y pacas semi-personalizadas donde puedes indicar preferencias de tallas, colores o tipos de prendas.</p>
+        </div>
+      </details>
+      
+      <details style="margin-top: 10px;">
+        <summary style="font-weight: bold; cursor: pointer; padding: 10px; background: #e9ecef; border-radius: 5px;">¿Cuál es el precio promedio de una paca?</summary>
+        <div style="padding: 15px; background: white; border-radius: 0 0 5px 5px; margin-top: -5px;">
+          <p>Los precios varían según la categoría y cantidad, pero generalmente oscilan entre 15,000 CUP y 50,000 CUP por paca estándar de 50 prendas. Ofrecemos descuentos progresivos por volumen.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Proveedores -->
+<section id="proveedores">
+  <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+    <h2>¿Eres Proveedor de Ropa?</h2>
+    <p style="font-size: 1.1rem; margin-bottom: 20px;">Conectamos tu inventario con miles de compradores potenciales en toda Cuba. Únete a nuestra red de proveedores y aumenta tus ventas.</p>
+    
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin: 30px 0;">
+      <div style="flex: 1; min-width: 250px; background: white; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow-light);">
+        <div style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;">📈</div>
+        <h3 style="color: var(--primary);">Mayor Visibilidad</h3>
+        <p>Llega a clientes en toda Cuba a través de nuestra plataforma con miles de visitas mensuales.</p>
+      </div>
+      
+      <div style="flex: 1; min-width: 250px; background: white; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow-light);">
+        <div style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;">💰</div>
+        <h3 style="color: var(--primary);">Comisión Justa</h3>
+        <p>Solo pagas cuando vendes. Nuestra comisión es de solo el 10% por venta generada.</p>
+      </div>
+      
+      <div style="flex: 1; min-width: 250px; background: white; padding: 20px; border-radius: var(--radius); box-shadow: var(--shadow-light);">
+        <div style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;">🛡️</div>
+        <h3 style="color: var(--primary);">Protección</h3>
+        <p>Sistema seguro de intermediación que protege tanto a compradores como a vendedores.</p>
+      </div>
+    </div>
+    
+    <div style="background: #f8f9fa; padding: 20px; border-radius: var(--radius); margin: 30px 0;">
+      <h3 style="color: var(--primary);">Cómo funciona para proveedores</h3>
+      
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+        <div style="flex: 1; min-width: 200px;">
+          <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px;">1</div>
+            <h4 style="margin: 0;">Registro</h4>
+          </div>
+          <p>Completa nuestro formulario de registro de proveedores con tus datos básicos.</p>
+        </div>
+        
+        <div style="flex: 1; min-width: 200px;">
+          <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px;">2</div>
+            <h4 style="margin: 0;">Verificación</h4>
+          </div>
+          <p>Nuestro equipo revisará tu información y se pondrá en contacto contigo.</p>
+        </div>
+        
+        <div style="flex: 1; min-width: 200px;">
+          <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px;">3</div>
+            <h4 style="margin: 0;">Sube tu inventario</h4>
+          </div>
+          <p>Agrega tus productos a través de nuestro panel de proveedores o envía un listado.</p>
+        </div>
+        
+        <div style="flex: 1; min-width: 200px;">
+          <div style="display: flex; align-items: center; margin-bottom: 15px;">
+            <div style="background: var(--primary); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px;">4</div>
+            <h4 style="margin: 0;">Comienza a vender</h4>
+          </div>
+          <p>Tus productos se publican y comienzas a recibir pedidos.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div style="margin: 30px 0;">
+      <h3 style="color: var(--primary); text-align: center;">Regístrate como Proveedor</h3>
+      <p style="text-align: center; margin-bottom: 20px;">Completa este formulario y nos pondremos en contacto contigo en menos de 24 horas.</p>
+      
+      <form id="formProveedor" style="max-width: 600px; margin: 0 auto;">
+        <label for="prov-nombre">Nombre o Nombre del Negocio*</label>
+        <input type="text" id="prov-nombre" placeholder="Ej: Ropavejero S.A." required>
+        
+        <label for="prov-contacto">Persona de Contacto*</label>
+        <input type="text" id="prov-contacto" placeholder="Nombre completo" required>
+        
+        <label for="prov-telefono">Teléfono*</label>
+        <input type="tel" id="prov-telefono" placeholder="Número de contacto" required>
+        
+        <label for="prov-email">Correo Electrónico*</label>
+        <input type="email" id="prov-email" placeholder="tu@negocio.com" required>
+        
+        <label for="prov-ubicacion">Ubicación (Provincia/Municipio)*</label>
+        <input type="text" id="prov-ubicacion" placeholder="Ej: La Habana, Centro Habana" required>
+        
+        <label for="prov-tipo">Tipo de Proveedor*</label>
+        <select id="prov-tipo" required>
+          <option value="">Selecciona...</option>
+          <option value="minorista">Minorista</option>
+          <option value="mayorista">Mayorista</option>
+          <option value="pacas">Proveedor de Pacas</option>
+          <option value="importador">Importador</option>
+          <option value="otros">Otros</option>
+        </select>
+        
+        <label for="prov-cantidad">Cantidad aproximada de prendas disponibles*</label>
+        <select id="prov-cantidad" required>
+          <option value="">Selecciona...</option>
+          <option value="50-100">50-100</option>
+          <option value="100-500">100-500</option>
+          <option value="500-1000">500-1,000</option>
+          <option value="1000+">Más de 1,000</option>
+        </select>
+        
+        <label for="prov-categorias">Categorías que ofreces*</label>
+        <textarea id="prov-categorias" placeholder="Ej: Ropa de mujer, zapatos, accesorios, etc." required></textarea>
+        
+        <label for="prov-experiencia">Experiencia en el sector (años)</label>
+        <input type="number" id="prov-experiencia" placeholder="Ej: 3" min="0">
+        
+        <label for="prov-comentarios">Comentarios adicionales</label>
+        <textarea id="prov-comentarios" placeholder="Alguna información adicional que quieras compartir"></textarea>
+        
+        <button type="submit" style="background: var(--primary); color: white; border: none; padding: 12px; border-radius: var(--radius); font-size: 1rem; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px;">Enviar Solicitud</button>
+        
+        <p id="msgProveedor" style="color:green;text-align:center; margin-top: 15px;"></p>
+      </form>
+    </div>
+    
+    <div style="margin-top: 40px;">
+      <a href="https://wa.me/5355703261" target="_blank" class="whatsapp-btn" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" style="width: 24px; height: 24px;">
+        Contactar por WhatsApp
+      </a>
+      <p style="margin-top: 15px;">O escríbenos a: <strong>proveedores@segundaoportunidad.cu</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <h2>Preguntas Frecuentes</h2>
+  
+  <div style="max-width: 800px; margin: 0 auto;">
+    <details>
+      <summary>¿Cómo puedo publicar mis prendas en Segunda Oportunidad?</summary>
+      <div>
+        <p>Para publicar tus prendas:</p>
+        <ol>
+          <li>Regístrate en nuestra plataforma (es gratis)</li>
+          <li>Haz clic en "Publicar" en el menú superior</li>
+          <li>Completa el formulario con los detalles de tu prenda</li>
+          <li>Sube fotos claras del producto</li>
+          <li>Envía para aprobación</li>
+        </ol>
+        <p>Nuestro equipo revisará tu publicación en menos de 24 horas y te notificará cuando esté activa.</p>
+      </div>
+    </details>
+    
+    <details>
+      <summary>¿Qué tipos de prendas puedo vender?</summary>
+      <div>
+        <p>Aceptamos todo tipo de ropa, calzado y accesorios en buen estado, incluyendo:</p>
+        <ul>
+          <li>Ropa para hombres, mujeres y niños</li>
+          <li>Zapatos y calzado</li>
+          <li>Bolsos, carteras y accesorios</li>
+          <li>Ropa deportiva</li>
+          <li>Ropa formal y de ocasiones especiales</li>
+        </ul>
+        <p>No aceptamos ropa en mal estado, sucia o con daños irreparables.</p>
+      </div>
+    </details>
+    
+    <details>
+      <summary>¿Cómo se manejan los pagos y envíos?</summary>
+      <div>
+        <p>Segunda Oportunidad actúa como intermediario entre compradores y vendedores. Los métodos de pago y envío se acuerdan directamente entre las partes. Recomendamos:</p>
+        <ul>
+          <li><strong>Pagos:</strong> Transferencias bancarias, efectivo al recibir, o servicios como Transfermóvil/EnZona</li>
+          <li><strong>Envíos:</strong> Puedes ofrecer entrega personal, mensajería privada o servicios postales</li>
+        </ul>
+        <p>Para mayor seguridad, sugerimos usar nuestro sistema de intermediación donde retenemos el pago hasta que el comprador confirma la recepción satisfactoria.</p>
+      </div>
+    </details>
+    
+    <details>
+      <summary>¿Hay algún costo por publicar o vender?</summary>
+      <div>
+        <p>Publicar en Segunda Oportunidad es completamente gratuito. Solo cobramos una pequeña comisión del 10% sobre el valor de la venta cuando esta se concreta a través de nuestra plataforma.</p>
+        <p>Esta comisión nos ayuda a mantener y mejorar el servicio para todos los usuarios.</p>
+      </div>
+    </details>
+    
+    <details>
+      <summary>¿Cómo puedo aumentar mis ventas?</summary>
+      <div>
+        <p>Para maximizar tus ventas te recomendamos:</p>
+        <ul>
+          <li>Subir fotos claras y bien iluminadas de tus prendas</li>
+          <li>Incluir descripciones detalladas (marca, talla, material, condición exacta)</li>
+          <li>Responder rápidamente a las consultas de los compradores</li>
+          <li>Ofrecer precios competitivos</li>
+          <li>Mencionar si ofreces servicio de envío o intercambios</li>
+          <li>Renovar tus publicaciones periódicamente</li>
+        </ul>
+        <p>Los productos con mejores fotos y descripciones suelen venderse hasta 3 veces más rápido.</p>
+      </div>
+    </details>
+    
+    <details>
+      <summary>¿Qué hago si tengo un problema con un comprador/vendedor?</summary>
+      <div>
+        <p>Si surge algún problema con una transacción:</p>
+        <ol>
+          <li>Intenta resolverlo directamente con la otra parte de manera amistosa</li>
+          <li>Si no logras resolverlo, contáctanos a través de nuestro WhatsApp o correo electrónico</li>
+          <li>Proporciona todos los detalles del problema y pruebas (capturas de pantalla, fotos, etc.)</li>
+          <li>Nuestro equipo de soporte investigará y mediará en el conflicto</li>
+        </ol>
+        <p>En casos extremos, podemos suspender cuentas que no cumplan con nuestras políticas de buen comportamiento.</p>
+      </div>
+    </details>
+    
+    <details>
+      <summary>¿Puedo comprar para revender?</summary>
+      <div>
+        <p>¡Absolutamente! Muchos de nuestros usuarios son emprendedores que compran prendas para sus negocios de ropa. Incluso tenemos una sección especial de <a href="#pacas">pacas al por mayor</a> pensada para revendedores.</p>
+        <p>Si estás interesado en grandes cantidades, te recomendamos:</p>
+        <ul>
+          <li>Contactar directamente a vendedores con múltiples artículos</li>
+          <li>Revisar nuestra sección de pacas para emprendedores</li>
+          <li>Registrarte como proveedor si tienes un inventario grande para ofrecer</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+  
+  <div style="text-align: center; margin-top: 40px;">
+    <h3>¿No encontraste respuesta a tu pregunta?</h3>
+    <p>Contáctanos directamente y con gusto te ayudaremos</p>
+    <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+      <a href="https://wa.me/5355703261" target="_blank" class="whatsapp-btn">WhatsApp</a>
+      <a href="mailto:soporte@segundaoportunidad.cu" class="whatsapp-btn" style="background: var(--accent);">Correo Electrónico</a>
+      <a href="https://facebook.com/segundaoportunidad" target="_blank" class="whatsapp-btn" style="background: #1877F2;">Facebook</a>
+      <a href="https://www.instagram.com/tienditavirtual.cu?igsh=MXdqZ3JsZW80eHgxOA==" target="_blank" class="whatsapp-btn" style="background: linear-gradient(45deg,#feda75,#d62976,#962fbf);">Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- Modal Detalle -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <button class="close" onclick="cerrarModal()">X</button>
+    <img id="modal-img">
+    
+    <div class="gallery-thumbnails" id="gallery-thumbs"></div>
+    
+    <h3 id="modal-nombre"></h3>
+    
+    <div class="modal-info">
+      <p><span>Precio:</span> <span id="modal-precio"></span></p>
+      <p><span>Categoría:</span> <span id="modal-categoria"></span></p>
+      <p><span>Condición:</span> <span id="modal-condicion"></span></p>
+      <p><span>Talla:</span> <span id="modal-talla"></span></p>
+      <p><span>Color:</span> <span id="modal-color"></span></p>
+      <p><span>Marca:</span> <span id="modal-marca"></span></p>
+      <p><span>Ubicación:</span> <span id="modal-ubicacion"></span></p>
+      <p><span>Mensajería:</span> <span id="modal-mensajeria"></span></p>
+      <p><span>Intercambio:</span> <span id="modal-intercambio"></span></p>
+      <p><span>Stock disponible:</span> <span id="modal-stock"></span></p>
+    </div>
+    
+    <div class="rating">
+      <span>Valoración:</span>
+      <span id="modal-rating" class="rating-value"></span>
+      <span>(<span id="modal-likes">0</span>👍 <span id="modal-dislikes">0</span>👎)</span>
+    </div>
+    
+    <p id="modal-desc" style="text-align: left; margin: 15px 0; padding: 15px; background: #f5f5f5; border-radius: var(--radius);"></p>
+    
+    <a id="whatsapp-btn" class="whatsapp-btn" target="_blank">Contactar al Vendedor</a>
+    
+    <div class="comments">
+      <h4>Comentarios y preguntas (<span id="comments-count">0</span>)</h4>
+      <div id="comentarios-list" style="margin: 15px 0; max-height: 200px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: var(--radius);"></div>
+      <textarea id="comentario" placeholder="Escribe tu pregunta o comentario sobre esta prenda..."></textarea>
+      <button onclick="agregarComentario()" style="background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: var(--radius); font-weight: bold; cursor: pointer; margin-top: 10px;">Publicar Comentario</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Panel -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h2 style="color: var(--primary);">Panel de Administración</h2>
+      <button onclick="cerrarAdminPanel()" style="background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: var(--radius); cursor: pointer;">Cerrar</button>
+    </div>
+    
+    <div class="tabs">
+      <div class="tab active" data-admin-tab="pendientes">Pendientes (<span id="pending-count">0</span>)</div>
+      <div class="tab" data-admin-tab="reportados">Reportados (<span id="reported-count">0</span>)</div>
+      <div class="tab" data-admin-tab="usuarios">Usuarios</div>
+      <div class="tab" data-admin-tab="estadisticas">Estadísticas</div>
+    </div>
+    
+    <div id="admin-pendientes" class="admin-tab-content">
+      <div id="pending-list"></div>
+    </div>
+    
+    <div id="admin-reportados" class="admin-tab-content" style="display: none;">
+      <div id="reported-list"></div>
+    </div>
+    
+    <div id="admin-usuarios" class="admin-tab-content" style="display: none;">
+      <div style="margin-bottom: 20px;">
+        <input type="text" id="search-users" placeholder="Buscar usuarios..." style="width: 100%; padding: 10px; border-radius: var(--radius); border: 1px solid #ddd;">
+      </div>
+      <div id="users-list"></div>
+    </div>
+    
+    <div id="admin-estadisticas" class="admin-tab-content" style="display: none;">
+      <h3>Estadísticas Generales</h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0;">
+        <div style="flex: 1; min-width: 200px; background: #f5f5f5; padding: 15px; border-radius: var(--radius);">
+          <h4>Total de Productos</h4>
+          <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary);" id="stats-total-products">0</p>
+        </div>
+        <div style="flex: 1; min-width: 200px; background: #f5f5f5; padding: 15px; border-radius: var(--radius);">
+          <h4>Productos Activos</h4>
+          <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary);" id="stats-active-products">0</p>
+        </div>
+        <div style="flex: 1; min-width: 200px; background: #f5f5f5; padding: 15px; border-radius: var(--radius);">
+          <h4>Usuarios Registrados</h4>
+          <p style="font-size: 1.5rem; font-weight: bold; color: var(--primary);" id="stats-total-users">0</p>
+        </div>
+      </div>
+      
+      <h3>Ventas por Categoría</h3>
+      <div id="sales-chart" style="height: 300px; margin: 20px 0; background: #f5f5f5; border-radius: var(--radius); display: flex; align-items: center; justify-content: center;">
+        <p>Gráfico de ventas por categoría</p>
+      </div>
+      
+      <h3>Actividad Reciente</h3>
+      <div id="recent-activity" style="margin: 20px 0;">
+        <p>No hay actividad reciente</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<a href="#publicar" class="floating-btn">+</a>
+
+<script>
+// Datos iniciales
+let productos = JSON.parse(localStorage.getItem('productos')) || [];
+let pendientes = JSON.parse(localStorage.getItem('pendientes')) || [];
+let reportados = JSON.parse(localStorage.getItem('reportados')) || [];
+let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+let historialUsuario = JSON.parse(localStorage.getItem('historialUsuario')) || [];
+let indexDetalle = null;
+let currentImageIndex = 0;
+
+// Provincias de Cuba
+const provincias = [
+  "Pinar del Río", 
+  "Artemisa", 
+  "La Habana", 
+  "Mayabeque", 
+  "Matanzas", 
+  "Cienfuegos", 
+  "Villa Clara", 
+  "Sancti Spíritus", 
+  "Ciego de Ávila", 
+  "Camagüey", 
+  "Las Tunas", 
+  "Holguín", 
+  "Granma", 
+  "Santiago de Cuba", 
+  "Guantánamo", 
+  "Isla de la Juventud"
+];
+
+// Inicializar select de provincia
+const provinciaSelect = document.getElementById('provincia');
+
+// Llenar provincias
+provincias.forEach(prov => {
+  let opt = document.createElement('option');
+  opt.value = prov;
+  opt.textContent = prov;
+  provinciaSelect.appendChild(opt);
+});
+
+// Elementos del DOM
+const catalogo = document.getElementById('catalogo-list');
+const historial = document.getElementById('historial-list');
+const loadingCatalogo = document.getElementById('loading-catalogo');
+const noResults = document.getElementById('no-results');
+const productCount = document.getElementById('product-count');
+
+// Renderizar catálogo
+function renderCatalogo() {
+  loadingCatalogo.style.display = 'block';
+  catalogo.innerHTML = '';
+  noResults.style.display = 'none';
+  
+  // Simular carga
+  setTimeout(() => {
+    if(productos.length === 0) {
+      noResults.style.display = 'block';
+      productCount.textContent = '0';
+    } else {
+      productos.forEach((p, i) => {
+        let badgeClass = '';
+        if(p.moneda === 'CUP') badgeClass = 'badge-cup';
+        else if(p.moneda === 'USD') badgeClass = 'badge-usd';
+        else if(p.moneda === 'Transferencia') badgeClass = 'badge-transfer';
+        else if(p.moneda === 'MLC') badgeClass = 'badge-mlc';
+        
+        catalogo.innerHTML += `
+          <div class="card fade-in" onclick="verDetalle(${i})">
+            ${p.stock <= 0 ? '<span class="estado">Agotado</span>' : ''}
+            <img src="${p.imagenes[0]}" loading="lazy">
+            <h4>${p.nombre}</h4>
+            <div class="precio">${p.precio} <span class="badge ${badgeClass}">${p.moneda}</span></div>
+            <div class="ubicacion">${p.municipio}, ${p.provincia}</div>
+            <div class="rating">
+              <span>${calcularRating(p)}</span> ★
+            </div>
+          </div>`;
+      });
+      productCount.textContent = productos.length;
+    }
+    loadingCatalogo.style.display = 'none';
+  }, 500);
+}
+
+// Calcular rating
+function calcularRating(producto) {
+  const total = producto.likes + producto.dislikes;
+  if(total === 0) return '0.0';
+  const rating = (producto.likes / total) * 5;
+  return rating.toFixed(1);
+}
+
+// Renderizar historial
+function renderHistorial(filter = 'activos') {
+  historial.innerHTML = '';
+  const emptyHistory = document.getElementById('empty-history');
+  
+  const filtered = historialUsuario.filter(item => {
+    if(filter === 'activos') return item.estado === 'activo';
+    if(filter === 'vendidos') return item.estado === 'vendido';
+    if(filter === 'eliminados') return item.estado === 'eliminado';
+    return true;
+  });
+  
+  if(filtered.length === 0) {
+    emptyHistory.style.display = 'block';
+  } else {
+    emptyHistory.style.display = 'none';
+    filtered.forEach(item => {
+      const p = productos.find(prod => prod.id === item.productoId) || {};
+      historial.innerHTML += `
+        <div class="card" onclick="verDetalleHistorial('${item.id}')">
+          ${p.stock <= 0 ? '<span class="estado">Agotado</span>' : ''}
+          <span class="estado" style="background: ${item.estado === 'vendido' ? '#4CAF50' : item.estado === 'eliminado' ? '#f44336' : '#2196F3'}">${item.estado}</span>
+          <img src="${p.imagenes ? p.imagenes[0] : 'https://via.placeholder.com/180x180?text=No+Image'}">
+          <h4>${p.nombre || 'Producto no encontrado'}</h4>
+          <div class="precio">${p.precio || '?'} ${p.moneda || ''}</div>
+          <div>Publicado: ${new Date(item.fecha).toLocaleDateString()}</div>
+        </div>`;
+    });
+  }
+}
+
+// Ver detalle del producto
+function verDetalle(i) {
+  indexDetalle = i;
+  const p = productos[i];
+  
+  document.getElementById('modal-img').src = p.imagenes[0];
+  document.getElementById('modal-nombre').textContent = p.nombre;
+  document.getElementById('modal-precio').textContent = `${p.precio} ${p.moneda}`;
+  document.getElementById('modal-categoria').textContent = p.categoria.charAt(0).toUpperCase() + p.categoria.slice(1);
+  document.getElementById('modal-condicion').textContent = p.condicion ? p.condicion.charAt(0).toUpperCase() + p.condicion.slice(1) : 'No especificado';
+  document.getElementById('modal-talla').textContent = p.talla || 'No especificada';
+  document.getElementById('modal-color').textContent = p.color || 'No especificado';
+  document.getElementById('modal-marca').textContent = p.marca || 'No especificada';
+  document.getElementById('modal-ubicacion').textContent = `${p.municipio}, ${p.provincia}`;
+  document.getElementById('modal-mensajeria').textContent = p.mensajeria ? 'Sí' : 'No';
+  document.getElementById('modal-intercambio').textContent = p.intercambio ? 'Sí' : 'No';
+  document.getElementById('modal-stock').textContent = p.stock;
+  document.getElementById('modal-desc').textContent = p.descripcion || 'No hay descripción disponible';
+  
+  // Rating
+  const rating = calcularRating(p);
+  document.getElementById('modal-rating').textContent = rating;
+  document.getElementById('modal-likes').textContent = p.likes || 0;
+  document.getElementById('modal-dislikes').textContent = p.dislikes || 0;
+  
+  // Galería de imágenes
+  const gallery = document.getElementById('gallery-thumbs');
+  gallery.innerHTML = '';
+  p.imagenes.forEach((img, idx) => {
+    const thumb = document.createElement('img');
+    thumb.src = img;
+    thumb.onclick = () => {
+      document.getElementById('modal-img').src = img;
+      currentImageIndex = idx;
+      updateGalleryThumbs();
+    };
+    if(idx === 0) thumb.classList.add('active');
+    gallery.appendChild(thumb);
+  });
+  
+  // Comentarios
+  document.getElementById('comentarios-list').innerHTML = p.comentarios ? p.comentarios.map(c => `<div style="padding: 8px; border-bottom: 1px solid #eee;">${c}</div>`).join('') : '<p>No hay comentarios aún</p>';
+  document.getElementById('comments-count').textContent = p.comentarios ? p.comentarios.length : 0;
+  
+  // Botón de WhatsApp
+  const whatsappBtn = document.getElementById('whatsapp-btn');
+  const message = `Hola, estoy interesado en ${p.nombre} que vi en Segunda Oportunidad. ¿Todavía está disponible?`;
+  whatsappBtn.href = `https://wa.me/5355703261?text=${encodeURIComponent(message)}`;
+  
+  document.getElementById('modal').style.display = 'flex';
+}
+
+// Actualizar miniaturas de galería
+function updateGalleryThumbs() {
+  const thumbs = document.querySelectorAll('#gallery-thumbs img');
+  thumbs.forEach((thumb, idx) => {
+    if(idx === currentImageIndex) thumb.classList.add('active');
+    else thumb.classList.remove('active');
+  });
+}
+
+// Cerrar modal
+function cerrarModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+// Like producto
+function likeProducto() {
+  if(!productos[indexDetalle].likes) productos[indexDetalle].likes = 0;
+  productos[indexDetalle].likes++;
+  save();
+  const rating = calcularRating(productos[indexDetalle]);
+  document.getElementById('modal-rating').textContent = rating;
+  document.getElementById('modal-likes').textContent = productos[indexDetalle].likes;
+}
+
+// Dislike producto
+function dislikeProducto() {
+  if(!productos[indexDetalle].dislikes) productos[indexDetalle].dislikes = 0;
+  productos[indexDetalle].dislikes++;
+  save();
+  const rating = calcularRating(productos[indexDetalle]);
+  document.getElementById('modal-rating').textContent = rating;
+  document.getElementById('modal-dislikes').textContent = productos[indexDetalle].dislikes;
+}
+
+// Agregar comentario
+function agregarComentario() {
+  const c = document.getElementById('comentario').value.trim();
+  if(c !== '') {
+    if(!productos[indexDetalle].comentarios) productos[indexDetalle].comentarios = [];
+    productos[indexDetalle].comentarios.push(c);
+    document.getElementById('comentario').value = '';
+    
+    // Actualizar lista de comentarios
+    const commentsList = document.getElementById('comentarios-list');
+    const commentDiv = document.createElement('div');
+    commentDiv.style.padding = '8px';
+    commentDiv.style.borderBottom = '1px solid #eee';
+    commentDiv.textContent = c;
+    commentsList.appendChild(commentDiv);
+    
+    // Actualizar contador
+    document.getElementById('comments-count').textContent = productos[indexDetalle].comentarios.length;
+    
+    save();
+  }
+}
+
+// Guardar datos
+function save() {
+  localStorage.setItem('productos', JSON.stringify(productos));
+  localStorage.setItem('pendientes', JSON.stringify(pendientes));
+  localStorage.setItem('reportados', JSON.stringify(reportados));
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+  localStorage.setItem('historialUsuario', JSON.stringify(historialUsuario));
+}
+
+// Búsqueda
+document.getElementById('search').addEventListener('input', e => {
+  const term = e.target.value.toLowerCase();
+  const filtrados = productos.filter(p => 
+    p.nombre.toLowerCase().includes(term) || 
+    (p.descripcion && p.descripcion.toLowerCase().includes(term)) ||
+    p.categoria.toLowerCase().includes(term) ||
+    p.provincia.toLowerCase().includes(term) ||
+    p.municipio.toLowerCase().includes(term)
+  );
+  
+  catalogo.innerHTML = '';
+  
+  if(filtrados.length === 0) {
+    noResults.style.display = 'block';
+    productCount.textContent = '0';
+  } else {
+    noResults.style.display = 'none';
+    filtrados.forEach((p, i) => {
+      let badgeClass = '';
+      if(p.moneda === 'CUP') badgeClass = 'badge-cup';
+      else if(p.moneda === 'USD') badgeClass = 'badge-usd';
+      else if(p.moneda === 'Transferencia') badgeClass = 'badge-transfer';
+      else if(p.moneda === 'MLC') badgeClass = 'badge-mlc';
+      
+      catalogo.innerHTML += `
+        <div class="card" onclick="verDetalle(${i})">
+          ${p.stock <= 0 ? '<span class="estado">Agotado</span>' : ''}
+          <img src="${p.imagenes[0]}" loading="lazy">
+          <h4>${p.nombre}</h4>
+          <div class="precio">${p.precio} <span class="badge ${badgeClass}">${p.moneda}</span></div>
+          <div class="ubicacion">${p.municipio}, ${p.provincia}</div>
+        </div>`;
+    });
+    productCount.textContent = filtrados.length;
+  }
+});
+
+// Filtros
+document.querySelectorAll('.filters button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.filters button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    const cat = b.dataset.filter;
+    const lista = cat === 'todos' ? productos : productos.filter(p => p.categoria === cat);
+    
+    catalogo.innerHTML = '';
+    
+    if(lista.length === 0) {
+      noResults.style.display = 'block';
+      productCount.textContent = '0';
+    } else {
+      noResults.style.display = 'none';
+      lista.forEach((p, i) => {
+        let badgeClass = '';
+        if(p.moneda === 'CUP') badgeClass = 'badge-cup';
+        else if(p.moneda === 'USD') badgeClass = 'badge-usd';
+        else if(p.moneda === 'Transferencia') badgeClass = 'badge-transfer';
+        else if(p.moneda === 'MLC') badgeClass = 'badge-mlc';
+        
+        catalogo.innerHTML += `
+          <div class="card" onclick="verDetalle(${i})">
+            ${p.stock <= 0 ? '<span class="estado">Agotado</span>' : ''}
+            <img src="${p.imagenes[0]}" loading="lazy">
+            <h4>${p.nombre}</h4>
+            <div class="precio">${p.precio} <span class="badge ${badgeClass}">${p.moneda}</span></div>
+            <div class="ubicacion">${p.municipio}, ${p.provincia}</div>
+          </div>`;
+      });
+      productCount.textContent = lista.length;
+    }
+  });
+});
+
+// Filtros historial
+document.getElementById('filter-activos').addEventListener('click', () => {
+  document.querySelectorAll('#historial button').forEach(b => b.classList.remove('active'));
+  document.getElementById('filter-activos').classList.add('active');
+  renderHistorial('activos');
+});
+
+document.getElementById('filter-vendidos').addEventListener('click', () => {
+  document.querySelectorAll('#historial button').forEach(b => b.classList.remove('active'));
+  document.getElementById('filter-vendidos').classList.add('active');
+  renderHistorial('vendidos');
+});
+
+document.getElementById('filter-eliminados').addEventListener('click', () => {
+  document.querySelectorAll('#historial button').forEach(b => b.classList.remove('active'));
+  document.getElementById('filter-eliminados').classList.add('active');
+  renderHistorial('eliminados');
+});
+
+// Dark mode
+document.getElementById('themeToggle').addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  // Guardar preferencia
+  localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+  
+  // Cambiar icono
+  if(document.body.classList.contains('dark')) {
+    document.getElementById('themeToggle').textContent = '☀️';
+  } else {
+    document.getElementById('themeToggle').textContent = '🌙';
+  }
+});
+
+// Cargar preferencia de tema
+if(localStorage.getItem('darkMode') === 'true') {
+  document.body.classList.add('dark');
+  document.getElementById('themeToggle').textContent = '☀️';
+}
+
+// Preview imágenes al subir
+document.getElementById('imagenes').addEventListener('change', (e) => {
+  const preview = document.getElementById('preview');
+  preview.innerHTML = '';
+  
+  Array.from(e.target.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = document.createElement('img');
+      img.src = event.target.result;
+      img.className = 'preview-img';
+      preview.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// Formulario publicar
+document.getElementById('formPublicar').addEventListener('submit', e => {
+  e.preventDefault();
+  
+  const nombre = document.getElementById('nombre').value;
+  const precio = document.getElementById('precio').value;
+  const moneda = document.getElementById('moneda').value;
+  const categoria = document.getElementById('categoria').value;
+  const condicion = document.getElementById('condicion').value;
+  const talla = document.getElementById('talla').value;
+  const color = document.getElementById('color').value;
+  const marca = document.getElementById('marca').value;
+  const provincia = provinciaSelect.value;
+  const municipio = document.getElementById('municipio').value;
+  const direccion = document.getElementById('direccion').value;
+  const mensajeria = document.getElementById('mensajeria').checked;
+  const intercambio = document.getElementById('intercambio').checked;
+  const stock = document.getElementById('stock').value;
+  const descripcion = document.getElementById('descripcion').value;
+  const files = document.getElementById('imagenes').files;
+  
+  if(files.length === 0) {
+    alert('Debes subir al menos una imagen del producto');
+    return;
+  }
+  
+  if(files.length > 5) {
+    alert('Máximo 5 imágenes por producto');
+    return;
+  }
+  
+  let imagenes = [];
+  Array.from(files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      imagenes.push(event.target.result);
+      
+      // Cuando todas las imágenes estén cargadas
+      if(imagenes.length === files.length) {
+        const nuevoId = 'prod-' + Date.now();
+        
+        pendientes.push({
+          id: nuevoId,
+          nombre,
+          precio,
+          moneda,
+          categoria,
+          condicion,
+          talla,
+          color,
+          marca,
+          provincia,
+          municipio,
+          direccion,
+          mensajeria,
+          intercambio,
+          stock,
+          descripcion,
+          imagenes,
+          likes: 0,
+          dislikes: 0,
+          comentarios: [],
+          fecha: new Date().toISOString()
+        });
+        
+        // Agregar al historial del usuario
+        historialUsuario.push({
+          id: 'hist-' + Date.now(),
+          productoId: nuevoId,
+          fecha: new Date().toISOString(),
+          estado: 'pendiente'
+        });
+        
+        save();
+        
+        document.getElementById('msg').textContent = '¡Producto enviado para aprobación!';
+        document.getElementById('msg').style.display = 'block';
+        
+        // Reset form
+        e.target.reset();
+        document.getElementById('preview').innerHTML = '';
+        
+        // Ocultar mensaje después de 3 segundos
+        setTimeout(() => {
+          document.getElementById('msg').style.display = 'none';
+        }, 3000);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// Formulario pacas
+document.getElementById('formPacas').addEventListener('submit', e => {
+  e.preventDefault();
+  
+  document.getElementById('msgPacas').textContent = 'Solicitud enviada. Nos pondremos en contacto contigo pronto.';
+  document.getElementById('msgPacas').style.display = 'block';
+  
+  // Reset form
+  e.target.reset();
+  
+  // Ocultar mensaje después de 3 segundos
+  setTimeout(() => {
+    document.getElementById('msgPacas').style.display = 'none';
+  }, 3000);
+});
+
+// Formulario proveedor
+document.getElementById('formProveedor').addEventListener('submit', e => {
+  e.preventDefault();
+  
+  document.getElementById('msgProveedor').textContent = 'Solicitud enviada. Nos pondremos en contacto contigo en menos de 24 horas.';
+  document.getElementById('msgProveedor').style.display = 'block';
+  
+  // Reset form
+  e.target.reset();
+  
+  // Ocultar mensaje después de 3 segundos
+  setTimeout(() => {
+    document.getElementById('msgProveedor').style.display = 'none';
+  }, 3000);
+});
+
+// Tabs publicar
+document.querySelectorAll('[data-tab]').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+    
+    tab.classList.add('active');
+    document.getElementById(`${tab.dataset.tab}-tab`).style.display = 'block';
+  });
+});
+
+// Admin panel
+document.getElementById('adminLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  abrirAdminPanel();
+});
+
+function abrirAdminPanel() {
+  document.getElementById('adminPanel').style.display = 'block';
+  renderAdminPendientes();
+}
+
+function cerrarAdminPanel() {
+  document.getElementById('adminPanel').style.display = 'none';
+}
+
+function renderAdminPendientes() {
+  const pendingList = document.getElementById('pending-list');
+  pendingList.innerHTML = '';
+  
+  document.getElementById('pending-count').textContent = pendientes.length;
+  
+  if(pendientes.length === 0) {
+    pendingList.innerHTML = '<p style="text-align: center; padding: 20px;">No hay productos pendientes de aprobación</p>';
+    return;
+  }
+  
+  pendientes.forEach((p, i) => {
+    const item = document.createElement('div');
+    item.className = 'admin-item';
+    
+    item.innerHTML = `
+      <div>
+        <h4>${p.nombre}</h4>
+        <p>${p.precio} ${p.moneda} | ${p.categoria} | ${p.provincia}</p>
+        <div class="admin-images">
+          ${p.imagenes.slice(0, 3).map(img => `<img src="${img}">`).join('')}
+          ${p.imagenes.length > 3 ? `<span>+${p.imagenes.length - 3} más</span>` : ''}
+        </div>
+      </div>
+      <div class="admin-actions">
+        <button class="btn-approve" onclick="aprobarProducto(${i})">Aprobar</button>
+        <button class="btn-reject" onclick="rechazarProducto(${i})">Rechazar</button>
+      </div>
+    `;
+    
+    pendingList.appendChild(item);
+  });
+}
+
+function aprobarProducto(index) {
+  const producto = pendientes[index];
+  
+  // Agregar a productos aprobados
+  productos.push(producto);
+  
+  // Actualizar estado en historial usuario
+  const histItem = historialUsuario.find(h => h.productoId === producto.id);
+  if(histItem) histItem.estado = 'activo';
+  
+  // Eliminar de pendientes
+  pendientes.splice(index, 1);
+  
+  save();
+  renderAdminPendientes();
+  renderCatalogo();
+  
+  alert('Producto aprobado y publicado exitosamente');
+}
+
+function rechazarProducto(index) {
+  const producto = pendientes[index];
+  
+  // Actualizar estado en historial usuario
+  const histItem = historialUsuario.find(h => h.productoId === producto.id);
+  if(histItem) histItem.estado = 'rechazado';
+  
+  // Eliminar de pendientes
+  pendientes.splice(index, 1);
+  
+  save();
+  renderAdminPendientes();
+  
+  alert('Producto rechazado y eliminado');
+}
+
+// Admin tabs
+document.querySelectorAll('[data-admin-tab]').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('[data-admin-tab]').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
+    
+    tab.classList.add('active');
+    document.getElementById(`admin-${tab.dataset.tab}`).style.display = 'block';
+    
+    // Cargar contenido según tab
+    if(tab.dataset.tab === 'reportados') renderAdminReportados();
+    else if(tab.dataset.tab === 'usuarios') renderAdminUsuarios();
+    else if(tab.dataset.tab === 'estadisticas') renderAdminEstadisticas();
+  });
+});
+
+function renderAdminReportados() {
+  const reportedList = document.getElementById('reported-list');
+  reportedList.innerHTML = '';
+  
+  document.getElementById('reported-count').textContent = reportados.length;
+  
+  if(reportados.length === 0) {
+    reportedList.innerHTML = '<p style="text-align: center; padding: 20px;">No hay productos reportados</p>';
+    return;
+  }
+  
+  // Implementar lógica similar a renderAdminPendientes pero para productos reportados
+}
+
+function renderAdminUsuarios() {
+  const usersList = document.getElementById('users-list');
+  usersList.innerHTML = '';
+  
+  // Implementar lista de usuarios
+}
+
+function renderAdminEstadisticas() {
+  document.getElementById('stats-total-products').textContent = productos.length;
+  document.getElementById('stats-active-products').textContent = productos.filter(p => p.stock > 0).length;
+  document.getElementById('stats-total-users').textContent = usuarios.length;
+  
+  // Implementar más estadísticas y gráficos
+}
+
+// Descargar plantilla Excel
+document.getElementById('downloadTemplate').addEventListener('click', (e) => {
+  e.preventDefault();
+  alert('Descargando plantilla Excel...');
+  // En una implementación real, aquí se descargaría un archivo Excel
+});
+
+// Inicializar
+renderCatalogo();
+renderHistorial();
+
+// Datos de ejemplo (para demo)
+if(productos.length === 0) {
+  productos = [
+    {
+      id: 'prod-1',
+      nombre: 'Camisa de vestir azul talla M',
+      precio: 1500,
+      moneda: 'CUP',
+      categoria: 'hombre',
+      condicion: 'excelente',
+      talla: 'M',
+      color: 'Azul',
+      marca: 'Zara',
+      provincia: 'La Habana',
+      municipio: 'Playa',
+      direccion: 'Calle 18 #4105 entre 41 y 47',
+      mensajeria: true,
+      intercambio: false,
+      stock: 1,
+      descripcion: 'Camisa de vestir en excelente estado, solo usada dos veces. Material 100% algodón. Ideal para ocasiones formales.',
+      imagenes: [
+        'https://via.placeholder.com/400x500?text=Camisa+Azul+Frente',
+        'https://via.placeholder.com/400x500?text=Camisa+Azul+Espalda'
+      ],
+      likes: 5,
+      dislikes: 1,
+      comentarios: [
+        '¿Tienes disponible en otras tallas?',
+        'Excelente calidad, como nueva'
+      ],
+      fecha: '2023-05-15T10:30:00Z'
+    },
+    {
+      id: 'prod-2',
+      nombre: 'Vestido floral verano talla S',
+      precio: 25,
+      moneda: 'USD',
+      categoria: 'mujer',
+      condicion: 'buena',
+      talla: 'S',
+      color: 'Multicolor',
+      marca: 'H&M',
+      provincia: 'Matanzas',
+      municipio: 'Varadero',
+      direccion: '',
+      mensajeria: false,
+      intercambio: true,
+      stock: 1,
+      descripcion: 'Vestido floral ideal para verano. Tela ligera y fresca. Algunos signos de uso pero en buen estado general.',
+      imagenes: [
+        'https://via.placeholder.com/400x500?text=Vestido+Floral',
+        'https://via.placeholder.com/400x500?text=Vestido+Floral+Detalle'
+      ],
+      likes: 8,
+      dislikes: 2,
+      comentarios: [
+        'Hermoso diseño',
+        '¿Aceptas transferencia?'
+      ],
+      fecha: '2023-06-20T14:15:00Z'
+    },
+    {
+      id: 'prod-3',
+      nombre: 'Zapatos deportivos Nike talla 42',
+      precio: 40,
+      moneda: 'MLC',
+      categoria: 'zapatos',
+      condicion: 'buena',
+      talla: '42',
+      color: 'Negro',
+      marca: 'Nike',
+      provincia: 'La Habana',
+      municipio: 'Centro Habana',
+      direccion: 'Tienda en Obispo #512',
+      mensajeria: true,
+      intercambio: false,
+      stock: 2,
+      descripcion: 'Zapatos deportivos Nike en buen estado. Suela en perfectas condiciones. Ideal para entrenar o uso casual.',
+      imagenes: [
+        'https://via.placeholder.com/400x400?text=Zapatos+Nike',
+        'https://via.placeholder.com/400x400?text=Zapatos+Nike+Lateral',
+        'https://via.placeholder.com/400x400?text=Zapatos+Nike+Suela'
+      ],
+      likes: 12,
+      dislikes: 1,
+      comentarios: [
+        '¿Tienes en talla 40?',
+        'Buen precio por marca original'
+      ],
+      fecha: '2023-07-10T09:45:00Z'
+    },
+    {
+      id: 'prod-4',
+      nombre: 'Conjunto infantil niño 4-5 años',
+      precio: 800,
+      moneda: 'CUP',
+      categoria: 'niños',
+      condicion: 'usado',
+      talla: '4-5 años',
+      color: 'Azul y blanco',
+      marca: '',
+      provincia: 'Villa Clara',
+      municipio: 'Santa Clara',
+      direccion: '',
+      mensajeria: false,
+      intercambio: true,
+      stock: 1,
+      descripcion: 'Conjunto de camiseta y short para niño. Algo desgastado pero sin roturas. Ideal para uso diario.',
+      imagenes: [
+        'https://via.placeholder.com/400x500?text=Conjunto+Infantil'
+      ],
+      likes: 3,
+      dislikes: 0,
+      comentarios: [],
+      fecha: '2023-08-05T16:20:00Z'
+    },
+    {
+      id: 'prod-5',
+      nombre: 'Bolso de mano cuero negro',
+      precio: 30,
+      moneda: 'USD',
+      categoria: 'accesorios',
+      condicion: 'excelente',
+      talla: '',
+      color: 'Negro',
+      marca: 'Guess',
+      provincia: 'La Habana',
+      municipio: 'Plaza',
+      direccion: 'Calle Mercaderes #115',
+      mensajeria: true,
+      intercambio: false,
+      stock: 1,
+      descripcion: 'Bolso de mano de cuero genuino en excelente estado. Compartimento principal y bolsillo frontal con cierre.',
+      imagenes: [
+        'https://via.placeholder.com/400x400?text=Bolso+Guess+Frente',
+        'https://via.placeholder.com/400x400?text=Bolso+Guess+Interior'
+      ],
+      likes: 7,
+      dislikes: 0,
+      comentarios: [
+        '¿Incluye algún accesorio?',
+        'Hermoso bolso, parece nuevo'
+      ],
+      fecha: '2023-09-12T11:10:00Z'
+    },
+    {
+      id: 'prod-6',
+      nombre: 'Jeans Levi\'s 501 talla 32',
+      precio: 20,
+      moneda: 'Transferencia',
+      categoria: 'hombre',
+      condicion: 'buena',
+      talla: '32',
+      color: 'Azul',
+      marca: 'Levi\'s',
+      provincia: 'Santiago de Cuba',
+      municipio: 'Santiago de Cuba',
+      direccion: '',
+      mensajeria: false,
+      intercambio: true,
+      stock: 1,
+      descripcion: 'Jeans clásicos Levi\'s 501. Desgaste normal en áreas de roce. Sin roturas ni manchas difíciles.',
+      imagenes: [
+        'https://via.placeholder.com/400x500?text=Jeans+Levis'
+      ],
+      likes: 4,
+      dislikes: 1,
+      comentarios: [
+        '¿Qué medida tiene el tiro?'
+      ],
+      fecha: '2023-10-01T13:25:00Z'
+    }
+  ];
+  
+  historialUsuario = [
+    {
+      id: 'hist-1',
+      productoId: 'prod-1',
+      fecha: '2023-05-15T10:30:00Z',
+      estado: 'activo'
+    },
+    {
+      id: 'hist-2',
+      productoId: 'prod-2',
+      fecha: '2023-06-20T14:15:00Z',
+      estado: 'vendido'
+    },
+    {
+      id: 'hist-3',
+      productoId: 'prod-3',
+      fecha: '2023-07-10T09:45:00Z',
+      estado: 'activo'
+    },
+    {
+      id: 'hist-4',
+      productoId: 'prod-4',
+      fecha: '2023-08-05T16:20:00Z',
+      estado: 'eliminado'
+    },
+    {
+      id: 'hist-5',
+      productoId: 'prod-5',
+      fecha: '2023-09-12T11:10:00Z',
+      estado: 'activo'
+    },
+    {
+      id: 'hist-6',
+      productoId: 'prod-6',
+      fecha: '2023-10-01T13:25:00Z',
+      estado: 'activo'
+    }
+  ];
+  
+  save();
+  renderCatalogo();
+  renderHistorial();
+}
+</script>
+</body>
+</html>
