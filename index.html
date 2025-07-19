@@ -3,1462 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda Virtual Cuba | Gestoría de Ventas</title>
+    <meta name="description" content="Tienda Virtual Cuba - Plataforma de intermediación entre proveedores y compradores. Publicamos tus productos y solo cobramos el 5% cuando se vende.">
+    <meta name="keywords" content="tienda virtual cuba, ventas cuba, compra venta cuba, productos cuba, intermediario ventas cuba">
+    <title>Tienda Virtual Cuba | Intermediación de Ventas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        :root {
-            --primary: #405DE6;
-            --secondary: #5851DB;
-            --accent: #833AB4;
-            --light: #F5F5F5;
-            --dark: #262626;
-            --success: #4CAF50;
-            --warning: #FFC107;
-            --danger: #F44336;
-            --info: #2196F3;
-            --new: #FF5722;
-            --negotiation: #9C27B0;
-            --offer: #FF9800;
-            --sold: #607D8B;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-            padding-bottom: 80px; /* Espacio para el bottom nav */
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        /* Header */
-        header {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo i {
-            margin-right: 10px;
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 15px;
-            position: relative;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-        
-        nav ul li a:hover {
-            opacity: 0.8;
-        }
-        
-        nav ul li a i {
-            margin-left: 5px;
-            font-size: 0.8rem;
-        }
-        
-        /* Submenu */
-        .submenu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: white;
-            min-width: 200px;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-        
-        nav ul li:hover .submenu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(5px);
-        }
-        
-        .submenu li {
-            margin: 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .submenu li:last-child {
-            border-bottom: none;
-        }
-        
-        .submenu li a {
-            color: var(--dark);
-            padding: 10px 15px;
-            display: block;
-            font-size: 0.9rem;
-        }
-        
-        .submenu li a:hover {
-            background-color: var(--light);
-            color: var(--primary);
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* Bottom Navigation (Mobile) */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 999;
-            display: none;
-        }
-        
-        .bottom-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--dark);
-            font-size: 0.8rem;
-        }
-        
-        .bottom-nav-item i {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-        
-        .bottom-nav-item.active {
-            color: var(--primary);
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero p {
-            font-size: 1rem;
-            max-width: 800px;
-            margin: 0 auto 1.5rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn-secondary {
-            background-color: var(--accent);
-        }
-        
-        .btn-small {
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-        }
-        
-        /* About Section */
-        .about {
-            padding: 3rem 0;
-            background-color: white;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.5rem;
-            color: var(--dark);
-        }
-        
-        .about-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .about-text {
-            flex: 1;
-            min-width: 300px;
-            padding: 0 1rem;
-        }
-        
-        .about-text h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        .about-image {
-            flex: 1;
-            min-width: 300px;
-            text-align: center;
-            margin-top: 1.5rem;
-        }
-        
-        .about-image img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Categories */
-        .categories {
-            padding: 3rem 0;
-            background-color: var(--light);
-        }
-        
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-        
-        .category-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-align: center;
-        }
-        
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .category-img {
-            height: 100px;
-            overflow: hidden;
-        }
-        
-        .category-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .category-card:hover .category-img img {
-            transform: scale(1.1);
-        }
-        
-        .category-info {
-            padding: 1rem;
-        }
-        
-        .category-info h3 {
-            margin-bottom: 0.3rem;
-            color: var(--dark);
-            font-size: 1rem;
-        }
-        
-        .category-info p {
-            color: #666;
-            font-size: 0.8rem;
-        }
-        
-        /* How It Works */
-        .how-it-works {
-            padding: 3rem 0;
-            background-color: white;
-        }
-        
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 1.5rem;
-        }
-        
-        .step {
-            text-align: center;
-            padding: 0 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .step-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 1rem;
-            color: white;
-            font-size: 1.2rem;
-        }
-        
-        .step h3 {
-            margin-bottom: 0.8rem;
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-        
-        .step p {
-            font-size: 0.9rem;
-        }
-        
-        /* Products */
-        .products {
-            padding: 3rem 0;
-        }
-        
-        .products-header {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 1.5rem;
-        }
-        
-        .search-container {
-            display: flex;
-            margin-bottom: 1rem;
-        }
-        
-        .search-bar {
-            display: flex;
-            width: 100%;
-            max-width: 100%;
-        }
-        
-        .search-bar input {
-            flex: 1;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 50px 0 0 50px;
-            outline: none;
-            font-size: 0.9rem;
-        }
-        
-        .search-bar button {
-            padding: 0 1.2rem;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: white;
-            border: none;
-            border-radius: 0 50px 50px 0;
-            cursor: pointer;
-        }
-        
-        .filter-buttons {
-            display: flex;
-            overflow-x: auto;
-            gap: 10px;
-            padding-bottom: 10px;
-        }
-        
-        .filter-buttons::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .filter-btn {
-            padding: 0.5rem 1rem;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 50px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn.active {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: white;
-            border-color: transparent;
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        }
-        
-        .product-img {
-            height: 150px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .product-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .product-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: white;
-            padding: 0.2rem 0.5rem;
-            border-radius: 50px;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-        
-        .badge-new {
-            background-color: var(--new);
-        }
-        
-        .badge-sold {
-            background-color: var(--sold);
-        }
-        
-        .badge-negotiation {
-            background-color: var(--negotiation);
-        }
-        
-        .badge-offer {
-            background-color: var(--offer);
-        }
-        
-        .product-info {
-            padding: 1rem;
-        }
-        
-        .product-title {
-            font-size: 0.9rem;
-            margin-bottom: 0.3rem;
-            color: var(--dark);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .product-vendor {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 0.3rem;
-        }
-        
-        .product-price {
-            font-weight: bold;
-            font-size: 1rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .original-price {
-            text-decoration: line-through;
-            color: #999;
-            font-size: 0.8rem;
-            margin-right: 5px;
-        }
-        
-        .product-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #666;
-        }
-        
-        .product-rating {
-            color: var(--warning);
-        }
-        
-        /* Publish Section */
-        .publish {
-            padding: 2rem 0;
-        }
-        
-        .publish-form {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.7rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
-        
-        .form-group textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .image-upload {
-            border: 2px dashed #ddd;
-            padding: 1.5rem;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .image-upload i {
-            font-size: 1.5rem;
-            color: #666;
-            margin-bottom: 0.8rem;
-        }
-        
-        .image-preview {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 0.8rem;
-        }
-        
-        .image-preview-item {
-            width: 80px;
-            height: 80px;
-            position: relative;
-        }
-        
-        .image-preview-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        
-        .remove-image {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger);
-            color: white;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.6rem;
-            cursor: pointer;
-        }
-        
-        /* Category Section */
-        .category-section {
-            padding: 2rem 0;
-            background-color: white;
-            display: none;
-        }
-        
-        .category-section.active {
-            display: block;
-        }
-        
-        .category-header {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 1.5rem;
-        }
-        
-        .category-filter {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-        
-        .category-filter select {
-            padding: 0.5rem;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 0.8rem;
-            min-width: 150px;
-        }
-        
-        /* No Results */
-        .no-results {
-            text-align: center;
-            padding: 2rem;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .no-results i {
-            font-size: 2rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-        
-        /* FAQ */
-        .faq {
-            padding: 3rem 0;
-            background-color: var(--light);
-        }
-        
-        .faq-item {
-            background-color: white;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .faq-question {
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        
-        .faq-question i {
-            transition: transform 0.3s ease;
-            font-size: 0.9rem;
-        }
-        
-        .faq-answer {
-            padding: 0 1rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            font-size: 0.9rem;
-        }
-        
-        .faq-item.active .faq-question i {
-            transform: rotate(180deg);
-        }
-        
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding-bottom: 1rem;
-        }
-        
-        /* Contact Section */
-        .contact {
-            padding: 3rem 0;
-        }
-        
-        .contact-info {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .contact-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .contact-btn {
-            display: flex;
-            align-items: center;
-            background-color: white;
-            padding: 0.8rem 1.2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            color: var(--dark);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .contact-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .contact-btn i {
-            margin-right: 8px;
-            color: var(--primary);
-        }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 2rem 0 1rem;
-        }
-        
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-column h3 {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column ul li {
-            margin-bottom: 0.6rem;
-        }
-        
-        .footer-column ul li a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 0.9rem;
-        }
-        
-        .footer-column ul li a:hover {
-            color: white;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .social-links a {
-            color: white;
-            font-size: 1rem;
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.8rem;
-        }
-        
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            z-index: 999;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .floating-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .floating-btn.whatsapp {
-            bottom: 80px;
-            right: 20px;
-        }
-        
-        .floating-btn.cart {
-            bottom: 140px;
-            right: 20px;
-            background: linear-gradient(45deg, var(--success), #2E7D32);
-        }
-        
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: var(--danger);
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-        
-        /* Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            padding: 1rem;
-        }
-        
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background-color: white;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 500px;
-            padding: 1.5rem;
-            position: relative;
-            transform: translateY(-50px);
-            transition: all 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal.active .modal-content {
-            transform: translateY(0);
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #666;
-        }
-        
-        /* Product Modal */
-        .product-modal-content {
-            max-width: 800px;
-            width: 100%;
-        }
-        
-        .product-modal-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-        
-        .product-modal-images {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .product-modal-main-image {
-            height: 250px;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-        
-        .product-modal-main-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .product-modal-thumbnails {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-        
-        .product-modal-thumbnail {
-            width: 50px;
-            height: 50px;
-            border-radius: 5px;
-            overflow: hidden;
-            cursor: pointer;
-            border: 2px solid transparent;
-            flex-shrink: 0;
-        }
-        
-        .product-modal-thumbnail.active {
-            border-color: var(--primary);
-        }
-        
-        .product-modal-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .product-modal-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-        }
-        
-        .product-modal-price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 0.8rem;
-        }
-        
-        .product-modal-vendor {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-        
-        .product-modal-vendor img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            object-fit: cover;
-        }
-        
-        .product-modal-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 1rem;
-        }
-        
-        .product-modal-meta span {
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-        
-        .product-modal-meta i {
-            margin-right: 5px;
-            color: var(--primary);
-        }
-        
-        .product-modal-description {
-            margin-bottom: 1.2rem;
-            font-size: 0.9rem;
-        }
-        
-        .product-modal-specs {
-            margin-bottom: 1.2rem;
-        }
-        
-        .product-modal-specs h4 {
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-        
-        .product-modal-specs ul {
-            list-style: none;
-        }
-        
-        .product-modal-specs li {
-            margin-bottom: 0.3rem;
-            display: flex;
-            font-size: 0.9rem;
-        }
-        
-        .product-modal-specs li span:first-child {
-            font-weight: 500;
-            min-width: 100px;
-        }
-        
-        .product-modal-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        /* Edit Product Modal */
-        .edit-product-modal .modal-content {
-            max-width: 800px;
-        }
-        
-        /* Cart Modal */
-        .cart-modal .modal-content {
-            max-width: 800px;
-        }
-        
-        .cart-items {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 1rem;
-        }
-        
-        .cart-item {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #f5f5f5;
-        }
-        
-        .cart-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .cart-item-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 5px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        
-        .cart-item-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .cart-item-info {
-            flex: 1;
-        }
-        
-        .cart-item-title {
-            font-weight: bold;
-            margin-bottom: 0.3rem;
-        }
-        
-        .cart-item-vendor {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 0.3rem;
-        }
-        
-        .cart-item-price {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .cart-item-quantity {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .cart-item-quantity button {
-            width: 25px;
-            height: 25px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        
-        .cart-item-quantity input {
-            width: 40px;
-            text-align: center;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 0.2rem;
-        }
-        
-        .remove-item {
-            color: var(--danger);
-            cursor: pointer;
-        }
-        
-        .cart-summary {
-            margin-top: 1.5rem;
-        }
-        
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-        }
-        
-        .cart-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-        
-        /* Login/Signup Modal */
-        .auth-modal .modal-content {
-            max-width: 400px;
-        }
-        
-        .auth-tabs {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 1.5rem;
-        }
-        
-        .auth-tab {
-            padding: 0.8rem;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-            flex: 1;
-            text-align: center;
-            font-weight: 500;
-        }
-        
-        .auth-tab.active {
-            border-bottom-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .auth-form {
-            display: none;
-        }
-        
-        .auth-form.active {
-            display: block;
-        }
-        
-        /* Status Selector */
-        .status-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .status-option {
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            transition: all 0.3s ease;
-        }
-        
-        .status-option.active {
-            color: white;
-            border-color: transparent;
-        }
-        
-        .status-new {
-            background-color: var(--new);
-        }
-        
-        .status-sold {
-            background-color: var(--sold);
-        }
-        
-        .status-negotiation {
-            background-color: var(--negotiation);
-        }
-        
-        .status-offer {
-            background-color: var(--offer);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            nav ul {
-                margin-top: 1rem;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            nav ul li {
-                margin: 0.5rem 0;
-            }
-            
-            .submenu {
-                position: static;
-                display: none;
-                box-shadow: none;
-                width: 100%;
-            }
-            
-            nav ul li:hover .submenu {
-                transform: none;
-                display: block;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-            }
-            
-            .nav-menu {
-                display: none;
-            }
-            
-            .nav-menu.active {
-                display: flex;
-            }
-            
-            .bottom-nav {
-                display: flex;
-            }
-            
-            .floating-btn.whatsapp {
-                bottom: 70px;
-            }
-            
-            .floating-btn.cart {
-                bottom: 130px;
-            }
-            
-            .about-content {
-                flex-direction: column;
-            }
-            
-            .about-text {
-                order: 2;
-            }
-            
-            .about-image {
-                order: 1;
-                margin-bottom: 1.5rem;
-            }
-            
-            .product-modal-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .cart-item {
-                flex-direction: column;
-            }
-            
-            .cart-item-img {
-                width: 100%;
-                height: 150px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-            
-            .hero p {
-                font-size: 0.9rem;
-            }
-            
-            .btn {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.8rem;
-            }
-            
-            .section-title {
-                font-size: 1.3rem;
-            }
-            
-            .categories-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            }
-            
-            .product-modal-main-image {
-                height: 200px;
-            }
-            
-            .product-modal-thumbnail {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .cart-buttons {
-                flex-direction: column;
-            }
-            
-            .cart-buttons .btn {
-                width: 100%;
-            }
-        }
-        
-        /* Loading Spinner */
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            overflow-x: auto;
-            gap: 5px;
-            margin-bottom: 1.5rem;
-            padding-bottom: 5px;
-        }
-        
-        .tab {
-            padding: 0.8rem 1.2rem;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .tab.active {
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        /* Provider Info */
-        .provider-info {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--primary);
-        }
-        
-        .provider-info h3 {
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        .provider-rating {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        
-        .provider-rating .stars {
-            color: var(--warning);
-            margin-right: 5px;
-        }
-        
-        /* Become Provider Section */
-        .become-provider {
-            background-color: #f0f7ff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 1.5rem;
-            text-align: center;
-        }
-        
-        .become-provider p {
-            margin-bottom: 1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <!-- Header -->
@@ -1478,220 +27,136 @@
                         <li>
                             <a href="#products">Productos <i class="fas fa-chevron-down"></i></a>
                             <ul class="submenu">
-                                <li><a href="#" data-category="electronics">Electrodomésticos</a></li>
-                                <li><a href="#" data-category="perfumery">Perfumería</a></li>
-                                <li><a href="#" data-category="lingerie">Lencería</a></li>
-                                <li><a href="#" data-category="hygiene">Aseo</a></li>
-                                <li><a href="#" data-category="food">Comida</a></li>
-                                <li><a href="#" data-category="clothing">Ropa Reciclada</a></li>
-                                <li><a href="#" data-category="new-clothing">Ropa Nueva</a></li>
-                                <li><a href="#" data-category="bales">Pacas de Ropa</a></li>
-                                <li><a href="#" data-category="others">Otros</a></li>
+                                <li><a href="#" data-category="ropa-nueva">Ropa nueva</a></li>
+                                <li><a href="#" data-category="ropa-reciclada">Ropa reciclada</a></li>
+                                <li><a href="#" data-category="perfumeria">Perfumería</a></li>
+                                <li><a href="#" data-category="aseo-personal">Aseo personal</a></li>
+                                <li><a href="#" data-category="lenceria">Lencería</a></li>
+                                <li><a href="#" data-category="electrodomesticos">Electrodomésticos</a></li>
+                                <li><a href="#" data-category="hogar">Hogar</a></li>
+                                <li><a href="#" data-category="otros">Otros</a></li>
                             </ul>
                         </li>
-                        <li><a href="#publish">Publicar</a></li>
-                        <li><a href="#about">Sobre Nosotros</a></li>
-                        <li><a href="#faq">Preguntas</a></li>
+                        <li><a href="#provider">¿Eres Proveedor?</a></li>
+                        <li><a href="#faq">Preguntas Frecuentes</a></li>
                         <li><a href="#contact">Contacto</a></li>
+                        <li>
+                            <a href="#account"><i class="fas fa-user"></i></a>
+                            <ul class="submenu">
+                                <li><a href="#" id="loginBtn">Iniciar Sesión</a></li>
+                                <li><a href="#" id="registerBtn">Registrarse</a></li>
+                                <li><a href="#" id="adminBtn" style="display:none;">Panel Admin</a></li>
+                                <li><a href="#" id="logoutBtn" style="display:none;">Cerrar Sesión</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
 
-    <!-- Bottom Navigation (Mobile) -->
-    <div class="bottom-nav">
-        <a href="#home" class="bottom-nav-item active">
-            <i class="fas fa-home"></i>
-            <span>Inicio</span>
-        </a>
-        <a href="#products" class="bottom-nav-item">
-            <i class="fas fa-search"></i>
-            <span>Buscar</span>
-        </a>
-        <a href="#publish" class="bottom-nav-item">
-            <i class="fas fa-plus-circle"></i>
-            <span>Publicar</span>
-        </a>
-        <a href="#account" class="bottom-nav-item" id="accountBtn">
-            <i class="fas fa-user"></i>
-            <span>Cuenta</span>
-        </a>
-    </div>
-
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
-            <h1>Bienvenidos a Tienda Virtual Cuba</h1>
-            <p>La plataforma de gestoría de ventas en Cuba. Conectamos proveedores confiables con compradores de todo el país, ofreciendo seguridad, confianza y la mejor experiencia de compra.</p>
-            <a href="#products" class="btn">Explorar Productos</a>
-            <a href="#contact" class="btn btn-secondary">Contactar al Gestor</a>
+            <h1>Tu tienda virtual de confianza en Cuba</h1>
+            <p>Conectamos proveedores con compradores de forma segura y confiable. Solo cobramos el 5% cuando se concreta la venta.</p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn">Ver Productos</a>
+                <a href="#provider" class="btn btn-secondary">Quiero Vender</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Offers -->
+    <section class="daily-offers">
+        <div class="container">
+            <div class="offers-header">
+                <h2 class="offers-title">Ofertas del Día</h2>
+                <a href="#products" class="btn btn-small">Ver Todos</a>
+            </div>
+            <div class="products-grid" id="dailyOffersGrid">
+                <!-- Los productos destacados se cargarán aquí con JS -->
+            </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section class="about" id="about">
+    <section class="about">
         <div class="container">
-            <h2 class="section-title">Sobre Nosotros</h2>
+            <h2 class="section-title">¿Cómo funciona?</h2>
             <div class="about-content">
                 <div class="about-text">
-                    <h3>Servicio de gestoría de ventas en Cuba</h3>
-                    <p>Somos una plataforma dedicada a facilitar el comercio electrónico en Cuba. Nos encargamos de dar promoción a la mercancía de proveedores verificados, facilitando el proceso de compra-venta y garantizando transparencia en todas las transacciones.</p>
-                    <p>Todos los productos son publicados directamente por el gestor después de una verificación cuidadosa. Si estás interesado en que tus productos aparezcan en nuestra tienda, puedes contactarme directamente para evaluar tu catálogo.</p>
-                    <div class="provider-info">
-                        <h3>Información del Gestor</h3>
-                        <div class="provider-rating">
-                            <span class="stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </span>
-                            <span>4.7 (128 valoraciones)</span>
-                        </div>
-                        <p><i class="fas fa-phone"></i> +53 55703261</p>
-                        <p><i class="fab fa-whatsapp"></i> WhatsApp: <a href="https://wa.me/5355703261" target="_blank">Enviar mensaje</a></p>
-                    </div>
+                    <h3>Intermediación confiable entre compradores y vendedores</h3>
+                    <p>No almacenamos productos físicamente, solo facilitamos la conexión entre proveedores y compradores. Cuando un producto se vende, cobramos una comisión del 5% por nuestro servicio de intermediación.</p>
+                    <p>Ofrecemos una plataforma segura, organizada y con mayor exposición que los clasificados tradicionales.</p>
+                    <a href="#provider" class="btn">Quiero ser proveedor</a>
                 </div>
                 <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Equipo de trabajo">
+                    <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tienda Virtual Cuba">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Categories Section -->
+    <!-- Categories -->
     <section class="categories">
         <div class="container">
-            <h2 class="section-title">Nuestras Categorías</h2>
+            <h2 class="section-title">Categorías</h2>
             <div class="categories-grid">
-                <div class="category-card" data-category="electronics">
+                <div class="category-card" data-category="ropa-nueva">
                     <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Electrodomésticos">
+                        <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ropa nueva">
                     </div>
                     <div class="category-info">
-                        <h3>Electrodomésticos</h3>
-                        <p>Neveras, cocinas, lavadoras</p>
+                        <h3>Ropa nueva</h3>
+                        <p>Moda actual</p>
                     </div>
                 </div>
-                <div class="category-card" data-category="perfumery">
+                <div class="category-card" data-category="ropa-reciclada">
+                    <div class="category-img">
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ropa reciclada">
+                    </div>
+                    <div class="category-info">
+                        <h3>Ropa reciclada</h3>
+                        <p>Segunda mano y pacas</p>
+                    </div>
+                </div>
+                <div class="category-card" data-category="perfumeria">
                     <div class="category-img">
                         <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Perfumería">
                     </div>
                     <div class="category-info">
                         <h3>Perfumería</h3>
-                        <p>Perfumes, colonias</p>
+                        <p>Fragancias y más</p>
                     </div>
                 </div>
-                <div class="category-card" data-category="lingerie">
+                <div class="category-card" data-category="aseo-personal">
                     <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Lencería">
+                        <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Aseo personal">
+                    </div>
+                    <div class="category-info">
+                        <h3>Aseo personal</h3>
+                        <p>Cuidado diario</p>
+                    </div>
+                </div>
+                <div class="category-card" data-category="lenceria">
+                    <div class="category-img">
+                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Lencería">
                     </div>
                     <div class="category-info">
                         <h3>Lencería</h3>
-                        <p>Ropa interior</p>
+                        <p>Para tu hogar</p>
                     </div>
                 </div>
-                <div class="category-card" data-category="hygiene">
+                <div class="category-card" data-category="electrodomesticos">
                     <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Aseo">
+                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Electrodomésticos">
                     </div>
                     <div class="category-info">
-                        <h3>Aseo</h3>
-                        <p>Jabones, detergentes</p>
+                        <h3>Electrodomésticos</h3>
+                        <p>Para tu hogar</p>
                     </div>
                 </div>
-                <div class="category-card" data-category="food">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Comida">
-                    </div>
-                    <div class="category-info">
-                        <h3>Comida</h3>
-                        <p>Productos alimenticios</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="clothing">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ropa Reciclada">
-                    </div>
-                    <div class="category-info">
-                        <h3>Ropa Reciclada</h3>
-                        <p>Prendas segunda mano</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="new-clothing">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ropa Nueva">
-                    </div>
-                    <div class="category-info">
-                        <h3>Ropa Nueva</h3>
-                        <p>Prendas nuevas con etiqueta</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="bales">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1562157873-818bc0726f68?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pacas de Ropa">
-                    </div>
-                    <div class="category-info">
-                        <h3>Pacas de Ropa</h3>
-                        <p>Venta al por mayor</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="others">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Otros Productos">
-                    </div>
-                    <div class="category-info">
-                        <h3>Otros</h3>
-                        <p>Diversos artículos</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="how-it-works">
-        <div class="container">
-            <h2 class="section-title">¿Cómo Funciona?</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <h3>Contacto</h3>
-                    <p>Si eres proveedor, contáctame directamente para evaluar tu catálogo y acordar los términos de publicación.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3>Aprobación</h3>
-                    <p>Reviso cada producto para garantizar la calidad y veracidad de la información antes de publicarlo.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>Búsqueda</h3>
-                    <p>Los compradores exploran nuestro catálogo y encuentran los productos que necesitan.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-handshake"></i>
-                    </div>
-                    <h3>Compra</h3>
-                    <p>Conecto al comprador con el proveedor y coordino el proceso de compra-venta de forma segura.</p>
-                </div>
-            </div>
-            
-            <div class="become-provider">
-                <h3>¿Quieres vender tus productos aquí?</h3>
-                <p>Si tienes productos de calidad que deseas promocionar, contáctame directamente para evaluar tu catálogo y establecer los términos de colaboración.</p>
-                <a href="https://wa.me/5355703261" target="_blank" class="btn">
-                    <i class="fab fa-whatsapp"></i> Contactar al Gestor
-                </a>
             </div>
         </div>
     </section>
@@ -1700,7 +165,7 @@
     <section class="products" id="products">
         <div class="container">
             <div class="products-header">
-                <h2 class="section-title">Productos Destacados</h2>
+                <h2 class="section-title">Todos los Productos</h2>
                 <div class="search-container">
                     <div class="search-bar">
                         <input type="text" id="searchInput" placeholder="Buscar productos...">
@@ -1709,125 +174,200 @@
                 </div>
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-filter="all">Todos</button>
-                    <button class="filter-btn" data-filter="electronics">Electrodomésticos</button>
-                    <button class="filter-btn" data-filter="perfumery">Perfumería</button>
-                    <button class="filter-btn" data-filter="lingerie">Lencería</button>
-                    <button class="filter-btn" data-filter="hygiene">Aseo</button>
-                    <button class="filter-btn" data-filter="food">Comida</button>
-                    <button class="filter-btn" data-filter="clothing">Ropa Reciclada</button>
-                    <button class="filter-btn" data-filter="new-clothing">Ropa Nueva</button>
-                    <button class="filter-btn" data-filter="bales">Pacas</button>
+                    <button class="filter-btn" data-filter="new">Nuevos</button>
+                    <button class="filter-btn" data-filter="offer">Ofertas</button>
+                    <button class="filter-btn" data-filter="negotiation">Negociables</button>
+                    <select id="provinceFilter" class="filter-btn">
+                        <option value="all">Todas las provincias</option>
+                        <option value="habana">La Habana</option>
+                        <option value="artemisa">Artemisa</option>
+                        <option value="mayabeque">Mayabeque</option>
+                        <option value="matanzas">Matanzas</option>
+                        <option value="cienfuegos">Cienfuegos</option>
+                        <option value="villa-clara">Villa Clara</option>
+                        <option value="sancti-spiritus">Sancti Spíritus</option>
+                        <option value="ciego-de-avila">Ciego de Ávila</option>
+                        <option value="camaguey">Camagüey</option>
+                        <option value="las-tunas">Las Tunas</option>
+                        <option value="holguin">Holguín</option>
+                        <option value="granma">Granma</option>
+                        <option value="santiago">Santiago de Cuba</option>
+                        <option value="guantanamo">Guantánamo</option>
+                        <option value="isla">Isla de la Juventud</option>
+                    </select>
+                    <select id="priceFilter" class="filter-btn">
+                        <option value="all">Todos los precios</option>
+                        <option value="0-50">0 - 50 USD</option>
+                        <option value="50-100">50 - 100 USD</option>
+                        <option value="100-200">100 - 200 USD</option>
+                        <option value="200+">Más de 200 USD</option>
+                    </select>
+                    <select id="currencyFilter" class="filter-btn">
+                        <option value="all">Todas las monedas</option>
+                        <option value="USD">USD</option>
+                        <option value="CUP">CUP</option>
+                        <option value="MLC">MLC</option>
+                    </select>
                 </div>
             </div>
-            <div class="products-grid" id="productsContainer">
-                <!-- Productos se cargarán aquí dinámicamente -->
-            </div>
-            <div class="no-results" id="noResults" style="display: none;">
-                <i class="fas fa-search"></i>
-                <h3>No se encontraron productos</h3>
-                <p>No hay productos que coincidan con tu búsqueda. Intenta con otros términos.</p>
+            <div class="products-grid" id="productsGrid">
+                <!-- Los productos se cargarán aquí con JS -->
             </div>
         </div>
     </section>
 
-    <!-- Category Sections -->
-    <section class="category-section" id="electronics-section">
+    <!-- Provider Section -->
+    <section class="provider-section" id="provider">
         <div class="container">
-            <div class="category-header">
-                <h2 class="section-title">Electrodomésticos</h2>
-                <div class="category-filter">
-                    <select id="electronics-sort">
-                        <option value="newest">Más nuevos</option>
-                        <option value="price-low">Precio: Menor a Mayor</option>
-                        <option value="price-high">Precio: Mayor a Menor</option>
-                        <option value="rating">Mejor valorados</option>
-                    </select>
-                    <select id="electronics-type">
-                        <option value="all">Todos</option>
-                        <option value="fridge">Neveras</option>
-                        <option value="stove">Cocinas</option>
-                        <option value="washer">Lavadoras</option>
-                        <option value="ac">Aires Acondicionados</option>
-                        <option value="other">Otros</option>
-                    </select>
+            <h2 class="section-title">¿Eres Proveedor?</h2>
+            <div class="provider-content">
+                <div class="provider-text">
+                    <h3>Publica tus productos con nosotros</h3>
+                    <p>No necesitas tener tu propia tienda online. Nosotros nos encargamos de todo:</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Tú nos envías fotos y datos de tus productos</li>
+                        <li><i class="fas fa-check"></i> Nosotros los publicamos en nuestra plataforma</li>
+                        <li><i class="fas fa-check"></i> Gestionamos el contacto con los compradores</li>
+                        <li><i class="fas fa-check"></i> Solo cobramos el 5% cuando se concreta la venta</li>
+                    </ul>
+                    <p>Beneficios para proveedores:</p>
+                    <ul>
+                        <li><i class="fas fa-star"></i> Mayor exposición para tus productos</li>
+                        <li><i class="fas fa-star"></i> Primeras 5 publicaciones gratuitas</li>
+                        <li><i class="fas fa-star"></i> Pago seguro y confiable</li>
+                    </ul>
+                    <div class="provider-terms">
+                        <input type="checkbox" id="acceptTerms">
+                        <label for="acceptTerms">Acepto los <a href="#" id="termsLink">Términos y Condiciones</a> y la comisión del 5% por venta</label>
+                    </div>
+                </div>
+                <div class="provider-image">
+                    <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Proveedores">
                 </div>
             </div>
-            <div class="products-grid" id="electronicsContainer">
-                <!-- Productos de electrodomésticos se cargarán aquí -->
-            </div>
-        </div>
-    </section>
-
-    <section class="category-section" id="perfumery-section">
-        <div class="container">
-            <div class="category-header">
-                <h2 class="section-title">Perfumería</h2>
-                <div class="category-filter">
-                    <select id="perfumery-sort">
-                        <option value="newest">Más nuevos</option>
-                        <option value="price-low">Precio: Menor a Mayor</option>
-                        <option value="price-high">Precio: Mayor a Menor</option>
-                        <option value="rating">Mejor valorados</option>
-                    </select>
-                    <select id="perfumery-type">
-                        <option value="all">Todos</option>
-                        <option value="perfume">Perfumes</option>
-                        <option value="cologne">Colonias</option>
-                        <option value="lotion">Lociones</option>
-                        <option value="other">Otros</option>
-                    </select>
-                </div>
-            </div>
-            <div class="products-grid" id="perfumeryContainer">
-                <!-- Productos de perfumería se cargarán aquí -->
-            </div>
-        </div>
-    </section>
-
-    <section class="category-section" id="new-clothing-section">
-        <div class="container">
-            <div class="category-header">
-                <h2 class="section-title">Ropa Nueva</h2>
-                <div class="category-filter">
-                    <select id="new-clothing-sort">
-                        <option value="newest">Más nuevos</option>
-                        <option value="price-low">Precio: Menor a Mayor</option>
-                        <option value="price-high">Precio: Mayor a Menor</option>
-                        <option value="rating">Mejor valorados</option>
-                    </select>
-                    <select id="new-clothing-type">
-                        <option value="all">Todos</option>
-                        <option value="footwear">Calzado</option>
-                        <option value="tops">Prendas superiores</option>
-                        <option value="bottoms">Prendas inferiores</option>
-                        <option value="underwear">Ropa interior</option>
-                        <option value="accessories">Accesorios</option>
-                        <option value="other">Otros</option>
-                    </select>
-                </div>
-            </div>
-            <div class="products-grid" id="newClothingContainer">
-                <!-- Productos de ropa nueva se cargarán aquí -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Publish Section -->
-    <section class="publish" id="publish">
-        <div class="container">
-            <h2 class="section-title">Publicar Producto</h2>
-            <div class="provider-info">
-                <h3>¿Eres proveedor y quieres publicar tus productos?</h3>
-                <p>Para publicar productos en nuestra tienda, debes contactarme directamente para evaluar tu catálogo y establecer los términos de colaboración. Solo publico productos de proveedores verificados.</p>
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <a href="https://wa.me/5355703261" target="_blank" class="btn">
-                        <i class="fab fa-whatsapp"></i> Contactar al Gestor
-                    </a>
-                    <p style="margin-top: 1rem;">También puedes contactarme por Telegram para mejor servicio:</p>
-                    <a href="https://t.me/c/2534167295/1" target="_blank" class="btn btn-secondary">
-                        <i class="fab fa-telegram"></i> Unirse a Telegram
-                    </a>
-                </div>
+            <div class="provider-form">
+                <h3>Envíanos información de tus productos</h3>
+                <form id="providerForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="providerName">Nombre completo*</label>
+                            <input type="text" id="providerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="providerPhone">Teléfono de contacto*</label>
+                            <input type="tel" id="providerPhone" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="providerEmail">Email (opcional)</label>
+                            <input type="email" id="providerEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="providerType">Tipo de proveedor*</label>
+                            <select id="providerType" required>
+                                <option value="">Seleccione</option>
+                                <option value="minorista">Minorista</option>
+                                <option value="mayorista">Mayorista</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productName">Nombre del producto*</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productPrice">Precio*</label>
+                            <input type="number" id="productPrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="productCurrency">Moneda*</label>
+                            <select id="productCurrency" required>
+                                <option value="USD">USD</option>
+                                <option value="CUP">CUP</option>
+                                <option value="MLC">MLC</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productCategory">Categoría principal*</label>
+                            <select id="productCategory" required>
+                                <option value="">Seleccione una categoría</option>
+                                <option value="ropa-nueva">Ropa nueva</option>
+                                <option value="ropa-reciclada">Ropa reciclada</option>
+                                <option value="perfumeria">Perfumería</option>
+                                <option value="aseo-personal">Aseo personal</option>
+                                <option value="lenceria">Lencería</option>
+                                <option value="electrodomesticos">Electrodomésticos</option>
+                                <option value="hogar">Hogar</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productSubcategory">Subcategoría*</label>
+                            <select id="productSubcategory" required disabled>
+                                <option value="">Primero seleccione categoría</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productProvince">Provincia*</label>
+                            <select id="productProvince" required>
+                                <option value="">Seleccione una provincia</option>
+                                <option value="habana">La Habana</option>
+                                <option value="artemisa">Artemisa</option>
+                                <option value="mayabeque">Mayabeque</option>
+                                <option value="matanzas">Matanzas</option>
+                                <option value="cienfuegos">Cienfuegos</option>
+                                <option value="villa-clara">Villa Clara</option>
+                                <option value="sancti-spiritus">Sancti Spíritus</option>
+                                <option value="ciego-de-avila">Ciego de Ávila</option>
+                                <option value="camaguey">Camagüey</option>
+                                <option value="las-tunas">Las Tunas</option>
+                                <option value="holguin">Holguín</option>
+                                <option value="granma">Granma</option>
+                                <option value="santiago">Santiago de Cuba</option>
+                                <option value="guantanamo">Guantánamo</option>
+                                <option value="isla">Isla de la Juventud</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productQuantity">Cantidad disponible*</label>
+                            <input type="number" id="productQuantity" value="1" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Descripción del producto*</label>
+                        <textarea id="productDescription" required></textarea>
+                    </div>
+                    <div class="form-row checkboxes">
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="hasDelivery">
+                            <label for="hasDelivery">Ofrece entrega a domicilio</label>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="hasWarranty">
+                            <label for="hasWarranty">Ofrece garantía</label>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="hasPhysicalStore">
+                            <label for="hasPhysicalStore">Tiene tienda física</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Imágenes del producto (Máx. 5)*</label>
+                        <div class="image-upload" id="imageUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Arrastra las imágenes aquí o haz clic para seleccionar</p>
+                            <input type="file" id="productImages" accept="image/*" multiple style="display:none;">
+                        </div>
+                        <div class="image-preview" id="imagePreview"></div>
+                    </div>
+                    <button type="submit" class="btn" id="submitProductBtn">Enviar Producto</button>
+                </form>
             </div>
         </div>
     </section>
@@ -1836,64 +376,58 @@
     <section class="faq" id="faq">
         <div class="container">
             <h2 class="section-title">Preguntas Frecuentes</h2>
-            
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>¿Cómo funciona Tienda Virtual Cuba?</span>
+                    <span>¿Cómo funciona la tienda virtual?</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    <p>Tienda Virtual Cuba es una plataforma de gestoría de ventas donde publico productos de proveedores verificados. Los compradores pueden explorar el catálogo y contactarme directamente para coordinar la compra.</p>
+                    <p>Somos un servicio de intermediación entre proveedores y compradores. Los proveedores nos envían información de sus productos, nosotros los publicamos en la plataforma y cuando se concreta una venta, cobramos una comisión del 5%.</p>
                 </div>
             </div>
-            
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>¿Cómo puedo publicar mis productos?</span>
+                    <span>¿Tienen los productos físicamente?</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    <p>Si tienes productos de calidad que deseas promocionar, contáctame directamente por WhatsApp o Telegram para evaluar tu catálogo. Solo trabajo con proveedores verificados que ofrecen productos de calidad.</p>
+                    <p>No, no almacenamos productos físicamente. Cada producto pertenece a su respectivo proveedor y es responsabilidad de este entregarlo al comprador.</p>
                 </div>
             </div>
-            
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>¿Qué comisión cobran por las ventas?</span>
+                    <span>¿Cómo puedo comprar un producto?</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    <p>La comisión varía según el tipo de producto y volumen de ventas. Se acuerda directamente con cada proveedor al momento de establecer la colaboración.</p>
+                    <p>Puedes contactar al vendedor directamente a través del botón de WhatsApp en cada producto o puedes contactarnos a nosotros para que intermediemos la compra.</p>
                 </div>
             </div>
-            
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>¿Cómo garantizan la seguridad de las transacciones?</span>
+                    <span>¿Qué garantías ofrecen?</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    <p>Todos los proveedores son verificados personalmente por mí. Además, coordino personalmente cada transacción para garantizar la satisfacción tanto del comprador como del proveedor.</p>
+                    <p>Verificamos la autenticidad de los proveedores y los productos que publicamos. Además, ofrecemos seguimiento durante todo el proceso de compra-venta para garantizar una transacción segura.</p>
                 </div>
             </div>
-            
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>¿Puedo comprar productos desde cualquier parte de Cuba?</span>
+                    <span>¿Cómo puedo vender mis productos?</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    <p>Sí, nuestra plataforma está disponible para compradores de toda Cuba. La disponibilidad de envío depende de cada producto y proveedor. Esta información está claramente indicada en cada publicación.</p>
+                    <p>Puedes registrarte como proveedor completando el formulario en la sección "¿Eres Proveedor?" o contactándonos directamente por WhatsApp. Solo necesitas enviarnos fotos y detalles de tus productos. Las primeras 5 publicaciones son gratuitas.</p>
                 </div>
             </div>
-            
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>¿Qué hago si tengo un problema con un producto comprado?</span>
+                    <span>¿Cuánto cuesta publicar mis productos?</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    <p>En caso de problemas con un producto, contáctame directamente a través de WhatsApp o Telegram y mediaré en la situación para encontrar una solución satisfactoria.</p>
+                    <p>Las primeras 5 publicaciones son gratuitas. A partir de la sexta publicación, cobramos una pequeña tarifa por publicación. En todas las ventas cobramos el 5% del valor de venta cuando el producto se vende a través de nuestra plataforma.</p>
                 </div>
             </div>
         </div>
@@ -1904,30 +438,23 @@
         <div class="container">
             <h2 class="section-title">Contacto</h2>
             <div class="contact-info">
-                <p>¿Tienes preguntas o necesitas ayuda? Contáctame a través de mis canales:</p>
+                <p>¿Tienes preguntas o necesitas ayuda? Contáctanos por cualquiera de estos medios:</p>
             </div>
             <div class="contact-buttons">
-                <a href="https://wa.me/5355703261" target="_blank" class="contact-btn">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
+                <a href="https://wa.me/5355703261?text=Hola,%20estoy%20interesado%20en%20un%20producto%20de%20tu%20tienda" class="contact-btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> WhatsApp (+53 55703261)
                 </a>
-                <a href="tel:+5355703261" class="contact-btn">
-                    <i class="fas fa-phone"></i> Llamar
+                <a href="https://www.instagram.com/tienditavirtual.cu" class="contact-btn" target="_blank">
+                    <i class="fab fa-instagram"></i> Instagram (@tienditavirtual.cu)
                 </a>
-                <a href="https://t.me/c/2534167295/1" target="_blank" class="contact-btn">
-                    <i class="fab fa-telegram"></i> Telegram
+                <a href="https://chat.whatsapp.com/KHCh8jCNJ5ULIKpMm4FbFb" class="contact-btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Comunidad WhatsApp
                 </a>
-                <a href="https://www.instagram.com/tienditavirtual.cu?igsh=MXdqZ3JsZW80eHgxOA==" target="_blank" class="contact-btn">
-                    <i class="fab fa-instagram"></i> Instagram
+                <a href="https://t.me/c/2534167295/1" class="contact-btn" target="_blank">
+                    <i class="fab fa-telegram"></i> Telegram Catálogo
                 </a>
-            </div>
-            <div style="margin-top: 2rem; text-align: center;">
-                <p>Para mejor servicio y comunidad más activa, únete a nuestro grupo de Telegram:</p>
-                <a href="https://t.me/c/2534167295/1" target="_blank" class="btn" style="margin-top: 1rem;">
-                    <i class="fab fa-telegram"></i> Comunidad en Telegram
-                </a>
-                <p style="margin-top: 1rem;">O al grupo de WhatsApp para clientes frecuentes:</p>
-                <a href="https://chat.whatsapp.com/KHCh8jCNJ5ULIKpMm4FbFb" target="_blank" class="btn btn-secondary">
-                    <i class="fab fa-whatsapp"></i> Comunidad en WhatsApp
+                <a href="mailto:contacto@tiendavirtualcuba.com" class="contact-btn">
+                    <i class="fas fa-envelope"></i> Email
                 </a>
             </div>
         </div>
@@ -1939,9 +466,9 @@
             <div class="footer-content">
                 <div class="footer-column">
                     <h3>Tienda Virtual Cuba</h3>
-                    <p>Plataforma de gestoría de ventas en Cuba, conectando proveedores verificados con compradores de todo el país.</p>
+                    <p>Plataforma de intermediación entre proveedores y compradores en Cuba.</p>
                     <div class="social-links">
-                        <a href="https://www.instagram.com/tienditavirtual.cu?igsh=MXdqZ3JsZW80eHgxOA==" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/tienditavirtual.cu" target="_blank"><i class="fab fa-instagram"></i></a>
                         <a href="https://wa.me/5355703261" target="_blank"><i class="fab fa-whatsapp"></i></a>
                         <a href="https://t.me/c/2534167295/1" target="_blank"><i class="fab fa-telegram"></i></a>
                     </div>
@@ -1951,31 +478,27 @@
                     <ul>
                         <li><a href="#home">Inicio</a></li>
                         <li><a href="#products">Productos</a></li>
-                        <li><a href="#publish">Publicar</a></li>
-                        <li><a href="#about">Sobre Nosotros</a></li>
+                        <li><a href="#provider">¿Eres Proveedor?</a></li>
                         <li><a href="#faq">Preguntas Frecuentes</a></li>
+                        <li><a href="#contact">Contacto</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h3>Categorías</h3>
                     <ul>
-                        <li><a href="#" data-category="electronics">Electrodomésticos</a></li>
-                        <li><a href="#" data-category="perfumery">Perfumería</a></li>
-                        <li><a href="#" data-category="lingerie">Lencería</a></li>
-                        <li><a href="#" data-category="hygiene">Productos de Aseo</a></li>
-                        <li><a href="#" data-category="food">Comida</a></li>
-                        <li><a href="#" data-category="clothing">Ropa Reciclada</a></li>
-                        <li><a href="#" data-category="new-clothing">Ropa Nueva</a></li>
-                        <li><a href="#" data-category="bales">Pacas de Ropa</a></li>
+                        <li><a href="#" data-category="ropa-nueva">Ropa nueva</a></li>
+                        <li><a href="#" data-category="ropa-reciclada">Ropa reciclada</a></li>
+                        <li><a href="#" data-category="perfumeria">Perfumería</a></li>
+                        <li><a href="#" data-category="aseo-personal">Aseo personal</a></li>
+                        <li><a href="#" data-category="lenceria">Lencería</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Contacto</h3>
+                    <h3>Legal</h3>
                     <ul>
-                        <li><i class="fas fa-phone"></i> +53 55703261</li>
-                        <li><i class="fab fa-whatsapp"></i> WhatsApp</li>
-                        <li><i class="fab fa-telegram"></i> Telegram</li>
-                        <li><i class="fab fa-instagram"></i> @tienditavirtual.cu</li>
+                        <li><a href="#" id="showTermsFooter">Términos y Condiciones</a></li>
+                        <li><a href="#" id="showPrivacyFooter">Política de Privacidad</a></li>
+                        <li><a href="#" id="showReturnsFooter">Política de Devoluciones</a></li>
                     </ul>
                 </div>
             </div>
@@ -1986,901 +509,211 @@
     </footer>
 
     <!-- Floating Buttons -->
-    <div class="floating-btn whatsapp" id="whatsappBtn">
+    <a href="https://wa.me/5355703261?text=Hola,%20estoy%20interesado%20en%20vender%20productos%20en%20tu%20tienda" class="floating-btn whatsapp" target="_blank">
         <i class="fab fa-whatsapp"></i>
-    </div>
+    </a>
+    <a href="#provider" class="floating-btn provider">
+        <i class="fas fa-store"></i>
+    </a>
 
-    <div class="floating-btn cart" id="cartBtn">
-        <i class="fas fa-shopping-cart"></i>
-        <div class="cart-count" id="cartCount">0</div>
-    </div>
-
-    <!-- WhatsApp Modal -->
-    <div class="modal" id="whatsappModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeWhatsappModal">&times;</span>
-            <h3>Contactar al Gestor</h3>
-            <p>¿Tienes dudas sobre algún producto o necesitas ayuda con tu compra? Escríbeme directamente a WhatsApp:</p>
-            <div style="margin: 1.5rem 0; text-align: center;">
-                <a href="https://wa.me/5355703261" target="_blank" class="btn" style="display: inline-flex; align-items: center;">
-                    <i class="fab fa-whatsapp" style="margin-right: 10px;"></i> Chatear por WhatsApp
-                </a>
-            </div>
-            <p>También puedes unirte a nuestra comunidad en Telegram para mejor servicio:</p>
-            <div style="text-align: center; margin-top: 1rem;">
-                <a href="https://t.me/c/2534167295/1" target="_blank" class="btn btn-secondary">
-                    <i class="fab fa-telegram"></i> Unirse a Telegram
-                </a>
-            </div>
-            <p style="margin-top: 1rem;">Horario de atención: Lunes a Domingo de 9:00 am a 9:00 pm</p>
-        </div>
+    <!-- Bottom Navigation (Mobile) -->
+    <div class="bottom-nav">
+        <a href="#home" class="bottom-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </a>
+        <a href="#products" class="bottom-nav-item">
+            <i class="fas fa-search"></i>
+            <span>Productos</span>
+        </a>
+        <a href="#provider" class="bottom-nav-item">
+            <i class="fas fa-store"></i>
+            <span>Vender</span>
+        </a>
+        <a href="#contact" class="bottom-nav-item">
+            <i class="fas fa-phone-alt"></i>
+            <span>Contacto</span>
+        </a>
+        <a href="#account" class="bottom-nav-item">
+            <i class="fas fa-user"></i>
+            <span>Cuenta</span>
+        </a>
     </div>
 
     <!-- Product Modal -->
     <div class="modal" id="productModal">
         <div class="modal-content product-modal-content">
-            <span class="close-modal" id="closeProductModal">&times;</span>
-            <div class="product-modal-grid">
-                <div class="product-modal-images">
-                    <div class="product-modal-main-image">
-                        <img id="product-main-image" src="" alt="">
-                    </div>
-                    <div class="product-modal-thumbnails" id="product-thumbnails">
-                        <!-- Thumbnails will be added here by JavaScript -->
-                    </div>
-                </div>
-                <div class="product-modal-info">
-                    <h3 id="product-modal-title"></h3>
-                    <div class="product-modal-price" id="product-modal-price"></div>
-                    
-                    <div class="product-modal-vendor">
-                        <img src="https://ui-avatars.com/api/?name=Proveedor" alt="Proveedor">
-                        <div>
-                            <div id="product-modal-vendor-name"></div>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <span id="product-modal-rating"></span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="product-modal-meta">
-                        <span><i class="fas fa-map-marker-alt"></i> <span id="product-modal-location"></span></span>
-                        <span><i class="fas fa-box"></i> <span id="product-modal-stock"></span></span>
-                        <span><i class="fas fa-truck"></i> <span id="product-modal-delivery"></span></span>
-                    </div>
-                    
-                    <div class="product-modal-description">
-                        <h4>Descripción</h4>
-                        <p id="product-modal-description"></p>
-                    </div>
-                    
-                    <div class="product-modal-specs">
-                        <h4>Especificaciones</h4>
-                        <ul id="product-modal-specs">
-                            <!-- Specs will be added here by JavaScript -->
-                        </ul>
-                    </div>
-                    
-                    <div class="product-modal-actions">
-                        <button class="btn" id="addToCartBtn"><i class="fas fa-cart-plus"></i> Añadir al Carrito</button>
-                        <a href="https://wa.me/5355703261" target="_blank" class="btn btn-secondary"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-                        <a href="https://t.me/c/2534167295/1" target="_blank" class="btn btn-secondary" style="background-color: #0088cc;"><i class="fab fa-telegram"></i> Telegram</a>
-                    </div>
-                </div>
+            <span class="close-modal">&times;</span>
+            <div class="product-modal-grid" id="productModalContent">
+                <!-- Contenido del producto se cargará aquí con JS -->
             </div>
         </div>
     </div>
 
-    <!-- Cart Modal -->
-    <div class="modal cart-modal" id="cartModal">
+    <!-- Login/Signup Modal -->
+    <div class="modal auth-modal" id="authModal">
         <div class="modal-content">
-            <span class="close-modal" id="closeCartModal">&times;</span>
-            <h2>Tu Carrito de Compras</h2>
-            
-            <div class="cart-items" id="cartItems">
-                <!-- Cart items will be added here by JavaScript -->
+            <span class="close-modal">&times;</span>
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Iniciar Sesión</div>
+                <div class="auth-tab" data-tab="register">Registrarse</div>
             </div>
-            
-            <div class="cart-summary">
-                <div class="cart-total">
-                    <span>Total:</span>
-                    <span id="cartTotal">$0.00</span>
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email o Teléfono</label>
+                    <input type="text" id="loginEmail" required>
                 </div>
-                
-                <div class="cart-buttons">
-                    <button class="btn" id="continueShoppingBtn">Seguir Comprando</button>
-                    <a href="https://wa.me/5355703261?text=Hola,%20estoy%20interesado%20en%20los%20siguientes%20productos%20de%20tu%20tienda:%0A%0A[LISTA_DE_PRODUCTOS]%0A%0APor%20favor%20proporcioname%20más%20información%20y%20coordinemos%20la%20compra." target="_blank" class="btn btn-secondary" id="checkoutBtn">
-                        <i class="fab fa-whatsapp"></i> Finalizar Compra
-                    </a>
+                <div class="form-group">
+                    <label for="loginPassword">Contraseña</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn">Iniciar Sesión</button>
+                <div class="social-login">
+                    <p>O inicia sesión con:</p>
+                    <div class="social-buttons">
+                        <button type="button" class="social-btn facebook">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </button>
+                        <button type="button" class="social-btn google">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nombre completo*</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPhone">Teléfono*</label>
+                    <input type="tel" id="registerPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email (opcional)</label>
+                    <input type="email" id="registerEmail">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Contraseña*</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirmPassword">Confirmar Contraseña*</label>
+                    <input type="password" id="registerConfirmPassword" required>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="registerProvider">
+                    <label for="registerProvider">Soy proveedor de productos</label>
+                </div>
+                <div id="providerTypeContainer" style="display: none;">
+                    <div class="form-group">
+                        <label for="registerProviderType">Tipo de proveedor</label>
+                        <select id="registerProviderType">
+                            <option value="minorista">Minorista</option>
+                            <option value="mayorista">Mayorista</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group checkbox-group terms-group">
+                    <input type="checkbox" id="registerTerms" required>
+                    <label for="registerTerms">Acepto los <a href="#" id="showTerms">Términos y Condiciones</a></label>
+                </div>
+                <button type="submit" class="btn">Registrarse</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Panel de Administración</h2>
+            <div class="tabs">
+                <div class="tab active" data-tab="products">Productos</div>
+                <div class="tab" data-tab="providers">Proveedores</div>
+                <div class="tab" data-tab="sales">Ventas</div>
+                <div class="tab" data-tab="notifications">Notificaciones</div>
+            </div>
+            <div class="tab-content active" id="adminProducts">
+                <div class="status-selector">
+                    <div class="status-option active" data-status="all">Todos</div>
+                    <div class="status-option" data-status="pending">Pendientes</div>
+                    <div class="status-option" data-status="approved">Aprobados</div>
+                    <div class="status-option" data-status="rejected">Rechazados</div>
+                    <div class="status-option" data-status="sold">Vendidos</div>
+                </div>
+                <div class="products-grid" id="adminProductsGrid">
+                    <!-- Productos del admin se cargarán aquí -->
+                </div>
+            </div>
+            <div class="tab-content" id="adminProviders">
+                <div class="search-container">
+                    <input type="text" id="providerSearch" placeholder="Buscar proveedores...">
+                </div>
+                <div class="providers-list" id="providersList">
+                    <!-- Lista de proveedores -->
+                </div>
+            </div>
+            <div class="tab-content" id="adminSales">
+                <div class="sales-stats">
+                    <div class="stat-card">
+                        <h3>Ventas totales</h3>
+                        <p id="totalSales">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Comisiones</h3>
+                        <p id="totalCommissions">0 USD</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Ventas este mes</h3>
+                        <p id="monthlySales">0</p>
+                    </div>
+                </div>
+                <div class="sales-list" id="salesList">
+                    <!-- Lista de ventas -->
+                </div>
+            </div>
+            <div class="tab-content" id="adminNotifications">
+                <div class="notifications-list" id="notificationsList">
+                    <!-- Lista de notificaciones -->
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // Datos de productos de ejemplo
-        let productsData = [
-            {
-                id: 1,
-                title: "Nevera Samsung 500L",
-                category: "electronics",
-                subcategory: "fridge",
-                description: "Nevera Samsung de 500 litros con tecnología inverter, ahorradora de energía, en excelente estado.",
-                price: 1500,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "ElectroCuba",
-                phone: "+53555123456",
-                location: "La Habana",
-                rating: 4.5,
-                stock: "Disponible",
-                delivery: "Incluye domicilio",
-                status: "new",
-                offerPrice: null,
-                images: [
-                    "https://images.unsplash.com/photo-1591175782227-17fb9988154a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                    "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "Samsung" },
-                    { name: "Modelo", value: "RT5000" },
-                    { name: "Capacidad", value: "500 litros" },
-                    { name: "Color", value: "Plateado" },
-                    { name: "Estado", value: "Excelente" }
-                ],
-                dateAdded: "2023-05-15",
-                providerId: "provider1" // ID del proveedor dueño
-            },
-            {
-                id: 2,
-                title: "Perfume Chanel N°5",
-                category: "perfumery",
-                subcategory: "perfume",
-                description: "Perfume original Chanel N°5, tamaño 100ml, importado de Francia, sellado de fábrica.",
-                price: 120,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "Perfumes Elegance",
-                phone: "+53555234567",
-                location: "Matanzas",
-                rating: 4.8,
-                stock: "Últimas unidades",
-                delivery: "Domicilio por costo extra",
-                status: "offer",
-                offerPrice: 100,
-                images: [
-                    "https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                    "https://images.unsplash.com/photo-1594035910387-fea47794261f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "Chanel" },
-                    { name: "Tamaño", value: "100ml" },
-                    { name: "Origen", value: "Francia" },
-                    { name: "Estado", value: "Nuevo" }
-                ],
-                dateAdded: "2023-06-10",
-                providerId: "provider2"
-            },
-            {
-                id: 3,
-                title: "Lavadora LG 15kg",
-                category: "electronics",
-                subcategory: "washer",
-                description: "Lavadora LG de 15kg con tecnología inverter, 10 programas de lavado, casi nueva.",
-                price: 1800,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "ElectroHogar",
-                phone: "+53555345678",
-                location: "Varadero",
-                rating: 4.7,
-                stock: "Disponible",
-                delivery: "Tienda física",
-                status: "negotiation",
-                offerPrice: null,
-                images: [
-                    "https://images.unsplash.com/photo-1626804475297-41608ea09aeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "LG" },
-                    { name: "Modelo", value: "F4J9" },
-                    { name: "Capacidad", value: "15kg" },
-                    { name: "Color", value: "Blanco" },
-                    { name: "Estado", value: "Casi nueva" }
-                ],
-                dateAdded: "2023-06-20",
-                providerId: "provider1"
-            },
-            {
-                id: 4,
-                title: "Paca de Ropa Americana",
-                category: "bales",
-                subcategory: "clothing",
-                description: "Paca de ropa americana de alta calidad, 50kg, variedad de prendas y tallas.",
-                price: 500,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "Ropa USA",
-                phone: "+53555456789",
-                location: "La Habana",
-                rating: 4.3,
-                stock: "Disponible",
-                delivery: "Tienda física",
-                status: "sold",
-                offerPrice: null,
-                images: [
-                    "https://images.unsplash.com/photo-1562157873-818bc0726f68?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Peso", value: "50kg" },
-                    { name: "Origen", value: "USA" },
-                    { name: "Contenido", value: "Variado" },
-                    { name: "Estado", value: "Buena calidad" }
-                ],
-                dateAdded: "2023-06-05",
-                providerId: "provider3"
-            },
-            {
-                id: 5,
-                title: "Colonia Hugo Boss",
-                category: "perfumery",
-                subcategory: "cologne",
-                description: "Colonia Hugo Boss original, tamaño 200ml, fragancia intensa y duradera.",
-                price: 80,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "Perfumería Selecta",
-                phone: "+53555567890",
-                location: "Cienfuegos",
-                rating: 4.6,
-                stock: "Disponible",
-                delivery: "Incluye domicilio",
-                status: "new",
-                offerPrice: null,
-                images: [
-                    "https://images.unsplash.com/photo-1615228939092-4c8ccc0f7b1c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "Hugo Boss" },
-                    { name: "Tamaño", value: "200ml" },
-                    { name: "Tipo", value: "Colonia" },
-                    { name: "Estado", value: "Nuevo" }
-                ],
-                dateAdded: "2023-06-15",
-                providerId: "provider2"
-            },
-            {
-                id: 6,
-                title: "Aire Acondicionado Split 12,000 BTU",
-                category: "electronics",
-                subcategory: "ac",
-                description: "Aire acondicionado split de 12,000 BTU, marca Midea, tecnología inverter, instalación incluida.",
-                price: 1200,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "ClimaFrío",
-                phone: "+53555678901",
-                location: "Camagüey",
-                rating: 4.9,
-                stock: "Últimas unidades",
-                delivery: "Incluye instalación",
-                status: "offer",
-                offerPrice: 1000,
-                images: [
-                    "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "Midea" },
-                    { name: "Capacidad", value: "12,000 BTU" },
-                    { name: "Tipo", value: "Split Inverter" },
-                    { name: "Estado", value: "Nuevo" }
-                ],
-                dateAdded: "2023-06-18",
-                providerId: "provider1"
-            },
-            {
-                id: 7,
-                title: "Jeans Levi's 501",
-                category: "clothing",
-                subcategory: "pants",
-                description: "Jeans Levi's 501 originales, talla 32x32, color azul oscuro, en excelente estado.",
-                price: 40,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "Ropa Selecta",
-                phone: "+53555789012",
-                location: "Santiago de Cuba",
-                rating: 4.4,
-                stock: "Disponible",
-                delivery: "Domicilio por costo extra",
-                status: "new",
-                offerPrice: null,
-                images: [
-                    "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "Levi's" },
-                    { name: "Modelo", value: "501" },
-                    { name: "Talla", value: "32x32" },
-                    { name: "Color", value: "Azul oscuro" },
-                    { name: "Estado", value: "Excelente" }
-                ],
-                dateAdded: "2023-06-12",
-                providerId: "provider3"
-            },
-            {
-                id: 8,
-                title: "Detergente Ariel 5kg",
-                category: "hygiene",
-                subcategory: "cleaning",
-                description: "Detergente en polvo Ariel, paquete de 5kg, para todo tipo de lavadoras.",
-                price: 25,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "Productos de Limpieza",
-                phone: "+53555890123",
-                location: "Pinar del Río",
-                rating: 4.2,
-                stock: "Disponible",
-                delivery: "Tienda física",
-                status: "new",
-                offerPrice: null,
-                images: [
-                    "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "Ariel" },
-                    { name: "Peso", value: "5kg" },
-                    { name: "Tipo", value: "Detergente en polvo" },
-                    { name: "Estado", value: "Nuevo" }
-                ],
-                dateAdded: "2023-06-08",
-                providerId: "provider4"
-            },
-            {
-                id: 9,
-                title: "Camisa Polo Ralph Lauren",
-                category: "new-clothing",
-                subcategory: "tops",
-                description: "Camisa Polo Ralph Lauren original, talla M, color azul, nueva con etiqueta.",
-                price: 60,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "Moda Elegante",
-                phone: "+53555901234",
-                location: "La Habana",
-                rating: 4.7,
-                stock: "Disponible",
-                delivery: "Domicilio por costo extra",
-                status: "new",
-                offerPrice: null,
-                images: [
-                    "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "Ralph Lauren" },
-                    { name: "Modelo", value: "Polo" },
-                    { name: "Talla", value: "M" },
-                    { name: "Color", value: "Azul" },
-                    { name: "Estado", value: "Nuevo con etiqueta" }
-                ],
-                dateAdded: "2023-06-22",
-                providerId: "provider5"
-            },
-            {
-                id: 10,
-                title: "Zapatos Adidas Superstar",
-                category: "new-clothing",
-                subcategory: "footwear",
-                description: "Zapatos Adidas Superstar originales, talla 42, color blanco, nuevos en caja.",
-                price: 90,
-                currency: "USD",
-                exchangeRate: 120,
-                vendor: "Calzados Premium",
-                phone: "+53555012345",
-                location: "Varadero",
-                rating: 4.8,
-                stock: "Disponible",
-                delivery: "Incluye domicilio",
-                status: "new",
-                offerPrice: null,
-                images: [
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                ],
-                specs: [
-                    { name: "Marca", value: "Adidas" },
-                    { name: "Modelo", value: "Superstar" },
-                    { name: "Talla", value: "42" },
-                    { name: "Color", value: "Blanco" },
-                    { name: "Estado", value: "Nuevo en caja" }
-                ],
-                dateAdded: "2023-06-25",
-                providerId: "provider6"
-            }
-        ];
+    <!-- Terms Modal -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Términos y Condiciones</h2>
+            <div class="terms-content">
+                <h3>1. Comisión por venta</h3>
+                <p>Por cada venta realizada a través de nuestra plataforma, cobramos una comisión del 5% del valor total de la transacción.</p>
+                
+                <h3>2. Publicaciones gratuitas</h3>
+                <p>Cada proveedor tiene derecho a 5 publicaciones gratuitas. A partir de la sexta publicación, se aplicará una tarifa por publicación.</p>
+                
+                <h3>3. Responsabilidad del proveedor</h3>
+                <p>El proveedor es responsable de la veracidad de la información publicada, la calidad de los productos y la entrega de los mismos al comprador.</p>
+                
+                <h3>4. Aprobación de productos</h3>
+                <p>Todos los productos enviados serán revisados por nuestro equipo antes de ser publicados. Nos reservamos el derecho de rechazar cualquier publicación que no cumpla con nuestros estándares.</p>
+                
+                <h3>5. Política de pagos</h3>
+                <p>Las comisiones por venta se cobrarán al momento de concretarse la transacción. El pago al proveedor se realizará una vez confirmada la entrega satisfactoria del producto.</p>
+                
+                <h3>6. Privacidad de datos</h3>
+                <p>Toda la información personal proporcionada será tratada con confidencialidad y solo se utilizará para los fines de la plataforma.</p>
+                
+                <div class="terms-acceptance">
+                    <input type="checkbox" id="modalAcceptTerms">
+                    <label for="modalAcceptTerms">He leído y acepto los términos y condiciones</label>
+                </div>
+                <button class="btn" id="confirmTermsBtn">Aceptar</button>
+            </div>
+        </div>
+    </div>
 
-        // Carrito de compras
-        let cart = [];
-        
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navMenu = document.getElementById('navMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-        
-        // Bottom Navigation
-        const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
-        bottomNavItems.forEach(item => {
-            item.addEventListener('click', () => {
-                bottomNavItems.forEach(i => i.classList.remove('active'));
-                item.classList.add('active');
-            });
-        });
-        
-        // FAQ Accordion
-        const faqItems = document.querySelectorAll('.faq-item');
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            question.addEventListener('click', () => {
-                item.classList.toggle('active');
-            });
-        });
-        
-        // WhatsApp Button
-        const whatsappBtn = document.getElementById('whatsappBtn');
-        const whatsappModal = document.getElementById('whatsappModal');
-        const closeWhatsappModal = document.getElementById('closeWhatsappModal');
-        
-        whatsappBtn.addEventListener('click', () => {
-            whatsappModal.classList.add('active');
-        });
-        
-        closeWhatsappModal.addEventListener('click', () => {
-            whatsappModal.classList.remove('active');
-        });
-        
-        // Product Modal
-        const productModal = document.getElementById('productModal');
-        const closeProductModal = document.getElementById('closeProductModal');
-        
-        closeProductModal.addEventListener('click', () => {
-            productModal.classList.remove('active');
-        });
-        
-        // Cart Modal
-        const cartBtn = document.getElementById('cartBtn');
-        const cartModal = document.getElementById('cartModal');
-        const closeCartModal = document.getElementById('closeCartModal');
-        const continueShoppingBtn = document.getElementById('continueShoppingBtn');
-        const checkoutBtn = document.getElementById('checkoutBtn');
-        
-        cartBtn.addEventListener('click', () => {
-            updateCartModal();
-            cartModal.classList.add('active');
-        });
-        
-        closeCartModal.addEventListener('click', () => {
-            cartModal.classList.remove('active');
-        });
-        
-        continueShoppingBtn.addEventListener('click', () => {
-            cartModal.classList.remove('active');
-        });
-        
-        // Actualizar el enlace de WhatsApp al abrir el carrito
-        function updateWhatsAppLink() {
-            let message = "Hola, estoy interesado en los siguientes productos de tu tienda:\n\n";
-            
-            cart.forEach(item => {
-                const price = item.product.offerPrice && item.product.status === 'offer' ? item.product.offerPrice : item.product.price;
-                message += `- ${item.product.title} (${item.quantity} x $${price} ${item.product.currency}) = $${price * item.quantity} ${item.product.currency}\n`;
-            });
-            
-            message += `\nTotal: $${calculateCartTotal()}\n\nPor favor proporcioname más información y coordinemos la compra.`;
-            
-            checkoutBtn.href = `https://wa.me/5355703261?text=${encodeURIComponent(message)}`;
-        }
-        
-        function calculateCartTotal() {
-            let total = 0;
-            cart.forEach(item => {
-                const price = item.product.offerPrice && item.product.status === 'offer' ? item.product.offerPrice : item.product.price;
-                total += price * item.quantity;
-            });
-            return total.toFixed(2);
-        }
-        
-        // Product filtering and display
-        function displayProducts(products, containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            
-            if (products.length === 0) {
-                document.getElementById('noResults').style.display = 'block';
-                return;
-            } else {
-                document.getElementById('noResults').style.display = 'none';
-            }
-            
-            products.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.dataset.id = product.id;
-                productCard.dataset.category = product.category;
-                
-                // Format price
-                let priceText;
-                let priceValue = product.offerPrice && product.status === 'offer' ? product.offerPrice : product.price;
-                
-                if (product.currency === 'USD') {
-                    priceText = `$${priceValue} USD`;
-                    if (product.exchangeRate) {
-                        priceText += ` (${priceValue * product.exchangeRate} CUP)`;
-                    }
-                } else {
-                    priceText = `${priceValue} CUP`;
-                }
-                
-                // Add original price if on offer
-                let originalPriceHtml = '';
-                if (product.offerPrice && product.status === 'offer') {
-                    originalPriceHtml = `<span class="original-price">$${product.price} USD</span>`;
-                }
-                
-                // Determine badge based on status
-                let badgeHtml = '';
-                if (product.status === 'new') {
-                    badgeHtml = `<div class="product-badge badge-new">Nuevo</div>`;
-                } else if (product.status === 'sold') {
-                    badgeHtml = `<div class="product-badge badge-sold">Agotado</div>`;
-                } else if (product.status === 'negotiation') {
-                    badgeHtml = `<div class="product-badge badge-negotiation">En Negociación</div>`;
-                } else if (product.status === 'offer') {
-                    badgeHtml = `<div class="product-badge badge-offer">En Oferta</div>`;
-                }
-                
-                productCard.innerHTML = `
-                    <div class="product-img">
-                        <img src="${product.images[0]}" alt="${product.title}">
-                        ${badgeHtml}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.title}</h3>
-                        <p class="product-vendor">${product.vendor}</p>
-                        <p class="product-price">${originalPriceHtml}${priceText}</p>
-                        <div class="product-meta">
-                            <span><i class="fas fa-map-marker-alt"></i> ${product.location}</span>
-                            <span class="product-rating"><i class="fas fa-star"></i> ${product.rating}</span>
-                        </div>
-                    </div>
-                `;
-                
-                productCard.addEventListener('click', () => {
-                    openProductModal(product);
-                });
-                
-                container.appendChild(productCard);
-            });
-        }
-
-        function openProductModal(product) {
-            // Format price
-            let priceText;
-            let priceValue = product.offerPrice && product.status === 'offer' ? product.offerPrice : product.price;
-            
-            if (product.currency === 'USD') {
-                priceText = `$${priceValue} USD`;
-                if (product.exchangeRate) {
-                    priceText += ` (≈${priceValue * product.exchangeRate} CUP)`;
-                }
-            } else {
-                priceText = `${priceValue} CUP`;
-            }
-            
-            // Add original price if on offer
-            if (product.offerPrice && product.status === 'offer') {
-                priceText = `<span class="original-price">$${product.price} USD</span> ${priceText}`;
-            }
-            
-            // Set main product info
-            document.getElementById('product-modal-title').textContent = product.title;
-            document.getElementById('product-modal-price').innerHTML = priceText;
-            document.getElementById('product-modal-vendor-name').textContent = product.vendor;
-            document.getElementById('product-modal-rating').textContent = product.rating;
-            document.getElementById('product-modal-location').textContent = product.location;
-            document.getElementById('product-modal-stock').textContent = product.stock;
-            document.getElementById('product-modal-delivery').textContent = product.delivery;
-            document.getElementById('product-modal-description').textContent = product.description;
-            
-            // Set specs
-            const specsList = document.getElementById('product-modal-specs');
-            specsList.innerHTML = '';
-            product.specs.forEach(spec => {
-                const li = document.createElement('li');
-                li.innerHTML = `<span>${spec.name}:</span> <span>${spec.value}</span>`;
-                specsList.appendChild(li);
-            });
-            
-            // Set images
-            const mainImage = document.getElementById('product-main-image');
-            mainImage.src = product.images[0];
-            mainImage.alt = product.title;
-            
-            const thumbnailsContainer = document.getElementById('product-thumbnails');
-            thumbnailsContainer.innerHTML = '';
-            
-            product.images.forEach((img, index) => {
-                const thumbnail = document.createElement('div');
-                thumbnail.className = 'product-modal-thumbnail' + (index === 0 ? ' active' : '');
-                thumbnail.innerHTML = `<img src="${img}" alt="${product.title}">`;
-                
-                thumbnail.addEventListener('click', () => {
-                    mainImage.src = img;
-                    document.querySelectorAll('.product-modal-thumbnail').forEach(t => t.classList.remove('active'));
-                    thumbnail.classList.add('active');
-                });
-                
-                thumbnailsContainer.appendChild(thumbnail);
-            });
-            
-            // Set up add to cart button
-            const addToCartBtn = document.getElementById('addToCartBtn');
-            addToCartBtn.onclick = () => {
-                addToCart(product);
-                productModal.classList.remove('active');
-            };
-            
-            // Disable add to cart if product is sold or in negotiation
-            if (product.status === 'sold' || product.status === 'negotiation') {
-                addToCartBtn.disabled = true;
-                addToCartBtn.innerHTML = '<i class="fas fa-ban"></i> No disponible';
-            } else {
-                addToCartBtn.disabled = false;
-                addToCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Añadir al Carrito';
-            }
-            
-            // Open modal
-            productModal.classList.add('active');
-        }
-
-        // Cart functionality
-        function addToCart(product) {
-            // Check if product is already in cart
-            const existingItem = cart.find(item => item.product.id === product.id);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({
-                    product: product,
-                    quantity: 1
-                });
-            }
-            
-            updateCartCount();
-            showCartNotification('Producto añadido al carrito');
-        }
-
-        function updateCartCount() {
-            const count = cart.reduce((total, item) => total + item.quantity, 0);
-            document.getElementById('cartCount').textContent = count;
-        }
-
-        function showCartNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.position = 'fixed';
-            notification.style.bottom = '100px';
-            notification.style.right = '20px';
-            notification.style.backgroundColor = '#4CAF50';
-            notification.style.color = 'white';
-            notification.style.padding = '10px 20px';
-            notification.style.borderRadius = '5px';
-            notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.2)';
-            notification.style.zIndex = '1000';
-            notification.style.transition = 'all 0.3s ease';
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 2000);
-        }
-
-        function updateCartModal() {
-            const cartItemsContainer = document.getElementById('cartItems');
-            const cartTotalElement = document.getElementById('cartTotal');
-            
-            cartItemsContainer.innerHTML = '';
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p>Tu carrito está vacío</p>';
-                cartTotalElement.textContent = '$0.00';
-                return;
-            }
-            
-            let total = 0;
-            let currency = '';
-            
-            cart.forEach((item, index) => {
-                const cartItemElement = document.createElement('div');
-                cartItemElement.className = 'cart-item';
-                
-                // Calculate item total
-                const price = item.product.offerPrice && item.product.status === 'offer' ? item.product.offerPrice : item.product.price;
-                const itemTotal = price * item.quantity;
-                total += itemTotal;
-                currency = item.product.currency;
-                
-                // Format price
-                let priceText;
-                if (item.product.currency === 'USD') {
-                    priceText = `$${price} USD`;
-                    if (item.product.exchangeRate) {
-                        priceText += ` (${price * item.product.exchangeRate} CUP)`;
-                    }
-                } else {
-                    priceText = `${price} CUP`;
-                }
-                
-                cartItemElement.innerHTML = `
-                    <div class="cart-item-img">
-                        <img src="${item.product.images[0]}" alt="${item.product.title}">
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-title">${item.product.title}</div>
-                        <div class="cart-item-vendor">${item.product.vendor}</div>
-                        <div class="cart-item-price">${priceText} x ${item.quantity} = $${itemTotal} ${item.product.currency}</div>
-                        <div class="cart-item-actions">
-                            <div class="cart-item-quantity">
-                                <button class="decrease-quantity" data-index="${index}">-</button>
-                                <input type="text" value="${item.quantity}" readonly>
-                                <button class="increase-quantity" data-index="${index}">+</button>
-                            </div>
-                            <div class="remove-item" data-index="${index}"><i class="fas fa-trash"></i></div>
-                        </div>
-                    </div>
-                `;
-                
-                cartItemsContainer.appendChild(cartItemElement);
-            });
-            
-            // Format total
-            cartTotalElement.textContent = `$${total.toFixed(2)} ${currency}`;
-            
-            // Update WhatsApp link
-            updateWhatsAppLink();
-            
-            // Add event listeners for quantity buttons
-            document.querySelectorAll('.decrease-quantity').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    if (cart[index].quantity > 1) {
-                        cart[index].quantity -= 1;
-                        updateCartModal();
-                        updateCartCount();
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.increase-quantity').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const index = parseInt(e.target.dataset.index);
-                    cart[index].quantity += 1;
-                    updateCartModal();
-                    updateCartCount();
-                });
-            });
-            
-            document.querySelectorAll('.remove-item').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const index = parseInt(e.target.dataset.index || e.target.parentElement.dataset.index);
-                    cart.splice(index, 1);
-                    updateCartModal();
-                    updateCartCount();
-                });
-            });
-        }
-
-        // Filter products
-        function filterProducts() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-            
-            let filteredProducts = productsData;
-            
-            // Apply category filter
-            if (activeFilter !== 'all') {
-                filteredProducts = filteredProducts.filter(product => product.category === activeFilter);
-            }
-            
-            // Apply search term
-            if (searchTerm) {
-                filteredProducts = filteredProducts.filter(product => 
-                    product.title.toLowerCase().includes(searchTerm) || 
-                    product.description.toLowerCase().includes(searchTerm) ||
-                    product.vendor.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            displayProducts(filteredProducts, 'productsContainer');
-        }
-
-        // Initialize with all products
-        displayProducts(productsData, 'productsContainer');
-        
-        // Set up event listeners for filtering
-        document.getElementById('searchInput').addEventListener('input', filterProducts);
-        document.getElementById('searchBtn').addEventListener('click', filterProducts);
-        
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                filterProducts();
-            });
-        });
-
-        // Category links
-        document.querySelectorAll('[data-category]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const category = this.dataset.category;
-                
-                // Hide all category sections
-                document.querySelectorAll('.category-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                // Show the selected category section
-                const section = document.getElementById(`${category}-section`);
-                if (section) {
-                    section.classList.add('active');
-                    
-                    // Filter products for this category
-                    const categoryProducts = productsData.filter(p => p.category === category);
-                    displayProducts(categoryProducts, `${category}Container`);
-                    
-                    // Scroll to the section
-                    section.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // Responsive adjustments
-        function checkScreenSize() {
-            if (window.innerWidth <= 768) {
-                document.querySelector('.bottom-nav').style.display = 'flex';
-            } else {
-                document.querySelector('.bottom-nav').style.display = 'none';
-            }
-        }
-
-        window.addEventListener('resize', checkScreenSize);
-        checkScreenSize();
-
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="js/script.js"></script>
 </body>
 </html>
