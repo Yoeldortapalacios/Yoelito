@@ -317,6 +317,21 @@
     
     .product-rating { display: flex; align-items: center; gap: 5px; font-size: 0.9rem; color: #666; margin-bottom: 10px; }
     .product-rating .stars { color: var(--star-color); }
+    .btn-rate-supplier { /* Added style for the rate button */
+        margin-left: 10px;
+        background: none;
+        border: 1px solid var(--tertiary-color);
+        color: var(--tertiary-color);
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.8em;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .btn-rate-supplier:hover {
+        background-color: var(--tertiary-color);
+        color: var(--white);
+    }
 
     .product-details-list { list-style: none; padding: 0; margin: 10px 0 15px; display: flex; flex-wrap: wrap; gap: 10px; font-size: 0.85rem; }
     .product-details-list li { background-color: var(--light-gray); padding: 4px 10px; border-radius: 20px; }
@@ -686,6 +701,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let products = [];
     let cart = [];
     let likes = [];
+    let suppliers = {}; // Stores { 'whatsappNumber': { id: 'SUP-001', rating: 4.5, reviewCount: 10 } }
 
     const sampleProduct = {
         id: 'CC-MZ-0001', title: 'Vestido de Noche Elegante', price: 2500,
@@ -695,19 +711,24 @@ document.addEventListener('DOMContentLoaded', () => {
         whatsapp: '51234567', province: 'La Habana', address: 'Vedado, Plaza',
         size: 'M', brand: 'Sin Marca',
         timestamp: new Date('2025-07-19T10:00:00Z').toISOString(),
-        likes: 18, rating: 4.5, reviews: 3
+        likes: 18, // This is for product likes, not supplier rating
+        supplierId: 'SUP-001' // Assign default supplier ID for sample
     };
 
     function loadData() {
         products = JSON.parse(localStorage.getItem('closetCubaProducts')) || [sampleProduct];
         cart = JSON.parse(localStorage.getItem('closetCubaCart')) || [];
         likes = JSON.parse(localStorage.getItem('closetCubaLikes')) || [];
+        suppliers = JSON.parse(localStorage.getItem('closetCubaSuppliers')) || {
+            '51234567': { id: 'SUP-001', rating: 4.5, reviewCount: 3 } // Initialize sample supplier
+        };
     }
 
     function saveData() {
         localStorage.setItem('closetCubaProducts', JSON.stringify(products));
         localStorage.setItem('closetCubaCart', JSON.stringify(cart));
         localStorage.setItem('closetCubaLikes', JSON.stringify(likes));
+        localStorage.setItem('closetCubaSuppliers', JSON.stringify(suppliers));
     }
 
     // --- LÓGICA DE NAVEGACIÓN ENTRE VISTAS ---
@@ -741,10 +762,17 @@ document.addEventListener('DOMContentLoaded', () => {
     async function generateProductCode(category) {
         const prefixMap = { 'mujer': 'MZ', 'hombre': 'HM', 'nino': 'NI', 'accesorio': 'AC' };
         const prefix = prefixMap[category] || 'GN';
-        let lastId = parseInt(localStorage.getItem(`counter_${category}`)) || 0;
+        let lastId = parseInt(localStorage.getItem(`counter_product_${category}`)) || 0;
         let nextId = lastId + 1;
-        localStorage.setItem(`counter_${category}`, nextId);
+        localStorage.setItem(`counter_product_${category}`, nextId);
         return `CC-${prefix}-${String(nextId).padStart(4, '0')}`;
+    }
+
+    async function generateSupplierId() {
+        let lastSupplierId = parseInt(localStorage.getItem('counter_supplierId')) || 0;
+        let nextSupplierId = lastSupplierId + 1;
+        localStorage.setItem('counter_supplierId', nextSupplierId);
+        return `SUP-${String(nextSupplierId).padStart(3, '0')}`;
     }
     
     // --- RENDERIZADO DE PRODUCTOS ---
@@ -754,33 +782,40 @@ document.addEventListener('DOMContentLoaded', () => {
             productGrid.innerHTML = '<p>No se encontraron productos con estos filtros. ¡Intenta con otros!</p>';
             return;
         }
-
-        const supplierPublicationCount = products.reduce((acc, p) => {
-            acc[p.whatsapp] = (acc[p.whatsapp] || 0) + 1;
-            return acc;
-        }, {});
         
         productsToRender.forEach((product, index) => {
             const isLiked = likes.includes(product.id);
-            const whatsappMessage = encodeURIComponent(`Hola, vi tu prenda "${product.title}" (Cód: ${product.id}) en ClosetCuba. ¿Sigue disponible?`);
+
+            // Get supplier info, default if not found (shouldn't happen with new logic)
+            const supplier = suppliers[product.whatsapp] || { rating: 0, reviewCount: 0, id: 'N/A' };
+            
+            // Get base URL and create the unique product link
+            const pageUrl = window.location.href.split('#')[0];
+            const productUrl = `${pageUrl}#${product.id}`; // This is the deep link to the product
+
+            // Updated WhatsApp message to include the product direct link
+            const whatsappMessage = encodeURIComponent(`Hola, vi tu prenda "${product.title}" (Cód: ${product.id}) en ClosetCuba. ¿Sigue disponible?\n\nVer publicación: ${productUrl}`);
             
             const productCard = document.createElement('div');
             productCard.className = 'product-card';
             productCard.dataset.id = product.id;
-            // Staggered animation
             productCard.style.animationDelay = `${index * 50}ms`;
 
             const publicationDate = new Date(product.timestamp);
             const formattedDate = `${publicationDate.toLocaleDateString()} - ${publicationDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
 
-            // Rating Stars
             let starsHTML = '';
-            const fullStars = Math.floor(product.rating);
-            const halfStar = product.rating % 1 >= 0.5 ? 1 : 0;
+            // Use supplier.rating for stars
+            const displayedRating = supplier.rating;
+            const fullStars = Math.floor(displayedRating);
+            const halfStar = displayedRating % 1 >= 0.5 ? 1 : 0;
             const emptyStars = 5 - fullStars - halfStar;
             for(let i=0; i<fullStars; i++) starsHTML += '<i class="fa fa-star"></i>';
             if(halfStar) starsHTML += '<i class="fa fa-star-half-alt"></i>';
             for(let i=0; i<emptyStars; i++) starsHTML += '<i class="far fa-star"></i>';
+
+            // Count products by the same supplier
+            const productsBySameSupplier = products.filter(p => p.whatsapp === product.whatsapp).length;
 
             productCard.innerHTML = `
                 <div class="product-image-container">
@@ -793,13 +828,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="product-meta-info">
                         <span><i class="fa fa-calendar-alt fa-fw"></i> ${formattedDate}</span>
                         <span><i class="fa fa-map-marker-alt fa-fw"></i> ${product.province}, ${product.address}</span>
-                        <span><i class="fa fa-user fa-fw"></i> Proveedor con ${supplierPublicationCount[product.whatsapp] || 1} art.</span>
+                        <span><i class="fa fa-user fa-fw"></i> Proveedor: ${supplier.id} (${productsBySameSupplier} art.)</span>
                     </div>
                     <h3 class="product-title">${product.title}</h3>
                     <p class="product-code">${product.id}</p>
                     <div class="product-rating">
                         <span class="stars">${starsHTML}</span>
-                        <span>(${product.reviews || 0} opinions)</span>
+                        <span>(${supplier.reviewCount || 0} opiniones)</span>
+                        <button class="btn-rate-supplier" data-supplier-whatsapp="${product.whatsapp}">Calificar</button>
                     </div>
                     <ul class="product-details-list">
                         <li><i class="fa fa-tag fa-fw"></i> ${product.brand}</li>
@@ -815,7 +851,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             productGrid.appendChild(productCard);
-            // Trigger animation
             setTimeout(() => productCard.classList.add('animate'), 10);
         });
     }
@@ -864,11 +899,22 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Debe aceptar la cláusula de comisión para poder publicar.');
             return;
         }
+
+        const supplierWhatsapp = document.getElementById('whatsapp').value.trim();
+        if (!suppliers[supplierWhatsapp]) {
+            const newSupplierId = await generateSupplierId();
+            suppliers[supplierWhatsapp] = {
+                id: newSupplierId,
+                rating: 0, // Initial rating
+                reviewCount: 0 // Number of reviews
+            };
+        }
+
         const newProduct = {
             id: await generateProductCode(document.getElementById('category').value),
             title: document.getElementById('title').value,
             price: parseFloat(document.getElementById('price').value),
-            whatsapp: document.getElementById('whatsapp').value.trim(),
+            whatsapp: supplierWhatsapp,
             category: document.getElementById('category').value,
             condition: document.getElementById('condition').value,
             size: document.getElementById('size').value,
@@ -879,7 +925,8 @@ document.addEventListener('DOMContentLoaded', () => {
             description: document.getElementById('description').value,
             status: document.getElementById('status').value,
             timestamp: new Date().toISOString(),
-            likes: 0, rating: 0, reviews: 0
+            likes: 0,
+            supplierId: suppliers[supplierWhatsapp].id // Assign the supplier ID to the product
         };
         products.unshift(newProduct);
         saveData();
@@ -892,7 +939,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.nav-link[data-category="todos"]').classList.add('active');
     });
 
-    // --- LÓGICA DE LIKES Y CARRITO ---
+    // --- LÓGICA DE LIKES Y CARRITO Y RATING DE PROVEEDOR ---
     productGrid.addEventListener('click', (e) => {
         const likeBtn = e.target.closest('.like-btn');
         if (likeBtn) {
@@ -908,7 +955,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 product.likes = (product.likes || 0) + 1;
             }
             saveData();
-            filterProducts();
+            filterProducts(); // Re-render to update like count
         }
         const addToCartBtn = e.target.closest('.add-to-cart-btn');
         if (addToCartBtn) {
@@ -926,6 +973,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Este producto ya está en tu bolsa.');
             }
         }
+
+        const rateSupplierBtn = e.target.closest('.btn-rate-supplier');
+        if (rateSupplierBtn) {
+            const supplierWhatsapp = rateSupplierBtn.dataset.supplierWhatsapp;
+            const supplier = suppliers[supplierWhatsapp];
+
+            if (!supplier) return;
+
+            let newRatingInput = prompt(`Califica a este proveedor (1-5 estrellas): \n\nCalificación actual: ${supplier.rating.toFixed(1)} (${supplier.reviewCount} opiniones)`);
+            if (newRatingInput === null) return; // User cancelled prompt
+
+            const newRating = parseFloat(newRatingInput);
+
+            if (!isNaN(newRating) && newRating >= 1 && newRating <= 5) {
+                // Simple average calculation
+                const currentTotalRating = supplier.rating * supplier.reviewCount;
+                supplier.reviewCount++;
+                supplier.rating = (currentTotalRating + newRating) / supplier.reviewCount;
+                saveData();
+                alert(`¡Gracias por tu calificación! El proveedor ahora tiene ${supplier.rating.toFixed(1)} estrellas.`);
+                filterProducts(); // Re-render to show updated rating
+            } else {
+                alert('Por favor, ingresa un número válido entre 1 y 5.');
+            }
+        }
     });
 
     // --- LÓGICA DEL MODAL DEL CARRITO ---
@@ -939,7 +1011,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const product = products.find(p => p.id === item.id);
                 if (product) {
                     total += product.price;
-                    const whatsappMessage = encodeURIComponent(`Hola, vi tu prenda "${product.title}" (Cód: ${product.id}) en ClosetCuba y la tengo en mi bolsa. ¿Sigue disponible?`);
+                    const pageUrl = window.location.href.split('#')[0];
+                    const productUrl = `${pageUrl}#${product.id}`; // This is the deep link to the product
+                    const whatsappMessage = encodeURIComponent(`Hola, tengo tu prenda "${product.title}" (Cód: ${product.id}) en mi bolsa de ClosetCuba. ¿Sigue disponible?\n\nVer publicación: ${productUrl}`);
                     cartItemsContainer.innerHTML += `
                         <div class="cart-item" data-id="${product.id}">
                             <img src="${product.image}" alt="${product.title}">
@@ -990,7 +1064,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     targetCard.classList.add('highlighted');
                     setTimeout(() => {
                         targetCard.classList.remove('highlighted');
-                        history.pushState("", document.title, window.location.pathname + window.location.search);
+                        // Clear the hash after highlighting, so future page loads don't always jump
+                        history.replaceState("", document.title, window.location.pathname + window.location.search);
                     }, 4000);
                 }
             }, 500);
