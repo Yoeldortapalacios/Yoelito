@@ -3,717 +3,887 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tienda Virtual Cuba - Plataforma de intermediación entre proveedores y compradores. Publicamos tus productos y solo cobramos el 5% cuando se vende.">
-    <meta name="keywords" content="tienda virtual cuba, ventas cuba, compra venta cuba, productos cuba, intermediario ventas cuba">
-    <title>Tienda Virtual Cuba | Intermediación de Ventas</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <title>ClosetCuba - Tu Marketplace de Moda Reciclada</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- ESTILOS GENERALES Y VARIABLES --- */
+        :root {
+            --primary-color: #833ab4; /* Violeta */
+            --secondary-color: #fd1d1d; /* Rojo */
+            --tertiary-color: #fcb045; /* Naranja */
+            --text-color: #333;
+            --text-light: #666;
+            --light-gray: #f4f4f4;
+            --white: #fff;
+            --green-disponible: #28a745;
+            --orange-negociacion: #fd7e14;
+            --red-agotado: #dc3545;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--tertiary-color));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--gradient);
+            background-size: 200% auto;
+        }
+
+        .btn-primary:hover {
+            background-position: right center;
+            transform: scale(1.05);
+        }
+        
+        .btn-secondary {
+            background-color: var(--text-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* --- HEADER --- */
+        .main-header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .logo .flag {
+            font-size: 1.2rem;
+        }
+
+        .main-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--primary-color);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            margin-left: 20px;
+            color: var(--text-color);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* --- FILTROS Y BÚSQUEDA --- */
+        .filters-section {
+            padding: 30px 0;
+            background: var(--white);
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .filters-section .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            flex-grow: 1;
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .search-bar input {
+            border: none;
+            padding: 12px 15px;
+            outline: none;
+            width: 100%;
+        }
+        
+        .search-bar button {
+            background: var(--text-color);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            cursor: pointer;
+        }
+
+        .filter-controls select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        /* --- CATÁLOGO DE PRODUCTOS --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image-container {
+            position: relative;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .product-status {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-disponible { background-color: var(--green-disponible); }
+        .status-negociacion { background-color: var(--orange-negociacion); }
+        .status-agotado { background-color: var(--red-agotado); }
+
+        .product-info {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        .product-price .cup-equivalent {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+        
+        .product-details-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+        }
+
+        .detail-tag {
+            background-color: #eee;
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--text-light);
+        }
+        .detail-tag i {
+            margin-right: 4px;
+        }
+
+        .product-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-actions .btn {
+            flex-grow: 1;
+            font-size: 0.9rem;
+            padding: 12px 10px;
+        }
+
+        /* --- VISTA DE PUBLICACIÓN --- */
+        #publish-view, #paca-suppliers-view, #fashion-tips-view {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .publish-form .form-group {
+            margin-bottom: 15px;
+        }
+        .publish-form .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .publish-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .publish-form input,
+        .publish-form select,
+        .publish-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .publish-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .publish-form .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .publish-form input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        .legal-text {
+            background: #fff8e1;
+            border-left: 4px solid var(--tertiary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* --- MODAL DEL CARRITO --- */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .cart-content {
+            background: white;
+            width: 450px;
+            max-width: 90%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        .cart-header h2 { font-size: 1.5rem; }
+        .cart-header .close-cart { background: none; border: none; font-size: 1.8rem; cursor: pointer; }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .cart-item-info { flex-grow: 1; }
+        .cart-item-info h4 { font-size: 1rem; }
+        .cart-item-info .price { font-weight: 600; color: var(--primary-color); }
+        .remove-from-cart {
+            color: var(--red-agotado);
+            cursor: pointer;
+            font-size: 0.8rem;
+            background: none;
+            border: none;
+            margin-top: 5px;
+            padding: 0;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cart-checkout-info {
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 10px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        /* --- FOOTER --- */
+        .main-footer {
+            background: var(--text-color);
+            color: var(--light-gray);
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
+        .footer-section { flex: 1; min-width: 250px; }
+        .footer-section h4 { font-size: 1.2rem; margin-bottom: 15px; color: white; }
+        .footer-section p, .footer-section a { color: #ccc; text-decoration: none; }
+        .footer-section a:hover { color: white; }
+        .social-links a { font-size: 1.5rem; margin-right: 15px; }
+        .footer-legal { margin-top: 40px; padding-top: 20px; border-top: 1px solid #555; text-align: center; font-size: 0.8rem; color: #aaa; }
+        .footer-legal p { max-width: 800px; margin: 0 auto; }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 992px) {
+            .main-header .container { flex-direction: column; gap: 15px; }
+            .main-nav { width: 100%; display: flex; justify-content: center; border-top: 1px solid var(--light-gray); padding-top: 10px; }
+        }
+        @media (max-width: 768px) {
+            .filters-section .container { flex-direction: column; }
+            .search-bar, .filter-controls { width: 100%; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .main-nav a { margin: 0 8px; }
+            #publish-view, #paca-suppliers-view, #fashion-tips-view { padding: 20px; }
+        }
+
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
+
+    <header class="main-header">
         <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-store"></i>
-                    <span>Tienda Virtual Cuba</span>
-                </div>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
+            <a href="#" class="logo" id="logo-link">ClosetCuba <span class="flag">🇨🇺</span></a>
+            <nav class="main-nav">
+                <a href="#" class="nav-link" data-category="todos">Todo</a>
+                <a href="#" class="nav-link" data-category="mujer">👩 Mujer</a>
+                <a href="#" class="nav-link" data-category="hombre">👨 Hombre</a>
+                <a href="#" class="nav-link" data-category="nino">👦👧 Niño/a</a>
+                <a href="#" class="nav-link" data-category="accesorio">👜 Accesorio</a>
+            </nav>
+            <div class="header-actions">
+                <a href="#" class="btn btn-secondary" id="publish-nav-link">
+                    <i class="fa fa-plus-circle"></i> Publicar Gratis
+                </a>
+                <button class="cart-btn" id="cart-btn">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span class="cart-count" id="cart-count">0</span>
                 </button>
-                <nav class="nav-menu" id="navMenu">
-                    <ul>
-                        <li><a href="#home">Inicio</a></li>
-                        <li>
-                            <a href="#products">Productos <i class="fas fa-chevron-down"></i></a>
-                            <ul class="submenu">
-                                <li><a href="#" data-category="ropa-nueva">Ropa nueva</a></li>
-                                <li><a href="#" data-category="ropa-reciclada">Ropa reciclada</a></li>
-                                <li><a href="#" data-category="perfumeria">Perfumería</a></li>
-                                <li><a href="#" data-category="aseo-personal">Aseo personal</a></li>
-                                <li><a href="#" data-category="lenceria">Lencería</a></li>
-                                <li><a href="#" data-category="electrodomesticos">Electrodomésticos</a></li>
-                                <li><a href="#" data-category="hogar">Hogar</a></li>
-                                <li><a href="#" data-category="otros">Otros</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#provider">¿Eres Proveedor?</a></li>
-                        <li><a href="#faq">Preguntas Frecuentes</a></li>
-                        <li><a href="#contact">Contacto</a></li>
-                        <li>
-                            <a href="#account"><i class="fas fa-user"></i></a>
-                            <ul class="submenu">
-                                <li><a href="#" id="loginBtn">Iniciar Sesión</a></li>
-                                <li><a href="#" id="registerBtn">Registrarse</a></li>
-                                <li><a href="#" id="adminBtn" style="display:none;">Panel Admin</a></li>
-                                <li><a href="#" id="logoutBtn" style="display:none;">Cerrar Sesión</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <h1>Tu tienda virtual de confianza en Cuba</h1>
-            <p>Conectamos proveedores con compradores de forma segura y confiable. Solo cobramos el 5% cuando se concreta la venta.</p>
-            <div class="hero-buttons">
-                <a href="#products" class="btn">Ver Productos</a>
-                <a href="#provider" class="btn btn-secondary">Quiero Vender</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Daily Offers -->
-    <section class="daily-offers">
-        <div class="container">
-            <div class="offers-header">
-                <h2 class="offers-title">Ofertas del Día</h2>
-                <a href="#products" class="btn btn-small">Ver Todos</a>
-            </div>
-            <div class="products-grid" id="dailyOffersGrid">
-                <!-- Los productos destacados se cargarán aquí con JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about">
-        <div class="container">
-            <h2 class="section-title">¿Cómo funciona?</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Intermediación confiable entre compradores y vendedores</h3>
-                    <p>No almacenamos productos físicamente, solo facilitamos la conexión entre proveedores y compradores. Cuando un producto se vende, cobramos una comisión del 5% por nuestro servicio de intermediación.</p>
-                    <p>Ofrecemos una plataforma segura, organizada y con mayor exposición que los clasificados tradicionales.</p>
-                    <a href="#provider" class="btn">Quiero ser proveedor</a>
-                </div>
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tienda Virtual Cuba">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Categories -->
-    <section class="categories">
-        <div class="container">
-            <h2 class="section-title">Categorías</h2>
-            <div class="categories-grid">
-                <div class="category-card" data-category="ropa-nueva">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ropa nueva">
-                    </div>
-                    <div class="category-info">
-                        <h3>Ropa nueva</h3>
-                        <p>Moda actual</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="ropa-reciclada">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Ropa reciclada">
-                    </div>
-                    <div class="category-info">
-                        <h3>Ropa reciclada</h3>
-                        <p>Segunda mano y pacas</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="perfumeria">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Perfumería">
-                    </div>
-                    <div class="category-info">
-                        <h3>Perfumería</h3>
-                        <p>Fragancias y más</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="aseo-personal">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Aseo personal">
-                    </div>
-                    <div class="category-info">
-                        <h3>Aseo personal</h3>
-                        <p>Cuidado diario</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="lenceria">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Lencería">
-                    </div>
-                    <div class="category-info">
-                        <h3>Lencería</h3>
-                        <p>Para tu hogar</p>
-                    </div>
-                </div>
-                <div class="category-card" data-category="electrodomesticos">
-                    <div class="category-img">
-                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Electrodomésticos">
-                    </div>
-                    <div class="category-info">
-                        <h3>Electrodomésticos</h3>
-                        <p>Para tu hogar</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section class="products" id="products">
-        <div class="container">
-            <div class="products-header">
-                <h2 class="section-title">Todos los Productos</h2>
-                <div class="search-container">
+    <main class="container">
+        <div id="catalog-view">
+            <section class="filters-section">
+                <div class="container">
                     <div class="search-bar">
-                        <input type="text" id="searchInput" placeholder="Buscar productos...">
-                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                        <input type="text" id="search-input" placeholder="Buscar por nombre...">
+                        <button id="search-btn"><i class="fa fa-search"></i></button>
                     </div>
-                </div>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">Todos</button>
-                    <button class="filter-btn" data-filter="new">Nuevos</button>
-                    <button class="filter-btn" data-filter="offer">Ofertas</button>
-                    <button class="filter-btn" data-filter="negotiation">Negociables</button>
-                    <select id="provinceFilter" class="filter-btn">
-                        <option value="all">Todas las provincias</option>
-                        <option value="habana">La Habana</option>
-                        <option value="artemisa">Artemisa</option>
-                        <option value="mayabeque">Mayabeque</option>
-                        <option value="matanzas">Matanzas</option>
-                        <option value="cienfuegos">Cienfuegos</option>
-                        <option value="villa-clara">Villa Clara</option>
-                        <option value="sancti-spiritus">Sancti Spíritus</option>
-                        <option value="ciego-de-avila">Ciego de Ávila</option>
-                        <option value="camaguey">Camagüey</option>
-                        <option value="las-tunas">Las Tunas</option>
-                        <option value="holguin">Holguín</option>
-                        <option value="granma">Granma</option>
-                        <option value="santiago">Santiago de Cuba</option>
-                        <option value="guantanamo">Guantánamo</option>
-                        <option value="isla">Isla de la Juventud</option>
-                    </select>
-                    <select id="priceFilter" class="filter-btn">
-                        <option value="all">Todos los precios</option>
-                        <option value="0-50">0 - 50 USD</option>
-                        <option value="50-100">50 - 100 USD</option>
-                        <option value="100-200">100 - 200 USD</option>
-                        <option value="200+">Más de 200 USD</option>
-                    </select>
-                    <select id="currencyFilter" class="filter-btn">
-                        <option value="all">Todas las monedas</option>
-                        <option value="USD">USD</option>
-                        <option value="CUP">CUP</option>
-                        <option value="MLC">MLC</option>
-                    </select>
-                </div>
-            </div>
-            <div class="products-grid" id="productsGrid">
-                <!-- Los productos se cargarán aquí con JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Provider Section -->
-    <section class="provider-section" id="provider">
-        <div class="container">
-            <h2 class="section-title">¿Eres Proveedor?</h2>
-            <div class="provider-content">
-                <div class="provider-text">
-                    <h3>Publica tus productos con nosotros</h3>
-                    <p>No necesitas tener tu propia tienda online. Nosotros nos encargamos de todo:</p>
-                    <ul>
-                        <li><i class="fas fa-check"></i> Tú nos envías fotos y datos de tus productos</li>
-                        <li><i class="fas fa-check"></i> Nosotros los publicamos en nuestra plataforma</li>
-                        <li><i class="fas fa-check"></i> Gestionamos el contacto con los compradores</li>
-                        <li><i class="fas fa-check"></i> Solo cobramos el 5% cuando se concreta la venta</li>
-                    </ul>
-                    <p>Beneficios para proveedores:</p>
-                    <ul>
-                        <li><i class="fas fa-star"></i> Mayor exposición para tus productos</li>
-                        <li><i class="fas fa-star"></i> Primeras 5 publicaciones gratuitas</li>
-                        <li><i class="fas fa-star"></i> Pago seguro y confiable</li>
-                    </ul>
-                    <div class="provider-terms">
-                        <input type="checkbox" id="acceptTerms">
-                        <label for="acceptTerms">Acepto los <a href="#" id="termsLink">Términos y Condiciones</a> y la comisión del 5% por venta</label>
-                    </div>
-                </div>
-                <div class="provider-image">
-                    <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Proveedores">
-                </div>
-            </div>
-            <div class="provider-form">
-                <h3>Envíanos información de tus productos</h3>
-                <form id="providerForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="providerName">Nombre completo*</label>
-                            <input type="text" id="providerName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="providerPhone">Teléfono de contacto*</label>
-                            <input type="tel" id="providerPhone" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="providerEmail">Email (opcional)</label>
-                            <input type="email" id="providerEmail">
-                        </div>
-                        <div class="form-group">
-                            <label for="providerType">Tipo de proveedor*</label>
-                            <select id="providerType" required>
-                                <option value="">Seleccione</option>
-                                <option value="minorista">Minorista</option>
-                                <option value="mayorista">Mayorista</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="productName">Nombre del producto*</label>
-                        <input type="text" id="productName" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="productPrice">Precio*</label>
-                            <input type="number" id="productPrice" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="productCurrency">Moneda*</label>
-                            <select id="productCurrency" required>
-                                <option value="USD">USD</option>
-                                <option value="CUP">CUP</option>
-                                <option value="MLC">MLC</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="productCategory">Categoría principal*</label>
-                            <select id="productCategory" required>
-                                <option value="">Seleccione una categoría</option>
-                                <option value="ropa-nueva">Ropa nueva</option>
-                                <option value="ropa-reciclada">Ropa reciclada</option>
-                                <option value="perfumeria">Perfumería</option>
-                                <option value="aseo-personal">Aseo personal</option>
-                                <option value="lenceria">Lencería</option>
-                                <option value="electrodomesticos">Electrodomésticos</option>
-                                <option value="hogar">Hogar</option>
-                                <option value="otros">Otros</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="productSubcategory">Subcategoría*</label>
-                            <select id="productSubcategory" required disabled>
-                                <option value="">Primero seleccione categoría</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="productProvince">Provincia*</label>
-                            <select id="productProvince" required>
-                                <option value="">Seleccione una provincia</option>
-                                <option value="habana">La Habana</option>
-                                <option value="artemisa">Artemisa</option>
-                                <option value="mayabeque">Mayabeque</option>
-                                <option value="matanzas">Matanzas</option>
-                                <option value="cienfuegos">Cienfuegos</option>
-                                <option value="villa-clara">Villa Clara</option>
-                                <option value="sancti-spiritus">Sancti Spíritus</option>
-                                <option value="ciego-de-avila">Ciego de Ávila</option>
-                                <option value="camaguey">Camagüey</option>
-                                <option value="las-tunas">Las Tunas</option>
-                                <option value="holguin">Holguín</option>
-                                <option value="granma">Granma</option>
-                                <option value="santiago">Santiago de Cuba</option>
-                                <option value="guantanamo">Guantánamo</option>
-                                <option value="isla">Isla de la Juventud</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="productQuantity">Cantidad disponible*</label>
-                            <input type="number" id="productQuantity" value="1" min="1" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="productDescription">Descripción del producto*</label>
-                        <textarea id="productDescription" required></textarea>
-                    </div>
-                    <div class="form-row checkboxes">
-                        <div class="form-group checkbox-group">
-                            <input type="checkbox" id="hasDelivery">
-                            <label for="hasDelivery">Ofrece entrega a domicilio</label>
-                        </div>
-                        <div class="form-group checkbox-group">
-                            <input type="checkbox" id="hasWarranty">
-                            <label for="hasWarranty">Ofrece garantía</label>
-                        </div>
-                        <div class="form-group checkbox-group">
-                            <input type="checkbox" id="hasPhysicalStore">
-                            <label for="hasPhysicalStore">Tiene tienda física</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Imágenes del producto (Máx. 5)*</label>
-                        <div class="image-upload" id="imageUpload">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <p>Arrastra las imágenes aquí o haz clic para seleccionar</p>
-                            <input type="file" id="productImages" accept="image/*" multiple style="display:none;">
-                        </div>
-                        <div class="image-preview" id="imagePreview"></div>
-                    </div>
-                    <button type="submit" class="btn" id="submitProductBtn">Enviar Producto</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>¿Cómo funciona la tienda virtual?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Somos un servicio de intermediación entre proveedores y compradores. Los proveedores nos envían información de sus productos, nosotros los publicamos en la plataforma y cuando se concreta una venta, cobramos una comisión del 5%.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>¿Tienen los productos físicamente?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>No, no almacenamos productos físicamente. Cada producto pertenece a su respectivo proveedor y es responsabilidad de este entregarlo al comprador.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>¿Cómo puedo comprar un producto?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Puedes contactar al vendedor directamente a través del botón de WhatsApp en cada producto o puedes contactarnos a nosotros para que intermediemos la compra.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>¿Qué garantías ofrecen?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Verificamos la autenticidad de los proveedores y los productos que publicamos. Además, ofrecemos seguimiento durante todo el proceso de compra-venta para garantizar una transacción segura.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>¿Cómo puedo vender mis productos?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Puedes registrarte como proveedor completando el formulario en la sección "¿Eres Proveedor?" o contactándonos directamente por WhatsApp. Solo necesitas enviarnos fotos y detalles de tus productos. Las primeras 5 publicaciones son gratuitas.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span>¿Cuánto cuesta publicar mis productos?</span>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Las primeras 5 publicaciones son gratuitas. A partir de la sexta publicación, cobramos una pequeña tarifa por publicación. En todas las ventas cobramos el 5% del valor de venta cuando el producto se vende a través de nuestra plataforma.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="container">
-            <h2 class="section-title">Contacto</h2>
-            <div class="contact-info">
-                <p>¿Tienes preguntas o necesitas ayuda? Contáctanos por cualquiera de estos medios:</p>
-            </div>
-            <div class="contact-buttons">
-                <a href="https://wa.me/5355703261?text=Hola,%20estoy%20interesado%20en%20un%20producto%20de%20tu%20tienda" class="contact-btn" target="_blank">
-                    <i class="fab fa-whatsapp"></i> WhatsApp (+53 55703261)
-                </a>
-                <a href="https://www.instagram.com/tienditavirtual.cu" class="contact-btn" target="_blank">
-                    <i class="fab fa-instagram"></i> Instagram (@tienditavirtual.cu)
-                </a>
-                <a href="https://chat.whatsapp.com/KHCh8jCNJ5ULIKpMm4FbFb" class="contact-btn" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Comunidad WhatsApp
-                </a>
-                <a href="https://t.me/c/2534167295/1" class="contact-btn" target="_blank">
-                    <i class="fab fa-telegram"></i> Telegram Catálogo
-                </a>
-                <a href="mailto:contacto@tiendavirtualcuba.com" class="contact-btn">
-                    <i class="fas fa-envelope"></i> Email
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Tienda Virtual Cuba</h3>
-                    <p>Plataforma de intermediación entre proveedores y compradores en Cuba.</p>
-                    <div class="social-links">
-                        <a href="https://www.instagram.com/tienditavirtual.cu" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/5355703261" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                        <a href="https://t.me/c/2534167295/1" target="_blank"><i class="fab fa-telegram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul>
-                        <li><a href="#home">Inicio</a></li>
-                        <li><a href="#products">Productos</a></li>
-                        <li><a href="#provider">¿Eres Proveedor?</a></li>
-                        <li><a href="#faq">Preguntas Frecuentes</a></li>
-                        <li><a href="#contact">Contacto</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Categorías</h3>
-                    <ul>
-                        <li><a href="#" data-category="ropa-nueva">Ropa nueva</a></li>
-                        <li><a href="#" data-category="ropa-reciclada">Ropa reciclada</a></li>
-                        <li><a href="#" data-category="perfumeria">Perfumería</a></li>
-                        <li><a href="#" data-category="aseo-personal">Aseo personal</a></li>
-                        <li><a href="#" data-category="lenceria">Lencería</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="#" id="showTermsFooter">Términos y Condiciones</a></li>
-                        <li><a href="#" id="showPrivacyFooter">Política de Privacidad</a></li>
-                        <li><a href="#" id="showReturnsFooter">Política de Devoluciones</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023 Tienda Virtual Cuba. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Buttons -->
-    <a href="https://wa.me/5355703261?text=Hola,%20estoy%20interesado%20en%20vender%20productos%20en%20tu%20tienda" class="floating-btn whatsapp" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    <a href="#provider" class="floating-btn provider">
-        <i class="fas fa-store"></i>
-    </a>
-
-    <!-- Bottom Navigation (Mobile) -->
-    <div class="bottom-nav">
-        <a href="#home" class="bottom-nav-item active">
-            <i class="fas fa-home"></i>
-            <span>Inicio</span>
-        </a>
-        <a href="#products" class="bottom-nav-item">
-            <i class="fas fa-search"></i>
-            <span>Productos</span>
-        </a>
-        <a href="#provider" class="bottom-nav-item">
-            <i class="fas fa-store"></i>
-            <span>Vender</span>
-        </a>
-        <a href="#contact" class="bottom-nav-item">
-            <i class="fas fa-phone-alt"></i>
-            <span>Contacto</span>
-        </a>
-        <a href="#account" class="bottom-nav-item">
-            <i class="fas fa-user"></i>
-            <span>Cuenta</span>
-        </a>
-    </div>
-
-    <!-- Product Modal -->
-    <div class="modal" id="productModal">
-        <div class="modal-content product-modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="product-modal-grid" id="productModalContent">
-                <!-- Contenido del producto se cargará aquí con JS -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Login/Signup Modal -->
-    <div class="modal auth-modal" id="authModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="auth-tabs">
-                <div class="auth-tab active" data-tab="login">Iniciar Sesión</div>
-                <div class="auth-tab" data-tab="register">Registrarse</div>
-            </div>
-            <form class="auth-form active" id="loginForm">
-                <div class="form-group">
-                    <label for="loginEmail">Email o Teléfono</label>
-                    <input type="text" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Contraseña</label>
-                    <input type="password" id="loginPassword" required>
-                </div>
-                <button type="submit" class="btn">Iniciar Sesión</button>
-                <div class="social-login">
-                    <p>O inicia sesión con:</p>
-                    <div class="social-buttons">
-                        <button type="button" class="social-btn facebook">
-                            <i class="fab fa-facebook-f"></i> Facebook
-                        </button>
-                        <button type="button" class="social-btn google">
-                            <i class="fab fa-google"></i> Google
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <form class="auth-form" id="registerForm">
-                <div class="form-group">
-                    <label for="registerName">Nombre completo*</label>
-                    <input type="text" id="registerName" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerPhone">Teléfono*</label>
-                    <input type="tel" id="registerPhone" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">Email (opcional)</label>
-                    <input type="email" id="registerEmail">
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">Contraseña*</label>
-                    <input type="password" id="registerPassword" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerConfirmPassword">Confirmar Contraseña*</label>
-                    <input type="password" id="registerConfirmPassword" required>
-                </div>
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="registerProvider">
-                    <label for="registerProvider">Soy proveedor de productos</label>
-                </div>
-                <div id="providerTypeContainer" style="display: none;">
-                    <div class="form-group">
-                        <label for="registerProviderType">Tipo de proveedor</label>
-                        <select id="registerProviderType">
-                            <option value="minorista">Minorista</option>
-                            <option value="mayorista">Mayorista</option>
+                    <div class="filter-controls">
+                        <label for="status-filter">Filtrar por estado: </label>
+                        <select id="status-filter">
+                            <option value="todos">Todos</option>
+                            <option value="disponible">✅ Disponible</option>
+                            <option value="negociacion">🤝 En negociación</option>
+                            <option value="agotado">❌ Agotado</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-group checkbox-group terms-group">
-                    <input type="checkbox" id="registerTerms" required>
-                    <label for="registerTerms">Acepto los <a href="#" id="showTerms">Términos y Condiciones</a></label>
+            </section>
+            <h2 id="catalog-title" style="margin-bottom: 20px; font-weight: 600;">Nuestro Closet</h2>
+            <div class="product-grid" id="product-grid"></div>
+        </div>
+
+        <div id="publish-view" class="hidden">
+            <form id="publish-form" class="publish-form">
+                <h2 class="form-title">Publica tu Prenda</h2>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="title">Título de la prenda</label>
+                        <input type="text" id="title" placeholder="Ej: Vestido floral de verano" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Categoría</label>
+                        <select id="category" required>
+                            <option value="mujer">Ropa de Mujer</option>
+                            <option value="hombre">Ropa de Hombre</option>
+                            <option value="nino">Ropa de Niño/a</option>
+                            <option value="calzado">Calzado</option>
+                            <option value="accesorio">Accesorio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="genero">Género</label>
+                        <select id="genero" required>
+                            <option value="femenino">Femenino</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="unisex">Unisex</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="talla">Talla</label>
+                        <input type="text" id="talla" placeholder="Ej: M, 42, Única" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tela">Tela o Material</label>
+                        <input type="text" id="tela" placeholder="Ej: Algodón, Cuero, Lino" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Precio</label>
+                        <input type="number" id="price" placeholder="Ej: 1500" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="moneda">Moneda</label>
+                        <select id="moneda" required>
+                            <option value="cup">CUP</option>
+                            <option value="usd">USD</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width hidden" id="usd-exchange-rate-group">
+                        <label for="cambio_usd_cup">Si el precio es en USD, ¿a cuánto tomas el cambio en CUP?</label>
+                        <input type="number" id="cambio_usd_cup" placeholder="Ej: 350">
+                    </div>
+                     <div class="form-group checkbox-group full-width">
+                        <input type="checkbox" id="acepta_transferencia">
+                        <label for="acepta_transferencia">¿Aceptas pago por transferencia?</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="whatsapp">Tu número de WhatsApp</label>
+                        <input type="tel" id="whatsapp" placeholder="Ej: 5xxxxxxx" required>
+                    </div>
+                     <div class="form-group">
+                        <label for="entrega">Opciones de Entrega</label>
+                        <select id="entrega" required>
+                            <option value="recogida">Solo recogida en persona</option>
+                            <option value="domicilio_costo">Domicilio (costo adicional)</option>
+                            <option value="domicilio_incluido">Domicilio (incluido en el precio)</option>
+                        </select>
+                    </div>
+                     <div class="form-group full-width">
+                        <label for="direccion_tienda">Dirección (si tienes tienda física o para recogida)</label>
+                        <textarea id="direccion_tienda" placeholder="Opcional. Ej: Calle 23 entre 10 y 12, Vedado."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="image">Imagen de la prenda</label>
+                        <input type="file" id="image" accept="image/*" required>
+                        <img id="image-preview" src="" alt="Vista previa" class="hidden" style="max-width: 200px; margin-top: 10px; border-radius: 8px;">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="description">Descripción Adicional</label>
+                        <textarea id="description" placeholder="Añade cualquier otro detalle importante." required></textarea>
+                    </div>
                 </div>
-                <button type="submit" class="btn">Registrarse</button>
+
+                <div class="legal-text">
+                    <strong>Cláusula de Comisión:</strong> Al publicar, aceptas que ClosetCuba cobra una comisión del 5% por cada venta realizada a través de la plataforma.
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="accept-commission" required>
+                    <label for="accept-commission">Acepto la cláusula de comisión del 5%.</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.2rem;">Publicar Prenda</button>
             </form>
         </div>
-    </div>
 
-    <!-- Admin Modal -->
-    <div class="modal" id="adminModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Panel de Administración</h2>
-            <div class="tabs">
-                <div class="tab active" data-tab="products">Productos</div>
-                <div class="tab" data-tab="providers">Proveedores</div>
-                <div class="tab" data-tab="sales">Ventas</div>
-                <div class="tab" data-tab="notifications">Notificaciones</div>
-            </div>
-            <div class="tab-content active" id="adminProducts">
-                <div class="status-selector">
-                    <div class="status-option active" data-status="all">Todos</div>
-                    <div class="status-option" data-status="pending">Pendientes</div>
-                    <div class="status-option" data-status="approved">Aprobados</div>
-                    <div class="status-option" data-status="rejected">Rechazados</div>
-                    <div class="status-option" data-status="sold">Vendidos</div>
-                </div>
-                <div class="products-grid" id="adminProductsGrid">
-                    <!-- Productos del admin se cargarán aquí -->
-                </div>
-            </div>
-            <div class="tab-content" id="adminProviders">
-                <div class="search-container">
-                    <input type="text" id="providerSearch" placeholder="Buscar proveedores...">
-                </div>
-                <div class="providers-list" id="providersList">
-                    <!-- Lista de proveedores -->
-                </div>
-            </div>
-            <div class="tab-content" id="adminSales">
-                <div class="sales-stats">
-                    <div class="stat-card">
-                        <h3>Ventas totales</h3>
-                        <p id="totalSales">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Comisiones</h3>
-                        <p id="totalCommissions">0 USD</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Ventas este mes</h3>
-                        <p id="monthlySales">0</p>
-                    </div>
-                </div>
-                <div class="sales-list" id="salesList">
-                    <!-- Lista de ventas -->
-                </div>
-            </div>
-            <div class="tab-content" id="adminNotifications">
-                <div class="notifications-list" id="notificationsList">
-                    <!-- Lista de notificaciones -->
-                </div>
-            </div>
-        </div>
-    </div>
+        <div id="paca-suppliers-view" class="hidden"></div>
+        <div id="fashion-tips-view" class="hidden"></div>
+    </main>
+    
+    <div id="cart-modal" class="cart-modal hidden"></div>
+    <footer class="main-footer"></footer>
 
-    <!-- Terms Modal -->
-    <div class="modal" id="termsModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Términos y Condiciones</h2>
-            <div class="terms-content">
-                <h3>1. Comisión por venta</h3>
-                <p>Por cada venta realizada a través de nuestra plataforma, cobramos una comisión del 5% del valor total de la transacción.</p>
-                
-                <h3>2. Publicaciones gratuitas</h3>
-                <p>Cada proveedor tiene derecho a 5 publicaciones gratuitas. A partir de la sexta publicación, se aplicará una tarifa por publicación.</p>
-                
-                <h3>3. Responsabilidad del proveedor</h3>
-                <p>El proveedor es responsable de la veracidad de la información publicada, la calidad de los productos y la entrega de los mismos al comprador.</p>
-                
-                <h3>4. Aprobación de productos</h3>
-                <p>Todos los productos enviados serán revisados por nuestro equipo antes de ser publicados. Nos reservamos el derecho de rechazar cualquier publicación que no cumpla con nuestros estándares.</p>
-                
-                <h3>5. Política de pagos</h3>
-                <p>Las comisiones por venta se cobrarán al momento de concretarse la transacción. El pago al proveedor se realizará una vez confirmada la entrega satisfactoria del producto.</p>
-                
-                <h3>6. Privacidad de datos</h3>
-                <p>Toda la información personal proporcionada será tratada con confidencialidad y solo se utilizará para los fines de la plataforma.</p>
-                
-                <div class="terms-acceptance">
-                    <input type="checkbox" id="modalAcceptTerms">
-                    <label for="modalAcceptTerms">He leído y acepto los términos y condiciones</label>
-                </div>
-                <button class="btn" id="confirmTermsBtn">Aceptar</button>
-            </div>
-        </div>
-    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-    <script src="js/script.js"></script>
+        // --- SELECCIÓN DE ELEMENTOS DEL DOM ---
+        const productGrid = document.getElementById('product-grid');
+        const searchInput = document.getElementById('search-input');
+        const statusFilter = document.getElementById('status-filter');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const catalogTitle = document.getElementById('catalog-title');
+
+        const publishForm = document.getElementById('publish-form');
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('image-preview');
+        const currencySelect = document.getElementById('moneda');
+        const exchangeRateGroup = document.getElementById('usd-exchange-rate-group');
+        
+        const views = {
+            catalog: document.getElementById('catalog-view'),
+            publish: document.getElementById('publish-view'),
+            paca: document.getElementById('paca-suppliers-view'),
+            tips: document.getElementById('fashion-tips-view')
+        };
+        
+        const navMappings = {
+            'logo-link': 'catalog', 'publish-nav-link': 'publish',
+        };
+
+        let products = [];
+        let cart = [];
+        let likes = [];
+
+        // Datos de ejemplo con nuevos campos
+        const sampleProduct = {
+            id: 'CC-MZ-0001', title: 'Vestido de Noche Elegante', price: 70, category: 'mujer',
+            image: 'https://images.pexels.com/photos/1055691/pexels-photo-1055691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            description: 'Vestido largo color vino, ideal para fiestas o eventos formales. Usado una sola vez, en perfecto estado.',
+            whatsapp: '51234567', likes: 18, status: 'disponible',
+            talla: 'M', tela: 'Satén', genero: 'femenino',
+            moneda: 'usd', cambio_usd_cup: 360,
+            entrega: 'domicilio_costo', direccion_tienda: 'Tienda "Elegancia", Calle Neptuno #55, Centro Habana',
+            acepta_transferencia: true
+        };
+
+        function loadData() {
+            products = JSON.parse(localStorage.getItem('closetCubaProducts')) || [sampleProduct];
+            cart = JSON.parse(localStorage.getItem('closetCubaCart')) || [];
+            likes = JSON.parse(localStorage.getItem('closetCubaLikes')) || [];
+        }
+
+        function saveData() {
+            localStorage.setItem('closetCubaProducts', JSON.stringify(products));
+        }
+
+        function showView(viewName) {
+            Object.values(views).forEach(view => view.classList.add('hidden'));
+            if (views[viewName]) views[viewName].classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        Object.entries(navMappings).forEach(([id, viewName]) => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('click', (e) => { e.preventDefault(); showView(viewName); });
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showView('catalog');
+                filterProducts({ category: e.target.dataset.category });
+                navLinks.forEach(l => l.classList.remove('active'));
+                e.target.classList.add('active');
+            });
+        });
+
+        async function generateProductCode(category) {
+            const prefixMap = { 'mujer': 'MZ', 'hombre': 'HM', 'nino': 'NI', 'accesorio': 'AC', 'calzado': 'CZ' };
+            const prefix = prefixMap[category] || 'GN';
+            let nextId = (parseInt(localStorage.getItem(`counter_${category}`)) || 0) + 1;
+            localStorage.setItem(`counter_${category}`, nextId);
+            return `CC-${prefix}-${String(nextId).padStart(4, '0')}`;
+        }
+        
+        function renderProducts(productsToRender = products) {
+            productGrid.innerHTML = '';
+            if (productsToRender.length === 0) {
+                productGrid.innerHTML = '<p>No se encontraron productos con estos filtros.</p>';
+                return;
+            }
+
+            productsToRender.forEach(product => {
+                const whatsappMessage = encodeURIComponent(`Hola, vi esta prenda en ClosetCuba con el código ${product.id}. ¿Está disponible?`);
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+
+                // --- Price Display Logic ---
+                let priceDisplay = '';
+                if (product.moneda === 'usd') {
+                    priceDisplay = `$${Number(product.price).toFixed(2)} USD`;
+                    if (product.cambio_usd_cup) {
+                        const cupEquivalent = (product.price * product.cambio_usd_cup).toFixed(0);
+                        priceDisplay += ` <span class="cup-equivalent">(~${cupEquivalent} CUP)</span>`;
+                    }
+                } else {
+                    priceDisplay = `$${Number(product.price).toFixed(2)} CUP`;
+                }
+                
+                // --- Details Tags Logic ---
+                let deliveryText = {
+                    'recogida': 'Recogida',
+                    'domicilio_costo': 'Domicilio (Costo extra)',
+                    'domicilio_incluido': 'Domicilio incluido'
+                }[product.entrega];
+
+                productCard.innerHTML = `
+                    <div class="product-image-container">
+                        <img src="${product.image}" alt="${product.title}" class="product-image">
+                        <span class="product-status status-${product.status}">${product.status.replace('negociacion', 'En negociación')}</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-price">${priceDisplay}</p>
+                        <div class="product-details-tags">
+                            <span class="detail-tag"><i class="fas fa-ruler-vertical"></i> ${product.talla}</span>
+                            <span class="detail-tag"><i class="fas fa-tshirt"></i> ${product.tela}</span>
+                            <span class="detail-tag"><i class="fas fa-truck"></i> ${deliveryText}</span>
+                            ${product.acepta_transferencia ? '<span class="detail-tag"><i class="fas fa-credit-card"></i> Transferencia</span>' : ''}
+                        </div>
+                        <p class="product-description" style="font-size: 0.9em; color: #555; margin-bottom: 15px; flex-grow: 1;">${product.description}</p>
+                        <div class="product-actions">
+                            <button class="btn btn-secondary add-to-cart-btn" data-id="${product.id}"><i class="fa fa-shopping-bag"></i> Añadir</button>
+                            <a href="https://api.whatsapp.com/send?phone=53${product.whatsapp}&text=${whatsappMessage}" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> Contactar</a>
+                        </div>
+                    </div>
+                `;
+                productGrid.appendChild(productCard);
+            });
+        }
+        
+        function filterProducts(overrideFilters = {}) {
+            let filtered = [...products];
+            const searchTerm = overrideFilters.search !== undefined ? overrideFilters.search : searchInput.value.toLowerCase();
+            const status = overrideFilters.status || statusFilter.value;
+            const category = overrideFilters.category || (document.querySelector('.nav-link.active')?.dataset.category || 'todos');
+
+            if (category !== 'todos') filtered = filtered.filter(p => p.category === category);
+            if (searchTerm) filtered = filtered.filter(p => p.title.toLowerCase().includes(searchTerm));
+            if (status !== 'todos') filtered = filtered.filter(p => p.status === status);
+            
+            renderProducts(filtered);
+        }
+
+        searchInput.addEventListener('input', () => filterProducts());
+        statusFilter.addEventListener('change', () => filterProducts());
+        
+        // --- LÓGICA DE PUBLICACIÓN ---
+        currencySelect.addEventListener('change', () => {
+            exchangeRateGroup.classList.toggle('hidden', currencySelect.value !== 'usd');
+        });
+        
+        imageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    imagePreview.src = event.target.result;
+                    imagePreview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        publishForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!document.getElementById('accept-commission').checked) {
+                alert('Debe aceptar la cláusula de comisión para poder publicar.');
+                return;
+            }
+
+            const newProduct = {
+                id: await generateProductCode(document.getElementById('category').value),
+                title: document.getElementById('title').value,
+                price: parseFloat(document.getElementById('price').value),
+                whatsapp: document.getElementById('whatsapp').value,
+                category: document.getElementById('category').value,
+                status: 'disponible', 
+                image: imagePreview.src,
+                description: document.getElementById('description').value,
+                likes: 0,
+                // New fields
+                talla: document.getElementById('talla').value,
+                tela: document.getElementById('tela').value,
+                genero: document.getElementById('genero').value,
+                moneda: document.getElementById('moneda').value,
+                cambio_usd_cup: document.getElementById('moneda').value === 'usd' ? parseFloat(document.getElementById('cambio_usd_cup').value) : null,
+                entrega: document.getElementById('entrega').value,
+                direccion_tienda: document.getElementById('direccion_tienda').value,
+                acepta_transferencia: document.getElementById('acepta_transferencia').checked
+            };
+
+            products.unshift(newProduct);
+            saveData();
+            alert('¡Producto publicado con éxito!');
+            publishForm.reset();
+            imagePreview.classList.add('hidden');
+            exchangeRateGroup.classList.add('hidden');
+            showView('catalog');
+            filterProducts({ category: 'todos' });
+        });
+
+        function init() {
+            // Fill empty sections to avoid breaking the page
+            document.getElementById('cart-modal').innerHTML = `
+                <div class="cart-content">
+                    <div class="cart-header"><h2 >Tu Carrito</h2><button class="close-cart" id="close-cart-btn">&times;</button></div>
+                    <div class="cart-items" id="cart-items"></div>
+                    <div class="cart-footer">
+                        <div class="cart-total"><span>Total:</span><span id="cart-total-price">$0.00 CUP</span></div>
+                        <button class="btn btn-primary" style="width:100%" id="finalize-purchase">Finalizar Compra</button>
+                    </div>
+                </div>`;
+            document.querySelector('.main-footer').innerHTML = `
+                <div class="container">
+                    <div class="footer-legal" style="border:none; margin-top:0; padding-top:0;">
+                         <p style="margin-top: 10px;">&copy; ${new Date().getFullYear()} ClosetCuba. Todos los derechos reservados.</p>
+                    </div>
+                </div>`;
+
+            loadData();
+            showView('catalog');
+            filterProducts();
+            document.querySelector('.nav-link[data-category="todos"]').classList.add('active');
+        }
+
+        init();
+    });
+    </script>
+
 </body>
 </html>
