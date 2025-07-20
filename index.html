@@ -18,7 +18,6 @@
             --secondary-color: #fd1d1d; /* Rojo */
             --tertiary-color: #fcb045; /* Naranja */
             --text-color: #333;
-            --text-light: #666;
             --light-gray: #f4f4f4;
             --white: #fff;
             --green-disponible: #28a745;
@@ -33,6 +32,10 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -216,11 +219,17 @@
             box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+        }
+        
+        .product-card.highlight {
+            box-shadow: 0 0 25px var(--primary-color);
+            transform: scale(1.02);
         }
 
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         .product-image-container {
@@ -247,47 +256,91 @@
         .status-negociacion { background-color: var(--orange-negociacion); }
         .status-agotado { background-color: var(--red-agotado); }
 
+        .like-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #ccc;
+        }
+
+        .like-btn.liked {
+            color: var(--secondary-color);
+        }
+        .like-count {
+            position: absolute;
+            top: 45px;
+            right: 15px;
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
         .product-info {
-            padding: 15px;
+            padding: 20px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
-
+        
+        .product-meta-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #777;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .product-meta-info span {
+             display: flex;
+             align-items: center;
+             gap: 4px;
+        }
+        
+        .provider-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .provider-link:hover {
+            text-decoration: underline;
+        }
+        
         .product-title {
             font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         
+        .product-location {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
         .product-price {
             font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        .product-price .cup-equivalent {
-            font-size: 0.8rem;
-            font-weight: 400;
-            color: var(--text-light);
-        }
-        
-        .product-details-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
             margin-bottom: 15px;
-            font-size: 0.8rem;
-        }
-
-        .detail-tag {
-            background-color: #eee;
-            padding: 4px 8px;
-            border-radius: 6px;
-            color: var(--text-light);
-        }
-        .detail-tag i {
-            margin-right: 4px;
         }
 
         .product-actions {
@@ -301,9 +354,9 @@
             font-size: 0.9rem;
             padding: 12px 10px;
         }
-
-        /* --- VISTA DE PUBLICACIÓN --- */
-        #publish-view, #paca-suppliers-view, #fashion-tips-view {
+        
+        /* --- GENERIC CONTENT VIEW STYLES --- */
+        #publish-view, #collaboration-view, #fashion-tips-view {
             background: white;
             padding: 40px;
             border-radius: 12px;
@@ -318,18 +371,18 @@
             margin-bottom: 30px;
             font-weight: 700;
         }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+
+        /* --- VISTA DE PUBLICACIÓN --- */
+        .publish-form .form-row {
+            display: flex;
             gap: 20px;
+        }
+        .publish-form .form-row .form-group {
+            flex: 1;
         }
         
         .publish-form .form-group {
-            margin-bottom: 15px;
-        }
-        .publish-form .form-group.full-width {
-            grid-column: 1 / -1;
+            margin-bottom: 20px;
         }
 
         .publish-form label {
@@ -338,7 +391,9 @@
             font-weight: 600;
         }
 
-        .publish-form input,
+        .publish-form input[type="text"],
+        .publish-form input[type="number"],
+        .publish-form input[type="tel"],
         .publish-form select,
         .publish-form textarea {
             width: 100%;
@@ -355,11 +410,12 @@
 
         .publish-form .checkbox-group {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
         }
 
         .publish-form input[type="checkbox"] {
+            margin-top: 5px;
             width: 20px;
             height: 20px;
         }
@@ -371,6 +427,53 @@
             margin: 20px 0;
             border-radius: 4px;
             font-size: 0.9rem;
+        }
+
+        /* --- VISTA DE COLABORACIÓN --- */
+        #collaboration-view h3 {
+            text-align: center;
+            font-weight: 400;
+            color: #555;
+            margin-bottom: 40px;
+        }
+        .collaboration-offers {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .offer-card {
+            flex: 1;
+            min-width: 300px;
+            background: var(--light-gray);
+            padding: 25px;
+            border-radius: 12px;
+            border-top: 5px solid var(--primary-color);
+            text-align: center;
+        }
+        .offer-card h4 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .offer-card p {
+            margin-bottom: 20px;
+        }
+        .offer-card ul {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        .offer-card ul li {
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+         .offer-card ul li i {
+            color: var(--green-disponible);
+            margin-right: 8px;
+        }
+        .commission-note {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-color);
         }
 
         /* --- MODAL DEL CARRITO --- */
@@ -473,28 +576,89 @@
             padding: 40px 0;
             margin-top: 50px;
         }
-        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
-        .footer-section { flex: 1; min-width: 250px; }
-        .footer-section h4 { font-size: 1.2rem; margin-bottom: 15px; color: white; }
-        .footer-section p, .footer-section a { color: #ccc; text-decoration: none; }
-        .footer-section a:hover { color: white; }
-        .social-links a { font-size: 1.5rem; margin-right: 15px; }
-        .footer-legal { margin-top: 40px; padding-top: 20px; border-top: 1px solid #555; text-align: center; font-size: 0.8rem; color: #aaa; }
-        .footer-legal p { max-width: 800px; margin: 0 auto; }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .social-links a {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .footer-legal {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        .footer-legal p {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 992px) {
-            .main-header .container { flex-direction: column; gap: 15px; }
-            .main-nav { width: 100%; display: flex; justify-content: center; border-top: 1px solid var(--light-gray); padding-top: 10px; }
+            .main-header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .main-nav {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                border-top: 1px solid var(--light-gray);
+                padding-top: 10px;
+            }
+            .publish-form .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
         }
         @media (max-width: 768px) {
-            .filters-section .container { flex-direction: column; }
-            .search-bar, .filter-controls { width: 100%; }
-            .form-grid { grid-template-columns: 1fr; }
+            .filters-section .container {
+                flex-direction: column;
+            }
+            .search-bar, .filter-controls {
+                width: 100%;
+            }
+            .collaboration-offers {
+                flex-direction: column;
+            }
         }
         @media (max-width: 480px) {
-            .main-nav a { margin: 0 8px; }
-            #publish-view, #paca-suppliers-view, #fashion-tips-view { padding: 20px; }
+            .main-nav a {
+                margin: 0 8px;
+            }
+            #publish-view, #collaboration-view, #fashion-tips-view {
+                padding: 20px;
+            }
         }
 
     </style>
@@ -542,111 +706,205 @@
                     </div>
                 </div>
             </section>
+
             <h2 id="catalog-title" style="margin-bottom: 20px; font-weight: 600;">Nuestro Closet</h2>
-            <div class="product-grid" id="product-grid"></div>
+            <div class="product-grid" id="product-grid">
+                </div>
         </div>
 
         <div id="publish-view" class="hidden">
             <form id="publish-form" class="publish-form">
                 <h2 class="form-title">Publica tu Prenda</h2>
-                <div class="form-grid">
-                    <div class="form-group full-width">
-                        <label for="title">Título de la prenda</label>
-                        <input type="text" id="title" placeholder="Ej: Vestido floral de verano" required>
-                    </div>
+                <div class="form-group">
+                    <label for="title">Título de la prenda</label>
+                    <input type="text" id="title" placeholder="Ej: Vestido floral de verano" required>
+                </div>
+                <div class="form-row">
                     <div class="form-group">
-                        <label for="category">Categoría</label>
-                        <select id="category" required>
-                            <option value="mujer">Ropa de Mujer</option>
-                            <option value="hombre">Ropa de Hombre</option>
-                            <option value="nino">Ropa de Niño/a</option>
-                            <option value="calzado">Calzado</option>
-                            <option value="accesorio">Accesorio</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="genero">Género</label>
-                        <select id="genero" required>
-                            <option value="femenino">Femenino</option>
-                            <option value="masculino">Masculino</option>
-                            <option value="unisex">Unisex</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="talla">Talla</label>
-                        <input type="text" id="talla" placeholder="Ej: M, 42, Única" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="tela">Tela o Material</label>
-                        <input type="text" id="tela" placeholder="Ej: Algodón, Cuero, Lino" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="price">Precio</label>
+                        <label for="price">Precio (CUP)</label>
                         <input type="number" id="price" placeholder="Ej: 1500" required>
                     </div>
-                    <div class="form-group">
-                        <label for="moneda">Moneda</label>
-                        <select id="moneda" required>
-                            <option value="cup">CUP</option>
-                            <option value="usd">USD</option>
-                        </select>
-                    </div>
-                    <div class="form-group full-width hidden" id="usd-exchange-rate-group">
-                        <label for="cambio_usd_cup">Si el precio es en USD, ¿a cuánto tomas el cambio en CUP?</label>
-                        <input type="number" id="cambio_usd_cup" placeholder="Ej: 350">
-                    </div>
-                     <div class="form-group checkbox-group full-width">
-                        <input type="checkbox" id="acepta_transferencia">
-                        <label for="acepta_transferencia">¿Aceptas pago por transferencia?</label>
-                    </div>
-
                     <div class="form-group">
                         <label for="whatsapp">Tu número de WhatsApp</label>
                         <input type="tel" id="whatsapp" placeholder="Ej: 5xxxxxxx" required>
                     </div>
-                     <div class="form-group">
-                        <label for="entrega">Opciones de Entrega</label>
-                        <select id="entrega" required>
-                            <option value="recogida">Solo recogida en persona</option>
-                            <option value="domicilio_costo">Domicilio (costo adicional)</option>
-                            <option value="domicilio_incluido">Domicilio (incluido en el precio)</option>
+                </div>
+                 <div class="form-row">
+                    <div class="form-group">
+                        <label for="province">Provincia</label>
+                        <select id="province" required>
+                             <option value="">Selecciona una provincia</option>
+                             <option value="Pinar del Río">Pinar del Río</option>
+                             <option value="Artemisa">Artemisa</option>
+                             <option value="La Habana">La Habana</option>
+                             <option value="Mayabeque">Mayabeque</option>
+                             <option value="Matanzas">Matanzas</option>
+                             <option value="Cienfuegos">Cienfuegos</option>
+                             <option value="Villa Clara">Villa Clara</option>
+                             <option value="Sancti Spíritus">Sancti Spíritus</option>
+                             <option value="Ciego de Ávila">Ciego de Ávila</option>
+                             <option value="Camagüey">Camagüey</option>
+                             <option value="Las Tunas">Las Tunas</option>
+                             <option value="Granma">Granma</option>
+                             <option value="Holguín">Holguín</option>
+                             <option value="Santiago de Cuba">Santiago de Cuba</option>
+                             <option value="Guantánamo">Guantánamo</option>
+                             <option value="Isla de la Juventud">Isla de la Juventud</option>
                         </select>
                     </div>
-                     <div class="form-group full-width">
-                        <label for="direccion_tienda">Dirección (si tienes tienda física o para recogida)</label>
-                        <textarea id="direccion_tienda" placeholder="Opcional. Ej: Calle 23 entre 10 y 12, Vedado."></textarea>
+                    <div class="form-group">
+                        <label for="address">Dirección (Calle y número)</label>
+                        <input type="text" id="address" placeholder="Ej: Calle 23 #123, Apto 4" required>
                     </div>
-
-                    <div class="form-group full-width">
-                        <label for="image">Imagen de la prenda</label>
-                        <input type="file" id="image" accept="image/*" required>
-                        <img id="image-preview" src="" alt="Vista previa" class="hidden" style="max-width: 200px; margin-top: 10px; border-radius: 8px;">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="category">Categoría</label>
+                        <select id="category" required>
+                            <option value="mujer">Mujer</option>
+                            <option value="hombre">Hombre</option>
+                            <option value="nino">Niño/a</option>
+                            <option value="accesorio">Accesorio</option>
+                        </select>
                     </div>
-                    <div class="form-group full-width">
-                        <label for="description">Descripción Adicional</label>
-                        <textarea id="description" placeholder="Añade cualquier otro detalle importante." required></textarea>
+                    <div class="form-group">
+                        <label for="status">Estado</label>
+                        <select id="status" required>
+                            <option value="disponible">Disponible</option>
+                            <option value="negociacion">En negociación</option>
+                            <option value="agotado">Agotado</option>
+                        </select>
                     </div>
+                </div>
+                 <div class="form-group">
+                    <label for="image">Imagen de la prenda</label>
+                    <input type="file" id="image" accept="image/*" required>
+                    <img id="image-preview" src="" alt="Vista previa de la imagen" class="hidden" style="max-width: 200px; margin-top: 10px; border-radius: 8px;">
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" placeholder="Añade detalles como talla, marca, estado del tejido, etc." required></textarea>
                 </div>
 
                 <div class="legal-text">
-                    <strong>Cláusula de Comisión:</strong> Al publicar, aceptas que ClosetCuba cobra una comisión del 5% por cada venta realizada a través de la plataforma.
+                    <strong>Cláusula de Comisión:</strong> Al publicar en ClosetCuba, usted acepta que esta plataforma cobra una comisión del 5% por cada venta realizada gracias a ella. El código de cada producto identifica su origen para asegurar transparencia. En caso de no abonar la comisión, el proveedor será desactivado.
                 </div>
+
                 <div class="form-group checkbox-group">
                     <input type="checkbox" id="accept-commission" required>
-                    <label for="accept-commission">Acepto la cláusula de comisión del 5%.</label>
+                    <label for="accept-commission">Acepto que, si vendo este producto por ClosetCuba, debo abonar el 5% al administrador del sitio.</label>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.2rem;">Publicar Prenda</button>
             </form>
         </div>
 
-        <div id="paca-suppliers-view" class="hidden"></div>
-        <div id="fashion-tips-view" class="hidden"></div>
+        <div id="collaboration-view" class="hidden">
+            <h2 class="form-title">✨ Colabora con Nosotros ✨</h2>
+            <h3>Lleva tu negocio de moda al siguiente nivel.</h3>
+            <div class="collaboration-offers">
+                <div class="offer-card">
+                    <h4>Proveedores de Pacas</h4>
+                    <p>¿Tienes grandes volúmenes de ropa? Te damos las herramientas para vender más rápido.</p>
+                    <ul>
+                        <li><i class="fa fa-check-circle"></i>Publicación masiva de artículos.</li>
+                        <li><i class="fa fa-check-circle"></i>Visibilidad destacada en la web.</li>
+                        <li><i class="fa fa-check-circle"></i>Acceso a miles de clientes.</li>
+                    </ul>
+                    <p class="commission-note">Comisión: 10% por venta</p>
+                    <a href="https://api.whatsapp.com/send?phone=5355703261&text=Hola%20ClosetCuba,%20estoy%20interesado%20en%20colaborar%20como%20proveedor%20de%20pacas." class="btn btn-primary" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Contactar ahora
+                    </a>
+                </div>
+                 <div class="offer-card">
+                    <h4>Servicio de Foto y Video</h4>
+                    <p>Hacemos que tu mercancía brille con contenido profesional para la web e Instagram.</p>
+                     <ul>
+                        <li><i class="fa fa-check-circle"></i>Sesión de fotos profesional.</li>
+                        <li><i class="fa fa-check-circle"></i>Videos atractivos del producto.</li>
+                        <li><i class="fa fa-check-circle"></i>Mayor alcance y más ventas.</li>
+                    </ul>
+                     <p class="commission-note">Comisión: 10-15% por venta</p>
+                    <a href="https://api.whatsapp.com/send?phone=5355703261&text=Hola%20ClosetCuba,%20me%20interesa%20el%20servicio%20de%20foto%20y%20video%20para%20mis%20productos." class="btn btn-secondary" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Solicitar Servicio
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="fashion-tips-view" class="hidden">
+            <h2 class="form-title">Consejos de Moda Sostenible</h2>
+            <div class="tip">
+                <h4>✨ Cómo lucir increíble con ropa de segunda mano</h4>
+                <p>La clave está en la combinación. Mezcla una pieza vintage o de segunda mano con algo moderno que ya tengas. Unos jeans actuales con una blusa retro pueden crear un look único y personal.</p>
+            </div>
+            <hr style="margin: 20px 0;">
+            <div class="tip">
+                <h4>📸 Cómo tomar buenas fotos para vender mejor</h4>
+                <p>Usa luz natural siempre que sea posible. Un fondo limpio y sin distracciones (una pared blanca es ideal) hace que la prenda sea la protagonista. Muestra la ropa puesta en un maniquí o en una persona para que los compradores vean cómo queda.</p>
+            </div>
+             <hr style="margin: 20px 0;">
+            <div class="tip">
+                <h4>🧼 Cómo lavar correctamente la ropa usada</h4>
+                <p>Antes de usarla, dale un buen lavado. Para prendas delicadas, usa agua fría y un ciclo suave. Un chorrito de vinagre blanco en el lavado puede ayudar a eliminar olores y suavizar las telas de forma natural.</p>
+            </div>
+        </div>
     </main>
     
-    <div id="cart-modal" class="cart-modal hidden"></div>
-    <footer class="main-footer"></footer>
+    <div id="cart-modal" class="cart-modal hidden">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Tu Carrito</h2>
+                <button class="close-cart" id="close-cart-btn">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cart-total-price">$0.00 CUP</span>
+                </div>
+                <button class="btn btn-primary" style="width:100%" id="finalize-purchase">Finalizar Compra</button>
+                 <div class="cart-checkout-info">
+                    <p><strong>Importante:</strong> Para finalizar, contacta a cada proveedor por WhatsApp usando los botones en la página del producto. ClosetCuba no procesa pagos directamente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ClosetCuba 🇨🇺</h4>
+                    <p>El primer marketplace de moda reciclada y de segunda mano en Cuba. Viste con estilo, cuida tu bolsillo y el planeta.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces Rápidos</h4>
+                    <p><a href="#" id="footer-publish-link">Publicar Prenda</a></p>
+                    <p><a href="#" id="footer-collab-link">Colabora con Nosotros</a></p>
+                    <p><a href="#" id="footer-tips-link">Consejos de Moda</a></p>
+                    <p><a href="#" id="footer-suggestion-link">Sugerencias</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto Admin</h4>
+                    <p><i class="fab fa-whatsapp"></i> <a href="https://api.whatsapp.com/send?phone=5355703261" target="_blank">+53 55703261</a></p>
+                    <div class="social-links" style="margin-top: 10px;">
+                        <a href="https://www.instagram.com/closetcuba?igsh=MThnZGltdXRycXV6Zw==" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-legal">
+                <h4>Cláusula Legal Obligatoria</h4>
+                <p>
+                    Al publicar en ClosetCuba, usted acepta que esta plataforma cobra una comisión del 5% (o la acordada para colaboradores) por cada venta realizada gracias a ella. El código de cada producto identifica su origen para asegurar transparencia. En caso de no abonar la comisión, el proveedor será desactivado.
+                </p>
+                <p style="margin-top: 10px;">&copy; 2025 ClosetCuba. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -661,34 +919,51 @@
         const publishForm = document.getElementById('publish-form');
         const imageInput = document.getElementById('image');
         const imagePreview = document.getElementById('image-preview');
-        const currencySelect = document.getElementById('moneda');
-        const exchangeRateGroup = document.getElementById('usd-exchange-rate-group');
+        const acceptCommissionCheckbox = document.getElementById('accept-commission');
+
+        const cartBtn = document.getElementById('cart-btn');
+        const cartCount = document.getElementById('cart-count');
+        const cartModal = document.getElementById('cart-modal');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+        const finalizePurchaseBtn = document.getElementById('finalize-purchase');
         
+        // --- VISTAS Y NAVEGACIÓN ---
         const views = {
             catalog: document.getElementById('catalog-view'),
             publish: document.getElementById('publish-view'),
-            paca: document.getElementById('paca-suppliers-view'),
+            collaboration: document.getElementById('collaboration-view'),
             tips: document.getElementById('fashion-tips-view')
         };
         
         const navMappings = {
-            'logo-link': 'catalog', 'publish-nav-link': 'publish',
+            'logo-link': 'catalog',
+            'publish-nav-link': 'publish',
+            'footer-publish-link': 'publish',
+            'footer-collab-link': 'collaboration',
+            'footer-tips-link': 'tips'
         };
 
+        // --- DATOS INICIALES Y LOCALSTORAGE ---
         let products = [];
         let cart = [];
         let likes = [];
 
-        // Datos de ejemplo con nuevos campos
+        // Datos de ejemplo
         const sampleProduct = {
-            id: 'CC-MZ-0001', title: 'Vestido de Noche Elegante', price: 70, category: 'mujer',
+            id: 'CC-MZ-0001',
+            title: 'Vestido de Noche Elegante',
+            price: 2500,
+            category: 'mujer',
+            status: 'disponible',
             image: 'https://images.pexels.com/photos/1055691/pexels-photo-1055691.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-            description: 'Vestido largo color vino, ideal para fiestas o eventos formales. Usado una sola vez, en perfecto estado.',
-            whatsapp: '51234567', likes: 18, status: 'disponible',
-            talla: 'M', tela: 'Satén', genero: 'femenino',
-            moneda: 'usd', cambio_usd_cup: 360,
-            entrega: 'domicilio_costo', direccion_tienda: 'Tienda "Elegancia", Calle Neptuno #55, Centro Habana',
-            acepta_transferencia: true
+            description: 'Vestido largo color vino, ideal para fiestas o eventos formales. Talla M. Usado una sola vez, en perfecto estado. Tela de satén.',
+            whatsapp: '51234567',
+            province: 'La Habana',
+            address: 'Vedado',
+            likes: 18,
+            timestamp: new Date('2025-07-19T10:00:00Z').toISOString()
         };
 
         function loadData() {
@@ -699,83 +974,95 @@
 
         function saveData() {
             localStorage.setItem('closetCubaProducts', JSON.stringify(products));
+            localStorage.setItem('closetCubaCart', JSON.stringify(cart));
+            localStorage.setItem('closetCubaLikes', JSON.stringify(likes));
         }
 
+        // --- LÓGICA DE NAVEGACIÓN ENTRE VISTAS ---
         function showView(viewName) {
             Object.values(views).forEach(view => view.classList.add('hidden'));
-            if (views[viewName]) views[viewName].classList.remove('hidden');
+            if (views[viewName]) {
+                views[viewName].classList.remove('hidden');
+            }
             window.scrollTo(0, 0);
         }
 
         Object.entries(navMappings).forEach(([id, viewName]) => {
-            const el = document.getElementById(id);
-            if(el) el.addEventListener('click', (e) => { e.preventDefault(); showView(viewName); });
+            document.getElementById(id).addEventListener('click', (e) => {
+                e.preventDefault();
+                showView(viewName);
+            });
+        });
+        
+        document.getElementById('footer-suggestion-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            const message = encodeURIComponent('Hola ClosetCuba, tengo una sugerencia para mejorar la página: ');
+            window.open(`https://api.whatsapp.com/send?phone=5355703261&text=${message}`, '_blank');
         });
 
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 showView('catalog');
-                filterProducts({ category: e.target.dataset.category });
+                const category = e.target.dataset.category;
+                filterProducts({ category, provider: null }); // Reset provider filter
                 navLinks.forEach(l => l.classList.remove('active'));
                 e.target.classList.add('active');
             });
         });
 
+        // --- GENERADOR DE CÓDIGO ÚNICO ---
         async function generateProductCode(category) {
-            const prefixMap = { 'mujer': 'MZ', 'hombre': 'HM', 'nino': 'NI', 'accesorio': 'AC', 'calzado': 'CZ' };
+            const prefixMap = {
+                'mujer': 'MZ', 'hombre': 'HM', 'nino': 'NI', 'accesorio': 'AC'
+            };
             const prefix = prefixMap[category] || 'GN';
-            let nextId = (parseInt(localStorage.getItem(`counter_${category}`)) || 0) + 1;
+            let lastId = parseInt(localStorage.getItem(`counter_${category}`)) || 0;
+            let nextId = lastId + 1;
             localStorage.setItem(`counter_${category}`, nextId);
             return `CC-${prefix}-${String(nextId).padStart(4, '0')}`;
         }
         
+        function getProviderPubCount(whatsapp) {
+            return products.filter(p => p.whatsapp === whatsapp).length;
+        }
+        
+        // --- RENDERIZADO DE PRODUCTOS ---
         function renderProducts(productsToRender = products) {
             productGrid.innerHTML = '';
             if (productsToRender.length === 0) {
                 productGrid.innerHTML = '<p>No se encontraron productos con estos filtros.</p>';
                 return;
             }
+            
+            // Sort by timestamp, newest first
+            productsToRender.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
             productsToRender.forEach(product => {
-                const whatsappMessage = encodeURIComponent(`Hola, vi esta prenda en ClosetCuba con el código ${product.id}. ¿Está disponible?`);
+                const isLiked = likes.includes(product.id);
+                const pageUrl = window.location.href.split('?')[0];
+                const productLink = `${pageUrl}?product=${product.id}`;
+                const whatsappMessage = encodeURIComponent(`Hola, vi tu prenda en ClosetCuba (Código: ${product.id}). ¿Sigue disponible? Aquí está el enlace: ${productLink}`);
                 const productCard = document.createElement('div');
                 productCard.className = 'product-card';
-
-                // --- Price Display Logic ---
-                let priceDisplay = '';
-                if (product.moneda === 'usd') {
-                    priceDisplay = `$${Number(product.price).toFixed(2)} USD`;
-                    if (product.cambio_usd_cup) {
-                        const cupEquivalent = (product.price * product.cambio_usd_cup).toFixed(0);
-                        priceDisplay += ` <span class="cup-equivalent">(~${cupEquivalent} CUP)</span>`;
-                    }
-                } else {
-                    priceDisplay = `$${Number(product.price).toFixed(2)} CUP`;
-                }
-                
-                // --- Details Tags Logic ---
-                let deliveryText = {
-                    'recogida': 'Recogida',
-                    'domicilio_costo': 'Domicilio (Costo extra)',
-                    'domicilio_incluido': 'Domicilio incluido'
-                }[product.entrega];
+                productCard.dataset.id = product.id;
 
                 productCard.innerHTML = `
                     <div class="product-image-container">
                         <img src="${product.image}" alt="${product.title}" class="product-image">
-                        <span class="product-status status-${product.status}">${product.status.replace('negociacion', 'En negociación')}</span>
+                        <span class="product-status status-${product.status.replace(' ', '-')}">${product.status.charAt(0).toUpperCase() + product.status.slice(1).replace('negociacion', 'En negociación')}</span>
+                        <button class="like-btn ${isLiked ? 'liked' : ''}" data-id="${product.id}"><i class="fa fa-heart"></i></button>
+                        <span class="like-count">${product.likes || 0}</span>
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">${product.title}</h3>
-                        <p class="product-price">${priceDisplay}</p>
-                        <div class="product-details-tags">
-                            <span class="detail-tag"><i class="fas fa-ruler-vertical"></i> ${product.talla}</span>
-                            <span class="detail-tag"><i class="fas fa-tshirt"></i> ${product.tela}</span>
-                            <span class="detail-tag"><i class="fas fa-truck"></i> ${deliveryText}</span>
-                            ${product.acepta_transferencia ? '<span class="detail-tag"><i class="fas fa-credit-card"></i> Transferencia</span>' : ''}
+                        <div class="product-meta-info">
+                             <span><i class="fa fa-clock"></i> ${new Date(product.timestamp).toLocaleDateString()}</span>
+                             <span><i class="fa fa-user-tag"></i> <a href="#" class="provider-link" data-provider="${product.whatsapp}">Vendedor (${getProviderPubCount(product.whatsapp)})</a></span>
                         </div>
-                        <p class="product-description" style="font-size: 0.9em; color: #555; margin-bottom: 15px; flex-grow: 1;">${product.description}</p>
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-location"><i class="fa fa-map-marker-alt"></i> ${product.province}, ${product.address}</p>
+                        <p class="product-price">$${Number(product.price).toFixed(2)} CUP</p>
+                        <p class="product-description" style="font-size: 0.9em; color: #555; margin-bottom: 15px; flex-grow: 1; display:none;">${product.description}</p>
                         <div class="product-actions">
                             <button class="btn btn-secondary add-to-cart-btn" data-id="${product.id}"><i class="fa fa-shopping-bag"></i> Añadir</button>
                             <a href="https://api.whatsapp.com/send?phone=53${product.whatsapp}&text=${whatsappMessage}" target="_blank" class="btn btn-primary"><i class="fab fa-whatsapp"></i> Contactar</a>
@@ -786,27 +1073,47 @@
             });
         }
         
+        // --- FILTROS Y BÚSQUEDA ---
+        let currentProviderFilter = null;
+        
         function filterProducts(overrideFilters = {}) {
             let filtered = [...products];
             const searchTerm = overrideFilters.search !== undefined ? overrideFilters.search : searchInput.value.toLowerCase();
             const status = overrideFilters.status || statusFilter.value;
             const category = overrideFilters.category || (document.querySelector('.nav-link.active')?.dataset.category || 'todos');
 
-            if (category !== 'todos') filtered = filtered.filter(p => p.category === category);
-            if (searchTerm) filtered = filtered.filter(p => p.title.toLowerCase().includes(searchTerm));
-            if (status !== 'todos') filtered = filtered.filter(p => p.status === status);
+            if (overrideFilters.provider !== undefined) {
+                 currentProviderFilter = overrideFilters.provider;
+            }
+             if (overrideFilters.category) {
+                 currentProviderFilter = null; // Reset provider filter if category changes
+             }
+
+            // Filtrar por proveedor
+            if (currentProviderFilter) {
+                 filtered = filtered.filter(p => p.whatsapp === currentProviderFilter);
+                 catalogTitle.textContent = `Artículos del vendedor ${currentProviderFilter}`;
+                 navLinks.forEach(l => l.classList.remove('active'));
+                 return renderProducts(filtered);
+            }
+
+            // Actualizar título del catálogo
+            let titleText = "Nuestro Closet";
+            if (category !== 'todos') titleText = `Categoría: ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+            catalogTitle.textContent = titleText;
+
+            if (category && category !== 'todos') filtered = filtered.filter(p => p.category === category);
+            if (searchTerm) filtered = filtered.filter(p => p.title.toLowerCase().includes(searchTerm) || p.description.toLowerCase().includes(searchTerm));
+            if (status && status !== 'todos') filtered = filtered.filter(p => p.status === status);
             
             renderProducts(filtered);
         }
 
         searchInput.addEventListener('input', () => filterProducts());
         statusFilter.addEventListener('change', () => filterProducts());
-        
+        document.getElementById('search-btn').addEventListener('click', () => filterProducts());
+
         // --- LÓGICA DE PUBLICACIÓN ---
-        currencySelect.addEventListener('change', () => {
-            exchangeRateGroup.classList.toggle('hidden', currencySelect.value !== 'usd');
-        });
-        
         imageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
@@ -821,64 +1128,156 @@
 
         publishForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!document.getElementById('accept-commission').checked) {
-                alert('Debe aceptar la cláusula de comisión para poder publicar.');
-                return;
+            if (!acceptCommissionCheckbox.checked) {
+                alert('Debe aceptar la cláusula de comisión para poder publicar.'); return;
             }
-
             const newProduct = {
                 id: await generateProductCode(document.getElementById('category').value),
                 title: document.getElementById('title').value,
                 price: parseFloat(document.getElementById('price').value),
                 whatsapp: document.getElementById('whatsapp').value,
+                province: document.getElementById('province').value,
+                address: document.getElementById('address').value,
                 category: document.getElementById('category').value,
-                status: 'disponible', 
+                status: document.getElementById('status').value,
                 image: imagePreview.src,
                 description: document.getElementById('description').value,
                 likes: 0,
-                // New fields
-                talla: document.getElementById('talla').value,
-                tela: document.getElementById('tela').value,
-                genero: document.getElementById('genero').value,
-                moneda: document.getElementById('moneda').value,
-                cambio_usd_cup: document.getElementById('moneda').value === 'usd' ? parseFloat(document.getElementById('cambio_usd_cup').value) : null,
-                entrega: document.getElementById('entrega').value,
-                direccion_tienda: document.getElementById('direccion_tienda').value,
-                acepta_transferencia: document.getElementById('acepta_transferencia').checked
+                timestamp: new Date().toISOString()
             };
-
             products.unshift(newProduct);
             saveData();
             alert('¡Producto publicado con éxito!');
             publishForm.reset();
             imagePreview.classList.add('hidden');
-            exchangeRateGroup.classList.add('hidden');
             showView('catalog');
             filterProducts({ category: 'todos' });
         });
 
-        function init() {
-            // Fill empty sections to avoid breaking the page
-            document.getElementById('cart-modal').innerHTML = `
-                <div class="cart-content">
-                    <div class="cart-header"><h2 >Tu Carrito</h2><button class="close-cart" id="close-cart-btn">&times;</button></div>
-                    <div class="cart-items" id="cart-items"></div>
-                    <div class="cart-footer">
-                        <div class="cart-total"><span>Total:</span><span id="cart-total-price">$0.00 CUP</span></div>
-                        <button class="btn btn-primary" style="width:100%" id="finalize-purchase">Finalizar Compra</button>
-                    </div>
-                </div>`;
-            document.querySelector('.main-footer').innerHTML = `
-                <div class="container">
-                    <div class="footer-legal" style="border:none; margin-top:0; padding-top:0;">
-                         <p style="margin-top: 10px;">&copy; ${new Date().getFullYear()} ClosetCuba. Todos los derechos reservados.</p>
-                    </div>
-                </div>`;
+        // --- LÓGICA DE INTERACCIÓN CON PRODUCTOS ---
+        productGrid.addEventListener('click', (e) => {
+            const likeBtn = e.target.closest('.like-btn');
+            const addToCartBtn = e.target.closest('.add-to-cart-btn');
+            const providerLink = e.target.closest('.provider-link');
 
+            if (likeBtn) {
+                const productId = likeBtn.dataset.id;
+                toggleLike(productId, likeBtn);
+            }
+            if (addToCartBtn) {
+                const productId = addToCartBtn.dataset.id;
+                addToCart(productId);
+            }
+            if (providerLink) {
+                 e.preventDefault();
+                 const providerId = providerLink.dataset.provider;
+                 filterProducts({ provider: providerId });
+            }
+        });
+
+        function toggleLike(productId, btnElement) {
+            const product = products.find(p => p.id === productId);
+            if(!product) return;
+
+            const likeIndex = likes.indexOf(productId);
+            if (likeIndex > -1) {
+                likes.splice(likeIndex, 1);
+                product.likes = (product.likes || 1) - 1;
+                btnElement.classList.remove('liked');
+            } else {
+                likes.push(productId);
+                product.likes = (product.likes || 0) + 1;
+                btnElement.classList.add('liked');
+            }
+            btnElement.closest('.product-image-container').querySelector('.like-count').textContent = product.likes;
+            saveData();
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product.status === 'agotado') {
+                alert('Este producto ya está agotado.'); return;
+            }
+            if (!cart.find(item => item.id === productId)) {
+                cart.push({ id: productId, quantity: 1 });
+                saveData();
+                updateCartUI();
+                alert(`${product.title} ha sido añadido al carrito.`);
+            } else {
+                alert('Este producto ya está en tu carrito.');
+            }
+        }
+        
+        // --- LÓGICA DEL MODAL DEL CARRITO ---
+        function updateCartUI() {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            if(cart.length === 0){
+                cartItemsContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
+            } else {
+                cart.forEach(item => {
+                    const product = products.find(p => p.id === item.id);
+                    if (product) {
+                        total += product.price * item.quantity;
+                        cartItemsContainer.innerHTML += `
+                            <div class="cart-item" data-id="${product.id}">
+                                <img src="${product.image}" alt="${product.title}">
+                                <div class="cart-item-info">
+                                    <h4>${product.title}</h4>
+                                    <p class="price">$${product.price.toFixed(2)} CUP</p>
+                                    <button class="remove-from-cart" data-id="${product.id}"><i class="fa fa-trash"></i> Quitar</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+            }
+            cartTotalPrice.textContent = `$${total.toFixed(2)} CUP`;
+            cartCount.textContent = cart.length;
+            cartCount.style.display = cart.length > 0 ? 'block' : 'none';
+        }
+        
+        cartItemsContainer.addEventListener('click', e => {
+            if(e.target.closest('.remove-from-cart')){
+                const productId = e.target.closest('.remove-from-cart').dataset.id;
+                cart = cart.filter(item => item.id !== productId);
+                saveData();
+                updateCartUI();
+            }
+        });
+
+        cartBtn.addEventListener('click', () => { cartModal.classList.remove('hidden'); updateCartUI(); });
+        closeCartBtn.addEventListener('click', () => cartModal.classList.add('hidden'));
+        cartModal.addEventListener('click', (e) => { if (e.target === cartModal) { cartModal.classList.add('hidden'); } });
+        
+        finalizePurchaseBtn.addEventListener('click', () => {
+             alert('Para completar tu compra, por favor contacta a cada proveedor directamente a través del botón de WhatsApp en la página del producto. ¡Gracias por usar ClosetCuba!');
+             cartModal.classList.add('hidden');
+        });
+        
+        // --- INICIALIZACIÓN ---
+        function handleDirectLink() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productIdFromUrl = urlParams.get('product');
+            if (productIdFromUrl) {
+                setTimeout(() => {
+                    const targetCard = document.querySelector(`.product-card[data-id="${productIdFromUrl}"]`);
+                    if (targetCard) {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetCard.classList.add('highlight');
+                        setTimeout(() => { targetCard.classList.remove('highlight'); }, 3000);
+                    }
+                }, 500); 
+            }
+        }
+        
+        function init() {
             loadData();
             showView('catalog');
             filterProducts();
+            updateCartUI();
             document.querySelector('.nav-link[data-category="todos"]').classList.add('active');
+            handleDirectLink();
         }
 
         init();
